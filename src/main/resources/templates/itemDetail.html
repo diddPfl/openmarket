@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Item Detail</title>
+</head>
+<body>
+<h1>Item Details</h1>
+<div th:if="${item}">
+    <p>ID: <span th:text="${item.itemId}"></span></p>
+    <p>Name: <span th:text="${item.itemName}"></span></p>
+    <p>Category ID: <span th:text="${item.categoryId}"></span></p>
+    <p>Detail: <span th:text="${item.itemDetail}"></span></p>
+    <p>Price: <span th:text="${item.price}"></span></p>
+</div>
+<div th:unless="${item}">
+    <p>Item not found.</p>
+</div>
+<a href="/items">Back to Item List</a>
+</body>
+</html>

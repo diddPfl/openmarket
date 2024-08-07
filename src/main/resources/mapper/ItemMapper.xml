@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.javalab.board.repository.ItemRepository">
+
+    <!-- 모든 아이템 조회 -->
+    <select id="findAll" resultType="com.javalab.board.vo.Item">
+        SELECT item_id AS itemId, category_id AS categoryId, item_nm AS itemName, item_detail AS itemDetail, price
+        FROM item
+    </select>
+
+    <!-- id로 회원 조회 -->
+    <select id="findById" parameterType="long" resultType="com.javalab.board.vo.Item">
+        SELECT item_id AS itemId, category_id AS categoryId, item_nm AS itemName, item_detail AS itemDetail, price
+        FROM item
+        WHERE item_id = #{itemId}
+        ORDER BY item_id
+    </select>
+
+</mapper>
