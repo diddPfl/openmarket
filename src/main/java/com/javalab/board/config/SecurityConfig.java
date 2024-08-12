@@ -94,10 +94,11 @@ public class SecurityConfig {
 				.authorizeHttpRequests(authorizeRequests -> authorizeRequests
 						.requestMatchers("/", "/css/**", "/js/**", "/images/**", "/fonts/**", "/ckeditor2/**", "/vendor/**").permitAll()
 						.requestMatchers("/view/**", "/emp/**").permitAll()
-						.requestMatchers("/member/login", "/member/join/**").permitAll()
+						.requestMatchers("/member/login", "items/list","/member/join/**").permitAll()
 						.requestMatchers("/member/modify").hasRole("USER")
 						.requestMatchers("/board/**").permitAll()
 						.requestMatchers("/item/view/**", "/item/list/**", "/item/read/**").permitAll()
+						.requestMatchers("/items/**", "items/list/").permitAll()
 						.requestMatchers("/item/register/**", "/item/modify/**", "/item/remove/**").hasRole("ADMIN")
 						.requestMatchers("/cart/**", "cartItem/**").hasAnyRole("USER", "ADMIN")
 						.requestMatchers("/order/**", "/orders/**", "orderDetails").hasAnyRole("USER", "ADMIN")
