@@ -1,3 +1,4 @@
+@ToString
 package com.javalab.board.vo;
 
 import lombok.*;
