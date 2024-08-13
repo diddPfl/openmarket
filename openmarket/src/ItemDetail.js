@@ -1,7 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Header from "./Header";
+import ItemDetailSection from "./ItemDetailSection";
+import ItemDescriptionSection from "./ItemDescriptionSection";
+import ItemReviewSection from "./ItemReviewSection";
+import ItemQnASection from "./ItemQnASection";
 import "./ItemDetail.css";
 
 function ItemDetail() {
@@ -11,6 +15,7 @@ function ItemDetail() {
   const { id } = useParams();
   const [currentIndex, setCurrentIndex] = useState(0);
   const imgBoxRef = useRef(null);
+  const [activeSection, setActiveSection] = useState('detail');
 
   useEffect(() => {
     fetchItemById(id);
@@ -46,13 +51,18 @@ function ItemDetail() {
     }
   };
 
+  const handleSectionChange = (section, event) => {
+    event.preventDefault(); // 기본 동작 방지
+    setActiveSection(section);
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   if (!item) return <div>Item not found</div>;
 
   return (
     <div>
-    <Header/>
+      <Header />
       <div className="item-container">
         <div className="slider-container">
           {item.images && item.images.length > 1 && (
@@ -113,10 +123,16 @@ function ItemDetail() {
       </div>
       <div className="item-descript">
         <div className="item-menu">
-          <a href="#">상품 상세</a>
-          <a href="#">상품 설명</a>
-          <a href="#">상품 후기</a>
-          <a href="#">상품 Q&A</a>
+          <a href="#" onClick={(e) => handleSectionChange('detail', e)} className={activeSection === 'detail' ? 'active' : ''}>상품 상세</a>
+          <a href="#" onClick={(e) => handleSectionChange('description', e)} className={activeSection === 'description' ? 'active' : ''}>상품 설명</a>
+          <a href="#" onClick={(e) => handleSectionChange('review', e)} className={activeSection === 'review' ? 'active' : ''}>상품 후기</a>
+          <a href="#" onClick={(e) => handleSectionChange('qna', e)} className={activeSection === 'qna' ? 'active' : ''}>상품 Q&A</a>
+        </div>
+        <div className="section-content">
+          {activeSection === 'detail' && <ItemDetailSection item={item} />}
+          {activeSection === 'description' && <ItemDescriptionSection item={item} />}
+          {activeSection === 'review' && <ItemReviewSection />}
+          {activeSection === 'qna' && <ItemQnASection />}
         </div>
       </div>
     </div>
