@@ -3,15 +3,13 @@ package com.javalab.board.controller;
 import com.javalab.board.service.ItemService;
 import com.javalab.board.vo.Item;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
+@CrossOrigin
 @RequestMapping("/items")
 public class ItemController {
 
@@ -23,20 +21,18 @@ public class ItemController {
     }
 
     @GetMapping("/list")
-    public String getItemList(Model model) {
+    public ResponseEntity<List<Item>> getItemList() {
         List<Item> items = itemService.findAll();
-        model.addAttribute("items", items);
-        return "itemList"; // This will be the name of your Thymeleaf template
+        return ResponseEntity.ok(items);
     }
 
     @GetMapping("/{id}")
-    public String getItemById(@PathVariable("id") long itemId, Model model) {
+    public ResponseEntity<Item> getItemById(@PathVariable("id") long itemId) {
         Item item = itemService.findById(itemId);
         if (item != null) {
-            model.addAttribute("item", item);
-            return "itemDetail"; // This will be the name of your Thymeleaf template
+            return ResponseEntity.ok(item);
         } else {
-            return "itemNotFound"; // Create this view for error handling
+            return ResponseEntity.notFound().build();
         }
     }
 }

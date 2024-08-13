@@ -1,0 +1,181 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.item-container {
+    display: flex;
+    margin: 80px 100px 40px 100px;
+}
+
+.slider-container {
+    position: relative;
+    width: 500px;
+    height: 600px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.img-box {
+    display: flex;
+    transition: transform 0.5s ease;
+    width: 100%;
+    height: 100%;
+}
+
+.img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.slider-container i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 10px;
+    z-index: 10;
+    color: #22222280;
+    background-color: transparent;
+    opacity: 0;
+    transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+.slider-container:hover i {
+    opacity: 1;
+}
+
+.slider-container i:hover {
+    color: #222222;
+}
+
+.slider-container i.fa-angle-left {
+    left: 10px;
+}
+
+.slider-container i.fa-angle-right {
+    right: 10px;
+}
+
+.item-info {
+    padding: 0;
+    margin-left: 60px;
+}
+
+.item-info p, .item-info h1, .item-info h2 {
+    margin: 0;
+    padding: 0;
+}
+
+.item-name {
+    margin-bottom: 5px;
+}
+
+.item-detail {
+    margin-bottom: 50px;
+    color: #22222280;
+}
+
+.item-detail-info {
+    display: flex;
+}
+
+.item-detail-info dl {
+    flex: 1;
+    margin-bottom: 40px;
+}
+
+.item-detail-info dt {
+    color: #22222280;
+    margin-bottom: 5px;
+}
+
+.item-detail-info dd {
+    margin: 0;
+    padding: 0;
+}
+
+hr {
+    margin: 0 100px;
+    border: 1px solid #E9E9E9;
+}
+
+.item-category {
+    position: absolute;
+    top: 111px;
+    left: 100px;
+}
+
+.item-category p {
+    color: #22222280;
+}
+
+.sell-status, .model-number, .item-id {
+    border-right: 1px solid #ebebeb;
+}
+
+.model-number, .item-id, .reg-date {
+    padding-left: 16px;
+    margin-left: 16px;
+}
+
+.button-box {
+    margin-top: 15px;
+    display: flex;
+    height: 60px;
+}
+
+.button-box button, .call-dibs button {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.purchase-btn, .sell-btn {
+    border-radius: 10px;
+    flex: 1;
+}
+
+.purchase-btn {
+    background-color: rgb(239, 98, 83);
+}
+
+.sell-btn {
+    margin-left: 10px;
+    background-color: rgb(65, 185, 121);
+}
+
+.call-dibs {
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid #ebebeb;
+    display: flex;
+    height: 60px;
+}
+
+.item-descript {
+    margin: 0 100px;
+}
+
+.item-menu {
+    border-top: 1px solid #ebebeb;
+    border-bottom: 1px solid #ebebeb;
+    display: flex;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.item-menu a {
+    flex: 1;
+    text-decoration: none;
+    color: #22222280;
+}
