@@ -1,0 +1,169 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.item-container {
+    display: flex; /* Flexbox를 사용하여 요소를 나란히 배치 */
+    margin: 140px 100px 40px 100px;
+}
+
+.slider-container {
+    position: relative;
+    width: 500px; /* 필요한 경우 너비 조정 */
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.img-box {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.img-box img {
+    width: 500px; /* slider-container 너비와 일치하도록 설정 */
+    height: 600px; /* 필요한 경우 높이 조정 */
+}
+
+/*===================상품 이미지========================*/
+i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    cursor: pointer;
+    font-size: 24px; /* 버튼 크기 증가 */
+    padding: 10px;
+    z-index: 10;
+}
+
+#slider-button-left {
+    color: #22222280;
+    left: 10px; /* 버튼 위치 조정 */
+}
+
+#slider-button-right {
+    color: #22222280;
+    right: 10px; /* 버튼 위치 조정 */
+}
+/*=====================================================*/
+
+/*====================아이템 정보=====================*/
+.item-info {
+    padding: 0px;
+    margin-left: 60px; /* 슬라이더와 아이템 정보 사이에 공간 추가 */
+}
+
+.item-info p {
+    margin: 0;
+    padding: 0;
+}
+
+.item-info h1, h2 {
+    margin: 0;
+    padding: 0;
+}
+
+.item-name {
+    margin-bottom: 5px;
+}
+
+.item-detail {
+    margin-bottom: 50px;
+}
+
+.item-detail-info {
+    display: flex;
+}
+
+.item-detail-info dl{
+    flex: 1;
+    margin-bottom: 40px;
+}
+
+.item-detail-info dt {
+    color: #22222280;
+    margin-bottom: 5px;
+}
+
+.item-detail-info dd {
+    margin: 0;
+    padding: 0;
+}
+
+hr {
+    margin: auto 100px;
+    border: 1px solid #E9E9E9;
+}
+
+.item-menu {
+    margin: auto 80px;
+}
+
+.item-category {
+    position:absolute;
+    top: 111px;
+    left: 100px;
+}
+
+.item-category p, .item-detail{
+    color: #22222280;
+}
+
+.sell-status {
+    margin: 0;
+}
+
+.sell-status, .model-number, .item-id {
+    border-right: 1px solid #ebebeb;
+}
+
+.model-number, .item-id, .reg-date {
+    padding; 0 0 0 16px;
+    margin: 0 0 0 16px;
+}
+
+.button-box {
+    margin-top: 15px;
+    display: flex;
+    height: 60px;
+}
+
+.button-box button {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;  /* 배경색 투명 */
+    border: none;
+    width: 100%;
+    height: 100%;
+}
+
+.purchase-btn, .sell-btn {
+    border-radius: 10px;
+    flex: 1;
+}
+
+.purchase-btn {
+    background-color: rgb(239, 98, 83);
+}
+
+.sell-btn {
+    margin-left: 10px;
+    background-color: rgb(65, 185, 121);
+}
+
+.call-dibs {
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid #ebebeb;
+    display: flex;
+    height: 60px;
+}
+
+.call-dibs button {
+    background-color: transparent;  /* 배경색 투명 */
+    border: none;
+    flex: 1;
+}
+/*=========================================*/

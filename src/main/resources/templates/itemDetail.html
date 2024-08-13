@@ -2,24 +2,117 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Item Detail</title>
+    <script src="https://kit.fontawesome.com/6e1082867c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/itemDetail.css}" />
 </head>
 <body>
-<h1>Item Details</h1>
-<div th:if="${item}">
-    <p>ID: <span th:text="${item.itemId}"></span></p>
-    <p>Name: <span th:text="${item.itemName}"></span></p>
-    <p>Category ID: <span th:text="${item.categoryId}"></span></p>
-    <p>Detail: <span th:text="${item.itemDetail}"></span></p>
-    <p>Price: <span th:text="${item.price}"></span></p>
-    <div>
-        <div th:each="image : ${item.images}">
-            <img th:src="|/view/${image.fileName}|" alt="Item Image"/>
+<!-- 헤더 프래그먼트 포함 -->
+<div th:insert="fragments/header :: header-fragment"></div>
+
+<div class="item-container" th:if="${item}">
+    <div class="slider-container">
+        <i id="slider-button-left" class="fa-solid fa-angle-left" onclick="slide(-1)"></i>
+        <div class="img-box" id="imgBox">
+            <div th:each="image : ${item.images}">
+                <img th:src="|/view/${image.fileName}|" alt="Item Image"/>
+            </div>
+        </div>
+        <i id="slider-button-right" class="fa-solid fa-angle-right" onclick="slide(1)"></i>
+    </div>
+    <div class="item-info">
+        <div class="item-name">
+            <h1><span th:text="${item.itemName}"></span></h1>
+        </div>
+        <div class="item-detail">
+            <p><span th:text="${item.itemDetail}"></span></p>
+        </div>
+        <div class="item-detail-info">
+            <dl class="sell-status">
+                <dt>판매상태</dt>
+                <dd>#</dd>
+            </dl>
+            <dl class="model-number">
+                <dt>모델번호</dt>
+                <dd>#</dd>
+            </dl>
+            <dl class="item-id">
+                <dt>상품 번호</dt>
+                <dd><span th:text="${item.itemId}"></span></dd>
+            </dl>
+            <dl class="reg-date">
+                <dt>상품 등록일</dt>
+                <dd><span th:text="${item.regdate}"></span></dd>
+            </dl>
+        </div>
+        <div class="item-price">
+            <h1><span th:text="${item.price}"></span>원</h1>
+        </div>
+        <div class="button-box">
+            <div class="purchase-btn">
+                <button>구매</button>
+            </div>
+            <div class="sell-btn">
+                <button>판매</button>
+            </div>
+        </div>
+
+        <div class="call-dibs">
+            <button>위시리스트</button>
+        </div>
+        <div class="item-category">
+            <p><span th:text="${item.categoryName}"></span></p>
         </div>
     </div>
 </div>
-<div th:unless="${item}">
-    <p>Item not found.</p>
+<hr>
+
+<div class="item-menu">
+    <li>상품 상세</li>
+    <li>상품 설명</li>
+    <li>상품 후기</li>
+    <li>상품 Q&A</li>
 </div>
-<a href="/items">Back to Item List</a>
+<div th:unless="${item}">
+    <p>상품이 존재하지 않습니다.</p>
+</div>
+<a href="/items/list">메인으로</a>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const imgBox = document.getElementById('imgBox');
+        const images = imgBox.children;
+        const leftArrow = document.getElementById('slider-button-left');
+        const rightArrow = document.getElementById('slider-button-right');
+
+        // Hide arrows if there is only one image
+        if (images.length <= 1) {
+            leftArrow.style.display = 'none';
+            rightArrow.style.display = 'none';
+        }
+    });
+
+    let currentIndex = 0;
+
+    function slide(direction) {
+        const imgBox = document.getElementById('imgBox');
+        const images = imgBox.children;
+        const imageWidth = images[0].offsetWidth;
+        const totalImages = images.length;
+
+        // Calculate new index
+        currentIndex += direction;
+
+        // Loop around if out of bounds
+        if (currentIndex < 0) {
+            currentIndex = totalImages - 1;
+        } else if (currentIndex >= totalImages) {
+            currentIndex = 0;
+        }
+
+        // Move the slider
+        imgBox.style.transform = `translateX(${-currentIndex * imageWidth}px)`;
+    }
+</script>
 </body>
 </html>

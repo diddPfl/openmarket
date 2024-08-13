@@ -13,11 +13,12 @@
 
     <!-- id로 상품 조회 -->
     <select id="findById" parameterType="long" resultMap="itemResultMap">
-        SELECT i.item_id AS itemId, i.category_id AS categoryId, i.item_nm AS itemName,
+        SELECT i.item_id AS itemId, i.category_id AS categoryId, i.item_nm AS itemName, i.regdate,
         i.item_detail AS itemDetail, i.price,
-        im.uuid AS uuid, im.file_name AS fileName, im.item_id AS imageItemId
+        im.uuid AS uuid, im.file_name AS fileName, im.item_id AS imageItemId, c.category_name AS categoryName
         FROM item i
         LEFT JOIN item_image im ON i.item_id = im.item_id
+        LEFT JOIN category c ON i.category_id = c.category_id
         WHERE i.item_id = #{itemId}
         ORDER BY i.item_id
     </select>
@@ -26,7 +27,9 @@
     <resultMap id="itemResultMap" type="com.javalab.board.vo.Item">
         <id property="itemId" column="itemId"/>
         <result property="categoryId" column="categoryId"/>
+        <result property="categoryName" column="categoryName"/>
         <result property="itemName" column="itemName"/>
+        <result property="regdate" column="regdate" />
         <result property="itemDetail" column="itemDetail"/>
         <result property="price" column="price"/>
         <collection property="images" ofType="com.javalab.board.vo.ItemImage">
