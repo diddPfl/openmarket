@@ -23,16 +23,16 @@ public class ItemController {
     @GetMapping("/list")
     public ResponseEntity<List<Item>> getItemList() {
         List<Item> items = itemService.findAll();
-        return ResponseEntity.ok(items);
+        return ResponseEntity.ok(items);    // 200 OK와 함께 아이템 반환
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Item> getItemById(@PathVariable("id") long itemId) {
         Item item = itemService.findById(itemId);
         if (item != null) {
-            return ResponseEntity.ok(item);
+            return ResponseEntity.ok(item); // 200 OK와 함께 아이템 반환
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build();   // 404 Not Found 반환
         }
     }
 }

@@ -94,7 +94,7 @@ public class SecurityConfig {
 				.authorizeHttpRequests(authorizeRequests -> authorizeRequests
 						.requestMatchers("/", "/css/**", "/js/**", "/images/**", "/fonts/**", "/ckeditor2/**", "/vendor/**").permitAll()
 						.requestMatchers("/view/**", "/emp/**").permitAll()
-						.requestMatchers("/member/login", "items/list","/member/join/**").permitAll()
+						.requestMatchers("/member/login", "items/list", "review/**", "/member/join/**").permitAll()
 						.requestMatchers("/member/modify").hasRole("USER")
 						.requestMatchers("/board/**").permitAll()
 						.requestMatchers("/item/view/**", "/item/list/**", "/item/read/**").permitAll()

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.javalab.board.repository.ItemReviewRepository">
+
+    <!-- id로 리뷰 조회 -->
+    <select id="findById" parameterType="long" resultMap="itemResultMap">
+        SELECT r.review_no AS reviewId, r.content, r.rating, r.regdate,
+        i.item_nm AS itemName, r.member_id AS memberId, i.item_id AS itemId, m.name AS memberName
+        FROM product_review r
+        LEFT JOIN item i on r.item_id = i.item_id
+        LEFT JOIN member m on r.member_id = m.member_id
+        WHERE r.item_id = #{itemId}
+        ORDER BY r.regdate
+    </select>
+
+    <!-- 아이템에 대한 결과 매핑 -->
+    <resultMap id="itemResultMap" type="com.javalab.board.vo.ItemReview">
+        <id property="itemId" column="itemId"/>
+        <id property="reviewId" column="reviewId"/>
+        <result property="content" column="content"/>
+        <result property="rating" column="rating"/>
+        <result property="regdate" column="regdate"/>
+        <result property="itemName" column="itemName" />
+        <result property="memberId" column="memberId"/>
+        <result property="memberName" column="memberName"/>
+    </resultMap>
+
+</mapper>
