@@ -65,18 +65,17 @@
         </div>
     </div>
 </div>
-<hr>
-
+<div class="item-descript">
 <div class="item-menu">
-    <li>상품 상세</li>
-    <li>상품 설명</li>
-    <li>상품 후기</li>
-    <li>상품 Q&A</li>
+    <a href="#">상품 상세</a>
+    <a href="#">상품 설명</a>
+    <a href="#">상품 후기</a>
+    <a href="#">상품 Q&A</a>
+</div>
 </div>
 <div th:unless="${item}">
     <p>상품이 존재하지 않습니다.</p>
 </div>
-<a href="/items/list">메인으로</a>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
