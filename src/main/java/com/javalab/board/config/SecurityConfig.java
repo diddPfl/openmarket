@@ -93,7 +93,7 @@ public class SecurityConfig {
 				)	// 인가설정(권한 설정)
 				.authorizeHttpRequests(authorizeRequests -> authorizeRequests
 						.requestMatchers("/", "/css/**", "/js/**", "/images/**", "/fonts/**", "/ckeditor2/**", "/vendor/**").permitAll()
-						.requestMatchers("/view/**", "/emp/**").permitAll()
+						.requestMatchers("/view/**", "/emp/**", "/category/**").permitAll()
 						.requestMatchers("/member/login", "items/list", "review/**", "/member/join/**").permitAll()
 						.requestMatchers("/member/modify").hasRole("USER")
 						.requestMatchers("/board/**").permitAll()

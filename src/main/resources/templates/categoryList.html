@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Category List</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        #mainMenu {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+        .menu-item {
+            display: inline-block;
+            cursor: pointer;
+            margin-right: 20px;
+            padding: 5px 10px;
+        }
+        .menu-item:hover {
+            background-color: #f0f0f0;
+        }
+        .active-menu {
+            font-weight: bold;
+            border-bottom: 2px solid #000;
+        }
+        #categoryList {
+            display: none;
+        }
+        #categoryContainer {
+            display: flex;
+        }
+        #mainCategories, #subCategories {
+            width: 200px;
+            margin-right: 20px;
+        }
+        .category-item {
+            cursor: pointer;
+            margin-bottom: 5px;
+            padding: 5px;
+        }
+        .category-item:hover {
+            background-color: #f0f0f0;
+        }
+        .active-category {
+            font-weight: bold;
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+<h1>Categories</h1>
+<div id="mainMenu">
+    <div class="menu-item" data-type="allCategories">전체카테고리</div>
+    <div class="menu-item" data-type="popular">인기</div>
+    <div class="menu-item" data-type="new">신상품</div>
+    <div class="menu-item" data-type="specialPrice">특가</div>
+</div>
+<div id="categoryList">
+    <div id="categoryContainer">
+        <div id="mainCategories">
+            <div th:each="category : ${categories}" class="category-item" th:attr="data-id=${category.categoryId}">
+                <span th:text="${category.categoryName}"></span>
+            </div>
+        </div>
+        <div id="subCategories"></div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    $(document).ready(function() {
+      $('.menu-item').click(function() {
+        $('.menu-item').removeClass('active-menu');
+        $(this).addClass('active-menu');
+
+        var menuType = $(this).data('type');
+        if (menuType === 'allCategories') {
+          $('#categoryList').toggle();
+        } else {
+          $('#categoryList').hide();
+          // Here you would typically make an AJAX call to load the appropriate items
+          console.log('Loading ' + menuType + ' items');
+        }
+      });
+
+      $('#mainCategories .category-item').click(function() {
+        $('#mainCategories .category-item').removeClass('active-category');
+        $(this).addClass('active-category');
+
+        var categoryId = $(this).data('id');
+        $.get('/category/subCategorylist', { parentId: categoryId }, function(data) {
+          var subCategoriesHtml = '';
+          if (data.length > 0) {
+            data.forEach(function(subCategory) {
+              subCategoriesHtml += '<div class="category-item" data-id="' + subCategory.categoryId + '">' +
+                '<span>' + subCategory.categoryName + '</span>' +
+              '</div>';
+            });
+          } else {
+            subCategoriesHtml = '<p>No subcategories found.</p>';
+          }
+          $('#subCategories').html(subCategoriesHtml);
+        });
+      });
+
+      $(document).on('click', '#subCategories .category-item', function() {
+        $('#subCategories .category-item').removeClass('active-category');
+        $(this).addClass('active-category');
+
+        var categoryId = $(this).data('id');
+        // Here you would typically make an AJAX call to load items for this subcategory
+        console.log('Loading items for subcategory ID: ' + categoryId);
+      });
+    });
+</script>
+</body>
+</html>

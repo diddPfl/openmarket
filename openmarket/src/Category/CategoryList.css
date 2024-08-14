@@ -1,0 +1,71 @@
+/* CategoryList.css */
+.category-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.menu-bar {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.menu-item {
+  cursor: pointer;
+  margin-right: 10px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.menu-item:hover {
+  background-color: #f0f0f0;
+}
+
+.active-menu {
+  font-weight: bold;
+  background-color: #e0e0e0;
+}
+
+.category-display {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.main-categories {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+}
+
+.category-item {
+  cursor: pointer;
+  margin-bottom: 5px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.category-item:hover {
+  background-color: #f0f0f0;
+}
+
+.active-category {
+  font-weight: bold;
+  background-color: #e0e0e0;
+}
+
+.sub-categories {
+  display: flex;
+  flex-direction: column;
+}
+
+.sub-category-item {
+  margin-bottom: 5px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
