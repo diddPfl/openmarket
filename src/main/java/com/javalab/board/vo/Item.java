@@ -4,8 +4,6 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Getter @Setter
@@ -16,6 +14,7 @@ public class Item {
     private long itemId;
     private long categoryId;
     private String categoryName;
+    private String gubunSubCode;
     private String itemName;
     private String itemDetail;
     private int price;

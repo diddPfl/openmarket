@@ -8,5 +8,5 @@ import java.util.List;
 
 @Mapper
 public interface CategoryMapper {
-    List<CategoryFormDTO> findCategories(@Param("parentId") Long parentId);
+    List<CategoryFormDTO> selectCategories(@Param("parentId") Long parentId);
 }

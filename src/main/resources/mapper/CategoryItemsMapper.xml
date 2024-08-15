@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.javalab.board.repository.CategoryItemsMapper">
+	<select id="selectItemsByGubunSubCode" resultType="Item">
+		SELECT * FROM Item WHERE gubun_sub_code = #{gubunSubCode}
+	</select>
+
+	<select id="selectItemsByCategoryId" resultType="Item">
+		SELECT * FROM Item WHERE category_id = #{categoryId}
+	</select>
+</mapper>

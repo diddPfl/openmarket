@@ -15,6 +15,6 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<CategoryFormDTO> getCategory(Long parentId) {
-		return categoryMapper.findCategories(parentId != null ? parentId : 0L);
+		return categoryMapper.selectCategories(parentId);
 	}
 }

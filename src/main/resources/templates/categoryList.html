@@ -57,59 +57,74 @@
 </div>
 <div id="categoryList">
     <div id="categoryContainer">
-        <div id="mainCategories">
-            <div th:each="category : ${categories}" class="category-item" th:attr="data-id=${category.categoryId}">
-                <span th:text="${category.categoryName}"></span>
-            </div>
-        </div>
+        <div id="mainCategories"></div>
         <div id="subCategories"></div>
     </div>
 </div>
 
-<script th:inline="javascript">
+<script>
     $(document).ready(function() {
-      $('.menu-item').click(function() {
-        $('.menu-item').removeClass('active-menu');
-        $(this).addClass('active-menu');
-
-        var menuType = $(this).data('type');
-        if (menuType === 'allCategories') {
-          $('#categoryList').toggle();
-        } else {
-          $('#categoryList').hide();
-          // Here you would typically make an AJAX call to load the appropriate items
-          console.log('Loading ' + menuType + ' items');
-        }
-      });
-
-      $('#mainCategories .category-item').click(function() {
-        $('#mainCategories .category-item').removeClass('active-category');
-        $(this).addClass('active-category');
-
-        var categoryId = $(this).data('id');
-        $.get('/category/subCategorylist', { parentId: categoryId }, function(data) {
-          var subCategoriesHtml = '';
-          if (data.length > 0) {
-            data.forEach(function(subCategory) {
-              subCategoriesHtml += '<div class="category-item" data-id="' + subCategory.categoryId + '">' +
-                '<span>' + subCategory.categoryName + '</span>' +
-              '</div>';
+        // Load all categories initially
+        function loadCategories() {
+            $.get('/api/category/list', function(data) {
+                var mainCategoriesHtml = '';
+                if (data.length > 0) {
+                    data.forEach(function(category) {
+                        mainCategoriesHtml += '<div class="category-item" data-id="' + category.categoryId + '">' +
+                            '<span>' + category.categoryName + '</span>' +
+                        '</div>';
+                    });
+                } else {
+                    mainCategoriesHtml = '<p>No categories found.</p>';
+                }
+                $('#mainCategories').html(mainCategoriesHtml);
             });
-          } else {
-            subCategoriesHtml = '<p>No subcategories found.</p>';
-          }
-          $('#subCategories').html(subCategoriesHtml);
+        }
+
+        loadCategories();
+
+        $('.menu-item').click(function() {
+            $('.menu-item').removeClass('active-menu');
+            $(this).addClass('active-menu');
+
+            var menuType = $(this).data('type');
+            if (menuType === 'allCategories') {
+                $('#categoryList').toggle();
+            } else {
+                $('#categoryList').hide();
+                // Here you would typically make an AJAX call to load the appropriate items
+                console.log('Loading ' + menuType + ' items');
+            }
         });
-      });
 
-      $(document).on('click', '#subCategories .category-item', function() {
-        $('#subCategories .category-item').removeClass('active-category');
-        $(this).addClass('active-category');
+        $(document).on('click', '#mainCategories .category-item', function() {
+            $('#mainCategories .category-item').removeClass('active-category');
+            $(this).addClass('active-category');
 
-        var categoryId = $(this).data('id');
-        // Here you would typically make an AJAX call to load items for this subcategory
-        console.log('Loading items for subcategory ID: ' + categoryId);
-      });
+            var categoryId = $(this).data('id');
+            $.get('/api/category/subCategorylist', { parentId: categoryId }, function(data) {
+                var subCategoriesHtml = '';
+                if (data.length > 0) {
+                    data.forEach(function(subCategory) {
+                        subCategoriesHtml += '<div class="category-item" data-id="' + subCategory.categoryId + '">' +
+                            '<span>' + subCategory.categoryName + '</span>' +
+                        '</div>';
+                    });
+                } else {
+                    subCategoriesHtml = '<p>No subcategories found.</p>';
+                }
+                $('#subCategories').html(subCategoriesHtml);
+            });
+        });
+
+        $(document).on('click', '#subCategories .category-item', function() {
+            $('#subCategories .category-item').removeClass('active-category');
+            $(this).addClass('active-category');
+
+            var categoryId = $(this).data('id');
+            // Here you would typically make an AJAX call to load items for this subcategory
+            console.log('Loading items for subcategory ID: ' + categoryId);
+        });
     });
 </script>
 </body>
