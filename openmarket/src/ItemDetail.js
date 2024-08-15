@@ -82,91 +82,93 @@ function ItemDetail() {
   if (!item) return <div>아이템을 찾을 수 없습니다.</div>;
 
   return (
-    <div>
-      <Header />
-      <div className="item-container">
-        <div className="slider-container">
-          {/* 이미지가 2개 이상일 때만 왼쪽 화살표 표시 */}
-          {item.images && item.images.length > 1 && (
-            <i className="fa-solid fa-angle-left" onClick={() => slide(-1)}></i>
-          )}
-          <div className="img-box" ref={imgBoxRef}>
-            {/* 아이템 이미지 표시 */}
-            {item.images && item.images.map((image, index) => (
-              <img key={index} src={`/view/${image.fileName}`} alt={`아이템 이미지 ${index + 1}`} />
-            ))}
-          </div>
-          {/* 이미지가 2개 이상일 때만 오른쪽 화살표 표시 */}
-          {item.images && item.images.length > 1 && (
-            <i className="fa-solid fa-angle-right" onClick={() => slide(1)}></i>
-          )}
-        </div>
-        <div className="item-info">
-          {/* 아이템 이름 표시 */}
-          <div className="item-name">
-            <h1>{item.itemName}</h1>
-          </div>
-          {/* 아이템 상세 정보 표시 */}
-          <div className="item-detail">
-            <p>{item.itemDetail}</p>
-          </div>
-          {/* 아이템 세부 정보 표시 */}
-          <div className="item-detail-info">
-            <dl className="sell-status">
-              <dt>판매상태</dt>
-              <dd>#</dd>
-            </dl>
-            <dl className="model-number">
-              <dt>모델번호</dt>
-              <dd>#</dd>
-            </dl>
-            <dl className="item-id">
-              <dt>상품 번호</dt>
-              <dd>{item.itemId}</dd>
-            </dl>
-            <dl className="reg-date">
-              <dt>상품 등록일</dt>
-              <dd>{item.regdate}</dd>
-            </dl>
-          </div>
-          {/* 아이템 가격 표시 */}
-          <div className="item-price">
-            <h1>{item.price}원</h1>
-          </div>
-          {/* 구매 및 판매 버튼 */}
-          <div className="button-box">
-            <div className="purchase-btn">
-              <button>구매</button>
+    <div className="page-container"> {/* New wrapper for centering */}
+      <div className="aaa">
+        <Header />
+        <div className="item-container">
+          <div className="slider-container">
+            {/* 이미지가 2개 이상일 때만 왼쪽 화살표 표시 */}
+            {item.images && item.images.length > 1 && (
+              <i className="fa-solid fa-angle-left" onClick={() => slide(-1)}></i>
+            )}
+            <div className="img-box" ref={imgBoxRef}>
+              {/* 아이템 이미지 표시 */}
+              {item.images && item.images.map((image, index) => (
+                <img key={index} src={`/view/${image.fileName}`} alt={`아이템 이미지 ${index + 1}`} />
+              ))}
             </div>
-            <div className="sell-btn">
-              <button>판매</button>
+            {/* 이미지가 2개 이상일 때만 오른쪽 화살표 표시 */}
+            {item.images && item.images.length > 1 && (
+              <i className="fa-solid fa-angle-right" onClick={() => slide(1)}></i>
+            )}
+          </div>
+          <div className="item-info">
+            {/* 아이템 이름 표시 */}
+            <div className="item-name">
+              <h1>{item.itemName}</h1>
+            </div>
+            {/* 아이템 상세 정보 표시 */}
+            <div className="item-detail">
+              <p>{item.itemDetail}</p>
+            </div>
+            {/* 아이템 세부 정보 표시 */}
+            <div className="item-detail-info">
+              <dl className="sell-status">
+                <dt>판매상태</dt>
+                <dd>#</dd>
+              </dl>
+              <dl className="model-number">
+                <dt>모델번호</dt>
+                <dd>#</dd>
+              </dl>
+              <dl className="item-id">
+                <dt>상품 번호</dt>
+                <dd>{item.itemId}</dd>
+              </dl>
+              <dl className="reg-date">
+                <dt>상품 등록일</dt>
+                <dd>{item.regdate}</dd>
+              </dl>
+            </div>
+            {/* 아이템 가격 표시 */}
+            <div className="item-price">
+              <h1>{item.price}원</h1>
+            </div>
+            {/* 구매 및 판매 버튼 */}
+            <div className="button-box">
+              <div className="purchase-btn">
+                <button>구매</button>
+              </div>
+              <div className="sell-btn">
+                <button>판매</button>
+              </div>
+            </div>
+            {/* 위시리스트 버튼 */}
+            <div className="call-dibs">
+              <button>위시리스트</button>
+            </div>
+            {/* 아이템 카테고리 표시 */}
+            <div className="item-category">
+              <p>{item.categoryName}</p>
             </div>
           </div>
-          {/* 위시리스트 버튼 */}
-          <div className="call-dibs">
-            <button>위시리스트</button>
-          </div>
-          {/* 아이템 카테고리 표시 */}
-          <div className="item-category">
-            <p>{item.categoryName}</p>
-          </div>
         </div>
-      </div>
-      {/* 아이템 상세 정보 섹션 */}
-      <div className="item-descript">
-        {/* 상세 정보 메뉴 */}
-        <div className="item-menu">
-          <a href="#" onClick={(e) => handleSectionChange('detail', e)} className={activeSection === 'detail' ? 'active' : ''}>상품 상세</a>
-          <a href="#" onClick={(e) => handleSectionChange('description', e)} className={activeSection === 'description' ? 'active' : ''}>상품 설명</a>
-          <a href="#" onClick={(e) => handleSectionChange('review', e)} className={activeSection === 'review' ? 'active' : ''}>상품 후기</a>
-          <a href="#" onClick={(e) => handleSectionChange('qna', e)} className={activeSection === 'qna' ? 'active' : ''}>상품 Q&A</a>
-        </div>
-        {/* 선택된 섹션에 따라 해당 컴포넌트 렌더링 */}
-        <div className="section-content">
-          {activeSection === 'detail' && <ItemDetailSection item={item} />}
-          {activeSection === 'description' && <ItemDescriptionSection item={item} />}
-          {activeSection === 'review' && <ItemReviewSection reviews={reviews} />}
-          {activeSection === 'qna' && <ItemQnASection />}
+        {/* 아이템 상세 정보 섹션 */}
+        <div className="item-descript">
+          {/* 상세 정보 메뉴 */}
+          <div className="item-menu">
+            <a href="#" onClick={(e) => handleSectionChange('detail', e)} className={activeSection === 'detail' ? 'active' : ''}>상품 상세</a>
+            <a href="#" onClick={(e) => handleSectionChange('description', e)} className={activeSection === 'description' ? 'active' : ''}>상품 설명</a>
+            <a href="#" onClick={(e) => handleSectionChange('review', e)} className={activeSection === 'review' ? 'active' : ''}>상품 후기</a>
+            <a href="#" onClick={(e) => handleSectionChange('qna', e)} className={activeSection === 'qna' ? 'active' : ''}>상품 Q&A</a>
+          </div>
+          {/* 선택된 섹션에 따라 해당 컴포넌트 렌더링 */}
+          <div className="section-content">
+            {activeSection === 'detail' && <ItemDetailSection item={item} />}
+            {activeSection === 'description' && <ItemDescriptionSection item={item} />}
+            {activeSection === 'review' && <ItemReviewSection reviews={reviews} />}
+            {activeSection === 'qna' && <ItemQnASection />}
+          </div>
         </div>
       </div>
     </div>

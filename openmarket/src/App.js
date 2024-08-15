@@ -5,8 +5,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ItemList from "./ItemList";
 // 아이템 상세 정보를 보여주는 컴포넌트를 가져옵니다.
 import ItemDetail from "./ItemDetail";
-import CategoryList from "./Category/CategoryList";
-import SubCategoryList from "./Category/SubCategoryList";
+// 카테고리 목록을 보여주는 컴포넌트를 가져옵니다.
+import CategoryList from "./Category/CategoryList"
+import SubCategoryList from "./Category/SubCategoryList"
 
 // App 컴포넌트: 애플리케이션의 메인 컴포넌트입니다.
 function App() {
@@ -21,10 +22,6 @@ function App() {
             루트 경로('/')에 대한 라우트입니다.
             사용자가 메인 페이지에 접속하면 ItemList 컴포넌트가 렌더링됩니다.
           */}
-           {/* 카테고리 시스템 라우트 */}
-           <Route path="/" element={<CategoryList />} />
-           <Route path="/category/:id" element={<SubCategoryList />} />
-
           <Route path="/" element={<ItemList />} />
           {/*
             '/item/:id' 경로에 대한 라우트입니다.
@@ -32,6 +29,9 @@ function App() {
             이 경로로 접속하면 ItemDetail 컴포넌트가 렌더링되며,
             해당 ID의 아이템 상세 정보를 보여줍니다.
           */}
+          <Route path="/category" element={<CategoryList />} />
+          <Route path="/category/:id" element={<SubCategoryList />} />
+
           <Route path="/item/:id" element={<ItemDetail />} />
         </Routes>
       </div>

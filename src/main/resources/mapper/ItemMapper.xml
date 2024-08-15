@@ -7,13 +7,13 @@
 
     <!-- 모든 아이템 조회 -->
     <select id="findAll" resultType="com.javalab.board.vo.Item">
-        SELECT item_id AS itemId, category_id AS categoryId, item_nm AS itemName, item_detail AS itemDetail, price
+        SELECT item_id AS itemId, category_id AS categoryId, item_name AS itemName, item_detail AS itemDetail, price
         FROM item
     </select>
 
     <!-- id로 상품 조회 -->
     <select id="findById" parameterType="long" resultMap="itemResultMap">
-        SELECT i.item_id AS itemId, i.category_id AS categoryId, i.item_nm AS itemName, i.regdate,
+        SELECT i.item_id AS itemId, i.category_id AS categoryId, i.item_name AS itemName, i.regdate,
         i.item_detail AS itemDetail, i.price,
         im.uuid AS uuid, im.file_name AS fileName, im.item_id AS imageItemId, c.category_name AS categoryName
         FROM item i
