@@ -11,11 +11,12 @@ body {
 }
 
 .aaa {
-    margin: 80px 0 40px 0; /* Adjust top and bottom margins */
+    margin: 20px 0 40px 0; /* Adjust top and bottom margins */
     padding: 0 40px; /* Maintain left and right padding */
     width: 100%; /* Use full width */
     max-width: 1280px; /* Set a maximum width */
     box-sizing: border-box; /* Include padding in the element's total width and height */
+    position: relative; /* 부모 요소에 상대 위치 설정 */
 }
 
 .item-container {
@@ -123,10 +124,28 @@ hr {
     border: 1px solid #E9E9E9;
 }
 
-.item-category {
-    position: absolute;
-    top: 111px;
-    left: 100px;
+.back-btn {
+    position: fixed; /* 화면에 고정 */
+    left: 20%; /* .aaa의 왼쪽에서 20% 떨어진 위치 */
+    top: 120px; /* 현재 위치에서 상단에서 120px 떨어진 위치 */
+    width: 50px; /* 버튼의 너비 조정 */
+    height: 50px; /* 버튼의 높이 조정 */
+    background-color: transparent; /* 기본 상태에서 배경색을 투명으로 설정 */
+    border-radius: 50%; /* 동그란 배경을 만들기 위해 50% 설정 */
+    display: flex; /* 아이콘을 중앙에 배치하기 위해 flex 사용 */
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* 배경색과 크기 변화에 부드러운 전환 효과 */
+}
+
+.back-btn i {
+    font-size: 30px; /* 아이콘 크기 설정 */
+    color: #333; /* 아이콘 색상 설정 */
+}
+
+.back-btn:hover {
+    background-color: #EBEBEB; /* 마우스를 올렸을 때 배경색 설정 */
+    transform: scale(1.2); /* 마우스를 올렸을 때 크기를 1.2배로 확대 */
 }
 
 .item-category p {

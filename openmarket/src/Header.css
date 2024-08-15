@@ -4,47 +4,53 @@ body {
 }
 
 .header-container {
-    position: fixed; /* 헤더를 화면 상단에 고정 */
+    position: fixed;
     top: 0;
-    width: 100%; /* 헤더가 전체 너비를 차지하도록 설정 */
+    width: 100%;
     height: 100px;
-    background-color: white; /* 배경색을 설정하여 뒤의 내용이 보이지 않도록 함 */
-    z-index: 1000; /* 다른 콘텐츠 위에 위치하도록 z-index 설정 */
-    border-bottom: 1px solid black;
+    background-color: white;
+    z-index: 1000;
+    transition: box-shadow 0.3s ease;
+}
+
+.header-container.scrolled {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-bottom: none;
 }
 
 .header-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-decoration: none;
-  color: #333;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
 }
 
 nav ul {
-  list-style-type: none;
-  display: flex;
-  gap: 1rem;
+    list-style-type: none;
+    display: flex;
+    gap: 1rem;
 }
 
 nav ul li a {
-  text-decoration: none;
-  color: #333;
+    text-decoration: none;
+    color: #333;
 }
 
 .user-actions {
-  display: flex;
-  gap: 1rem;
+    display: flex;
+    gap: 1rem;
 }
 
 .user-actions a {
-  text-decoration: none;
-  color: #333;
+    text-decoration: none;
+    color: #333;
 }
