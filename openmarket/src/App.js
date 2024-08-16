@@ -8,6 +8,9 @@ import ItemDetail from "./ItemDetail";
 // 카테고리 목록을 보여주는 컴포넌트를 가져옵니다.
 import CategoryList from "./Category/CategoryList"
 import SubCategoryList from "./Category/SubCategoryList"
+import ItemReviewSection from './ItemReviewSection';
+import ReviewDetail from './ReviewDetail';
+
 
 // App 컴포넌트: 애플리케이션의 메인 컴포넌트입니다.
 function App() {
@@ -15,7 +18,6 @@ function App() {
     // Router 컴포넌트로 전체 앱을 감싸 라우팅 기능을 제공합니다.
     <Router>
       <div className="App">
-        <h1>메인 페이지</h1>
         {/* Routes 컴포넌트 내부에 각 경로에 대한 라우트를 정의합니다. */}
         <Routes>
           {/*
@@ -31,8 +33,9 @@ function App() {
           */}
           <Route path="/category" element={<CategoryList />} />
           <Route path="/category/:id" element={<SubCategoryList />} />
-
+          <Route path="/review/:reviewId" element={<ReviewDetail />} />
           <Route path="/item/:id" element={<ItemDetail />} />
+          <Route path="/review/detail/:reviewId" element={<ReviewDetail />} />
         </Routes>
       </div>
     </Router>

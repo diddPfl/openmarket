@@ -10,15 +10,13 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemReview {
+public class ItemReviewDetail {
     private long reviewId;
-    private long itemId;
     private String content;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate regdate;
-    private String itemName;
     private String memberId;
     private String memberName;
-    private List<ReviewImage> images; // 이미지VO 리스트
-    private Item item; // Item 객체 추가
+    private List<ReviewImage> images;
+    private Item item;
 }

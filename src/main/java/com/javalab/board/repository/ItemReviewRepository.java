@@ -11,4 +11,7 @@ import java.util.List;
 public interface ItemReviewRepository {
     // id로 리뷰 조회
     List<ItemReview> findById(long itemId);
+
+    // reviewNo로 단일 리뷰 조회
+    ItemReview findByReviewNo(long reviewNo);
 }

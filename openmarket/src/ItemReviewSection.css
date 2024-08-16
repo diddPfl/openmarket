@@ -1,0 +1,53 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.item-review-section {
+    width: 100%;
+    margin: 0 auto;
+    columns: 4;
+    column-gap: 20px;
+    padding: 60px 0 60px 0;
+}
+
+@media (max-width: 480px) {
+    .container, .new-content {
+        columns: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .container, .new-content {
+        columns: 2;
+    }
+}
+
+@media (max-width: 1200px) {
+    .container, .new-content {
+        width: calc(100% - 40px);
+    }
+}
+
+.item-review-section .box {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+    break-inside: avoid;
+    overflow: hidden;
+    border-radius: 15px; /* 박스에도 border-radius 적용 */
+}
+
+.item-review-section .box img {
+    position: relative;
+    transition: filter 0.3s, transform 0.3s; /* transform 트랜지션 추가 */
+    max-width: 100%;
+    border-radius: 15px;
+    display: block;
+}
+
+.item-review-section .box:hover img {
+    filter: brightness(65%);
+    transform: scale(1.1); /* 호버 시 이미지 10% 확대 */
+}

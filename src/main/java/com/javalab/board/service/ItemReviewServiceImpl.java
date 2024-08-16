@@ -18,4 +18,9 @@ public class ItemReviewServiceImpl implements ItemReviewService{
         return itemReviewRepository.findById(itemId);
     }
 
+    @Override
+    public ItemReview findByReviewNo(long reviewNo) {
+        return itemReviewRepository.findByReviewNo(reviewNo);
+    }
+
 }

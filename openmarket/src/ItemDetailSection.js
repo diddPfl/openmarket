@@ -2,7 +2,7 @@ import React from 'react';
 import './ItemDetailSection.css'
 
 const ItemDetailSection = ({ item }) => (
-  <div className="item-detail-section">
+ <div className="item-detail-section">
     <h2>상품 상세</h2>
     <p>{item.itemDetail}</p>
     <div className="image-list">
@@ -11,6 +11,10 @@ const ItemDetailSection = ({ item }) => (
       ))}
     </div>
   </div>
+//    <div class="container">
+//       <div class="box">
+//         <img class="clickImage" src="./image/1.jpg"/>
+//       </div>
 );
 
 export default ItemDetailSection;

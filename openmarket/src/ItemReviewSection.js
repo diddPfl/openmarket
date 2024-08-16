@@ -1,23 +1,37 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import './ItemReviewSection.css';
 
-const ItemReviewSection = ({ reviews }) => (
-  <div className="item-review-section">
-    <h2>상품 후기</h2>
-    {reviews.length > 0 ? (
-      <ul>
-        {reviews.map((review) => (
-          <li key={review.reviewId}>
-            <p>평점: {review.rating}</p>
-            <p>내용: {review.content}</p>
-            <p>작성자: {review.memberName}</p>
-            <p>작성일: {review.regdate}</p>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <p>아직 후기가 없습니다.</p>
-    )}
-  </div>
-);
+const ItemReviewSection = ({ reviews }) => {
+  const navigate = useNavigate();
+
+  const handleImageClick = (reviewId) => {
+    navigate(`/review/detail/${reviewId}`);
+  };
+
+  return (
+    <div className="item-review-section">
+      {reviews && reviews.length > 0 ? (
+        reviews.flatMap(review =>
+          review.images && review.images.map(image => (
+            <div
+              className="box"
+              key={image.imageId}
+              onClick={() => handleImageClick(review.reviewId)}
+            >
+              <img
+                className="clickImage"
+                src={`http://localhost:9000/view/${image.fileName}`}
+                alt={`리뷰 이미지 ${image.imageId}`}
+              />
+            </div>
+          ))
+        )
+      ) : (
+        <p>아직 후기가 없습니다.</p>
+      )}
+    </div>
+  );
+};
 
 export default ItemReviewSection;

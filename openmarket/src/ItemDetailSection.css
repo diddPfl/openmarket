@@ -1,3 +1,72 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.new-content {
+	width: 1200px;
+	margin: 20px auto;
+	border-radius: 15px;
+	/* columns: 4; */
+	column-gap: 20px;
+	padding: 0 100px; /* 왼쪽과 오른쪽에 간격을 만들기 위해 패딩 추가 */
+	box-shadow: 0px 0px 5px black;
+}
+
+.container {
+	width: 1400px;
+	margin: 0 auto;
+	columns: 4;
+	column-gap: 20px;
+	padding: 0 100px; /* 왼쪽과 오른쪽에 간격을 만들기 위해 패딩 추가 */
+}
+
+@media (max-width: 480px) {
+    .container, .new-content {
+        columns: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .container, .new-content {
+        columns: 2;
+    }
+}
+
+@media (max-width: 1200px) {
+    .container, .new-content {
+        width: calc(100% - 40px);
+    }
+}
+
+.container .box {
+	position: relative;
+	width: 100%;
+	margin-bottom: 10px;
+	break-inside: avoid;
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+.container .box img {
+	position: relative;
+    transition: filter 0.3s;
+	max-width: 100%;
+	border-radius: 15px;
+	display: block;
+}
+
+.container .box .info img {
+  width: 30px; /* 이미지 크기 조정할 수 있습니다 */
+  height: 30px; /* 이미지 크기 조정할 수 있습니다 */
+  border-radius: 50%; /* 이미지를 둥글게 처리합니다 */
+  margin-right: 10px; /* 이미지와 텍스트 사이 간격 조정할 수 있습니다 */
+}
+
+.container .box:hover img {
+    filter: brightness(65%);
+}
+
 .item-image {
-    width: 100%;
+    width: 100%
 }

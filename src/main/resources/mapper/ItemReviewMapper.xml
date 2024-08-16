@@ -7,25 +7,111 @@
 
     <!-- id로 리뷰 조회 -->
     <select id="findById" parameterType="long" resultMap="itemResultMap">
-        SELECT r.review_no AS reviewId, r.content, r.rating, r.regdate,
-        i.item_nm AS itemName, r.member_id AS memberId, i.item_id AS itemId, m.name AS memberName
-        FROM product_review r
-        LEFT JOIN item i on r.item_id = i.item_id
-        LEFT JOIN member m on r.member_id = m.member_id
-        WHERE r.item_id = #{itemId}
-        ORDER BY r.regdate
+        SELECT
+        pr.review_no AS reviewId,
+        pr.item_id AS itemId,
+        pr.member_id AS memberId,
+        pr.content,
+        pr.regdate,
+        pr.moddate,
+        m.name AS memberName,
+        i.item_name AS itemName,
+        ri.image_id AS imageId,
+        ri.file_name AS fileName
+        FROM
+        product_review pr
+        LEFT JOIN
+        member m ON pr.member_id = m.member_id
+        LEFT JOIN
+        item i ON pr.item_id = i.item_id
+        LEFT JOIN
+        review_image ri ON pr.review_no = ri.review_no
+        WHERE
+        pr.item_id = #{itemId}
+        ORDER BY
+        pr.regdate DESC
     </select>
 
-    <!-- 아이템에 대한 결과 매핑 -->
+
+    <!-- reviewNo로 리뷰 조회 (아이템 정보 포함) -->
+    <select id="findByReviewNo" parameterType="long" resultMap="itemReviewDetailMap">
+        SELECT
+        pr.review_no AS reviewId,
+        pr.item_id AS itemId,
+        pr.member_id AS memberId,
+        pr.content,
+        pr.regdate,
+        pr.moddate,
+        m.name AS memberName,
+        i.item_name AS itemName,
+        i.category_id AS categoryId,
+        c.category_name AS categoryName,
+        i.gubun_sub_code AS gubunSubCode,
+        i.item_detail AS itemDetail,
+        i.price,
+        i.regdate AS itemRegdate,
+        ii.uuid,
+        ii.file_name AS fileName,
+        ri.image_id AS imageId,
+        ri.file_name AS reviewFileName
+        FROM
+        product_review pr
+        LEFT JOIN
+        member m ON pr.member_id = m.member_id
+        LEFT JOIN
+        item i ON pr.item_id = i.item_id
+        LEFT JOIN
+        category c ON i.category_id = c.category_id
+        LEFT JOIN
+        item_image ii ON i.item_id = ii.item_id
+        LEFT JOIN
+        review_image ri ON pr.review_no = ri.review_no
+        WHERE
+        pr.review_no = #{reviewNo}
+    </select>
+
+    <!-- 리뷰에 대한 결과 매핑 -->
     <resultMap id="itemResultMap" type="com.javalab.board.vo.ItemReview">
-        <id property="itemId" column="itemId"/>
         <id property="reviewId" column="reviewId"/>
+        <result property="itemId" column="itemId"/>
         <result property="content" column="content"/>
-        <result property="rating" column="rating"/>
         <result property="regdate" column="regdate"/>
-        <result property="itemName" column="itemName" />
         <result property="memberId" column="memberId"/>
         <result property="memberName" column="memberName"/>
+        <result property="itemName" column="itemName"/>
+        <collection property="images" ofType="com.javalab.board.vo.ReviewImage">
+            <id property="imageId" column="imageId"/>
+            <result property="fileName" column="fileName"/>
+        </collection>
+    </resultMap>
+
+    <!-- 리뷰 상세 정보에 대한 결과 매핑 (아이템 정보 포함) -->
+    <resultMap id="itemReviewDetailMap" type="com.javalab.board.vo.ItemReview">
+        <id property="reviewId" column="reviewId"/>
+        <result property="itemId" column="itemId"/>
+        <result property="content" column="content"/>
+        <result property="regdate" column="regdate"/>
+        <result property="memberId" column="memberId"/>
+        <result property="memberName" column="memberName"/>
+        <association property="item" javaType="com.javalab.board.vo.Item">
+            <id property="itemId" column="itemId"/>
+            <result property="categoryId" column="categoryId"/>
+            <result property="categoryName" column="categoryName"/>
+            <result property="gubunSubCode" column="gubunSubCode"/>
+            <result property="itemName" column="itemName"/>
+            <result property="itemDetail" column="itemDetail"/>
+            <result property="price" column="price"/>
+            <result property="regdate" column="itemRegdate"/>
+            <collection property="images" ofType="com.javalab.board.vo.ItemImage">
+                <result property="uuid" column="uuid"/>
+                <result property="itemId" column="itemId"/>
+                <result property="fileName" column="fileName"/>
+            </collection>
+        </association>
+        <collection property="images" ofType="com.javalab.board.vo.ReviewImage">
+            <id property="imageId" column="imageId"/>
+            <result property="fileName" column="reviewFileName"/>
+        </collection>
     </resultMap>
 
 </mapper>

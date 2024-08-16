@@ -21,4 +21,15 @@ public class ItemReviewController {
         List<ItemReview> reviews = itemReviewService.findById(itemId);
         return ResponseEntity.ok(reviews);    // 200 OK와 함께 리뷰 목록 반환
     }
-}
+
+    // 단일 리뷰 조회 엔드포인트 추가
+    @GetMapping("/detail/{reviewNo}")
+    public ResponseEntity<ItemReview> getReviewDetail(@PathVariable Long reviewNo) {
+        ItemReview review = itemReviewService.findByReviewNo(reviewNo);
+        if (review != null) {
+            return ResponseEntity.ok(review);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    }

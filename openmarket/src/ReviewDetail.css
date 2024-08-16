@@ -1,0 +1,144 @@
+.review-page-container {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+
+.review-detail-container {
+  margin: 20px 0 40px 0;
+  padding: 0 40px;
+  width: 100%;
+  max-width: 1280px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.review-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.review-slider-container {
+  position: relative;
+  width: 700px;
+  height: 700px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.review-img-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.review-img-box img {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  flex-shrink: 0;
+}
+
+.review-slider-container i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  width: 40px;  /* 고정된 너비 설정 */
+  height: 40px; /* 고정된 높이 설정 */
+  line-height: 40px; /* 텍스트 세로 중앙 정렬 */
+  text-align: center; /* 텍스트 가로 중앙 정렬 */
+  z-index: 10;
+  color: #222222;
+  background-color: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease, background-color 0.3s ease;
+  border-radius: 50%;
+  padding: 0; /* 패딩 제거 */
+}
+
+.review-slider-container:hover i {
+  opacity: 1;
+}
+
+.review-slider-container i:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.review-slider-container i.fa-angle-left {
+  left: 10px;
+}
+
+.review-slider-container i.fa-angle-right {
+  right: 10px;
+}
+
+.review-content {
+  width: 100%;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.back-btn {
+  position: fixed;
+  left: 2%;
+  top: 50%;
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+back-btn i {
+  font-size: 30px;
+  color: #333;
+}
+
+.back-btn:hover {
+  background-color: #EBEBEB;
+  transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+  .review-detail-container {
+    padding: 0 20px;
+  }
+
+  .review-slider-container,
+  .review-img-box img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+}
+
+.item-tag img{
+    width: 128px;
+    height: 128px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.item-tag p {
+    font-size: 16px;
+}
