@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './CategoryList.css'; // 스타일 파일을 기존 CategoryList.css로 사용
+import './CategoryList.css';
 
 const CategoryItemList = ({ categoryId, gubunSubCode }) => {
   const [items, setItems] = useState([]);
@@ -44,7 +44,6 @@ const CategoryItemList = ({ categoryId, gubunSubCode }) => {
           <h3>{item.itemName}</h3>
           <p>{item.itemDetail}</p>
           <p>가격: {item.price}원</p>
-          <p>상태: {item.itemSellStatus}</p>
           {item.brand && <p>브랜드: {item.brand}</p>}
         </div>
       ))}

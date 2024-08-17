@@ -12,11 +12,11 @@ const SubCategoryList = () => {
     const fetchSubCategories = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(`/category/subCategorylist?parentId=${id}`);
+        const response = await axios.get(`/api/category/subCategorylist?parentId=${id}`);
         setSubCategories(response.data);
       } catch (error) {
-        console.error('Error fetching subcategories:', error);
-        setError('Failed to fetch subcategories');
+        console.error('Error fetching subcategories:', error.response || error);
+        setError(`Failed to fetch subcategories: ${error.response?.data?.message || error.message}`);
       } finally {
         setIsLoading(false);
       }
@@ -26,6 +26,7 @@ const SubCategoryList = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
+  if (subCategories.length === 0) return <div>No subcategories found.</div>;
 
   return (
     <div>

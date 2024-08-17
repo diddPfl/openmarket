@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import './Header.css';
+import CategoryList from './Category/CategoryList';
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,7 +17,6 @@ function Header() {
 
     window.addEventListener('scroll', handleScroll);
 
-    // Cleanup function to remove the event listener when the component is unmounted
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -38,6 +38,7 @@ function Header() {
           <Link to="/signup">Sign Up</Link>
         </div>
       </div>
+      <CategoryList /> {/* CategoryList 컴포넌트를 추가 */}
     </header>
   );
 }

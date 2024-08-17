@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import CategoryItemList from './CategoryItemList';
+import CategoryItemList from './CategoryItemList'; // CategoryItemList 컴포넌트 임포트
 import './CategoryList.css';
 
 const CategoryList = () => {
@@ -23,6 +23,7 @@ const CategoryList = () => {
       setIsLoading(true);
       try {
         const response = await axios.get('/api/category/list');
+        console.log('API 응답:', response.data);
         setCategories(response.data);
       } catch (error) {
         console.error('카테고리 가져오기 오류:', error);
@@ -99,6 +100,7 @@ const CategoryList = () => {
               ))}
             </div>
           )}
+          {/* 선택된 카테고리에 해당하는 아이템 리스트를 표시 */}
           <CategoryItemList
             gubunSubCode={menuItems.find(item => item.type === activeMenu)?.gubunSubCode}
             categoryId={activeCategory}
