@@ -5,7 +5,6 @@ import './CategoryList.css';
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
-  const [subCategories, setSubCategories] = useState([]);
   const [activeMenu, setActiveMenu] = useState(null);
   const [activeCategory, setActiveCategory] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -38,26 +37,24 @@ const CategoryList = () => {
   const handleMenuClick = (menuType) => {
     if (activeMenu === menuType) {
       setActiveMenu(null);
+      setActiveCategory(null);
     } else {
       setActiveMenu(menuType);
       setActiveCategory(null);
-      setSubCategories([]);
     }
   };
 
-  const handleCategoryClick = async (categoryId) => {
+  const handleCategoryClick = (categoryId) => {
     if (activeCategory === categoryId) {
       setActiveCategory(null);
-      setSubCategories([]);
     } else {
       setActiveCategory(categoryId);
-      try {
-        const response = await axios.get(`/api/category/subCategorylist?parentId=${categoryId}`);
-        setSubCategories(response.data);
-      } catch (error) {
-        console.error('서브 카테고리 가져오기 오류:', error);
-      }
     }
+  };
+
+  const resetCategoryState = () => {
+    setActiveMenu(null);
+    setActiveCategory(null);
   };
 
   if (isLoading) return <div>로딩 중...</div>;
@@ -76,36 +73,25 @@ const CategoryList = () => {
           </div>
         ))}
       </div>
-      {activeMenu && (
-        <div className="category-display">
-          {activeMenu === 'allCategories' && (
-            <div className="main-categories">
-              {categories.map((category) => (
-                <div
-                  key={category.categoryId}
-                  className={`category-item ${activeCategory === category.categoryId ? 'active-category' : ''}`}
-                  onClick={() => handleCategoryClick(category.categoryId)}
-                >
-                  {category.categoryName}
-                </div>
-              ))}
+      {activeMenu === 'allCategories' && (
+        <div className="main-categories">
+          {categories.map((category) => (
+            <div
+              key={category.categoryId}
+              className={`category-item ${activeCategory === category.categoryId ? 'active-category' : ''}`}
+              onClick={() => handleCategoryClick(category.categoryId)}
+            >
+              {category.categoryName}
             </div>
-          )}
-          {activeCategory && (
-            <div className="sub-categories">
-              {subCategories.map((subCategory) => (
-                <div key={subCategory.categoryId} className="sub-category-item">
-                  {subCategory.categoryName}
-                </div>
-              ))}
-            </div>
-          )}
-          {/* 선택된 카테고리에 해당하는 아이템 리스트를 표시 */}
-          <CategoryItemList
-            gubunSubCode={menuItems.find(item => item.type === activeMenu)?.gubunSubCode}
-            categoryId={activeCategory}
-          />
+          ))}
         </div>
+      )}
+      {(activeCategory || activeMenu) && (
+        <CategoryItemList
+          categoryId={activeCategory}
+          gubunSubCode={menuItems.find(item => item.type === activeMenu)?.gubunSubCode}
+          resetCategoryState={resetCategoryState} // 아이템 클릭 시 카테고리 상태 초기화
+        />
       )}
     </div>
   );

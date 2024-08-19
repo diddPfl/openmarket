@@ -24,21 +24,23 @@ function Header() {
 
   return (
     <header className={`header-container ${isScrolled ? 'scrolled' : ''}`}>
-      <div className="header-content">
-        <Link to="/" className="logo">OpenMarket</Link>
-        <nav>
-          <ul>
-            <li><Link to="/shop">Shop</Link></li>
-            <li><Link to="/sell">Sell</Link></li>
-            <li><Link to="/about">About</Link></li>
-          </ul>
-        </nav>
-        <div className="user-actions">
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
+      <div className="header-content" style={{ flexDirection: 'column' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+          <Link to="/" className="logo">OpenMarket</Link>
+          <nav>
+            <ul>
+              <li><Link to="/shop">Shop</Link></li>
+              <li><Link to="/sell">Sell</Link></li>
+              <li><Link to="/about">About</Link></li>
+            </ul>
+          </nav>
+          <div className="user-actions">
+            <Link to="/login">Login</Link>
+            <Link to="/signup">Sign Up</Link>
+          </div>
         </div>
+        <CategoryList />
       </div>
-      <CategoryList /> {/* CategoryList 컴포넌트를 추가 */}
     </header>
   );
 }
