@@ -18,5 +18,5 @@ public class ItemReviewDto {
     private String memberId;
     private String memberName;
     private List<ReviewImageDto> images; // 이미지DTO 리스트
-    private ItemDto item; // Item DTO 추가
+    private ItemTagDto item; // Item DTO 추가
 }

@@ -1,6 +1,7 @@
 package com.javalab.board.service;
 
 import com.javalab.board.dto.ItemCreateDto;
+import com.javalab.board.dto.ItemListDto;
 import com.javalab.board.dto.ItemResponseDto;
 import com.javalab.board.dto.ItemImageDto;
 import com.javalab.board.repository.ItemRepository;
@@ -25,9 +26,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemResponseDto> findAll() {
+    public List<ItemListDto> findAll() {
         List<Item> items = itemRepository.findAll();
-        return items.stream().map(this::convertToResponseDto).collect(Collectors.toList());
+        return items.stream().map(this::convertToListDto).collect(Collectors.toList());
     }
 
     @Override
@@ -58,6 +59,19 @@ public class ItemServiceImpl implements ItemService {
         }
 
         return imageDtos;
+    }
+
+    private ItemListDto convertToListDto(Item item) {
+        return new ItemListDto(
+                item.getItemId(),
+                item.getItemName(),
+                item.getCategoryId(),
+                item.getCategoryName(),
+                item.getPrice(),
+                item.getRegdate(),
+                item.getItemSellStatus(),
+                item.getImages() != null ? item.getImages().stream().map(this::convertImageToDto).collect(Collectors.toList()) : null
+        );
     }
 
     private Item convertToEntity(ItemCreateDto dto) {

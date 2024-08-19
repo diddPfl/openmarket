@@ -1,6 +1,7 @@
 package com.javalab.board.controller;
 
 import com.javalab.board.dto.ItemCreateDto;
+import com.javalab.board.dto.ItemListDto;
 import com.javalab.board.dto.ItemResponseDto;
 import com.javalab.board.dto.ItemImageDto;
 import com.javalab.board.service.ItemService;
@@ -23,8 +24,8 @@ public class ItemController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<ItemResponseDto>> getItemList() {
-        List<ItemResponseDto> items = itemService.findAll();
+    public ResponseEntity<List<ItemListDto>> getItemList() {
+        List<ItemListDto> items = itemService.findAll();
         return ResponseEntity.ok(items);
     }
 

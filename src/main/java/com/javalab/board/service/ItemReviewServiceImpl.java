@@ -1,9 +1,6 @@
 package com.javalab.board.service;
 
-import com.javalab.board.dto.ItemDto;
-import com.javalab.board.dto.ItemImageDto; // ItemImageDto 추가
-import com.javalab.board.dto.ItemReviewDto;
-import com.javalab.board.dto.ReviewImageDto;
+import com.javalab.board.dto.*;
 import com.javalab.board.repository.ItemReviewRepository;
 import com.javalab.board.vo.ItemReview;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,24 +49,21 @@ public class ItemReviewServiceImpl implements ItemReviewService {
                 .collect(Collectors.toList()));
 
         // 아이템 DTO 설정
-        if (itemReview.getItem() != null) { // ItemReview에서 아이템 정보를 가져오는 로직
-            ItemDto itemDto = new ItemDto();
+        if (itemReview.getItem() != null) {
+            ItemTagDto itemDto = new ItemTagDto();
             itemDto.setItemId(itemReview.getItem().getItemId());
             itemDto.setItemName(itemReview.getItem().getItemName());
-            itemDto.setItemDetail(itemReview.getItem().getItemDetail());
-            itemDto.setCategoryName(itemReview.getItem().getCategoryName()); // 카테고리 이름 추가
             itemDto.setPrice(itemReview.getItem().getPrice());
-            itemDto.setRegdate(itemReview.getItem().getRegdate()); // 등록일 추가
 
             // 아이템의 이미지 설정
             if (itemReview.getItem().getImages() != null) {
                 List<ItemImageDto> itemImages = itemReview.getItem().getImages().stream()
-                        .map(img -> new ItemImageDto(img.getUuid(), img.getFileName(), img.getItemId())) // ItemImageDto로 변환
+                        .map(img -> new ItemImageDto(img.getUuid(), img.getFileName(), img.getItemId()))
                         .collect(Collectors.toList());
-                itemDto.setImages(itemImages); // 아이템 DTO에 이미지 설정
+                itemDto.setImages(itemImages);
             }
 
-            dto.setItem(itemDto); // 아이템 DTO 설정
+            dto.setItem(itemDto);
         }
 
         return dto;

@@ -117,7 +117,7 @@ const ReviewDetail = () => {
                       {review.item && (
                         <>
                           <img
-                            src={`http://localhost:9000/view/${review.item.images[0].fileName}`}
+                            src={`http://localhost:9000/view/${review.item.images[0].fullName}`}
                             alt={review.item.itemName}
                             className="item-tag-image"
                             onClick={() => handleItemClick(review.item.itemId)}
