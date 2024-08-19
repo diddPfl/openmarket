@@ -13,7 +13,7 @@ const CategoryList = () => {
   const navigate = useNavigate();
 
   const menuItems = [
-    { type: 'allCategories', name: '전체카테고리', gubunSubCode: 'ITGU01' },
+    { type: 'allCategories', name: '카테고리', gubunSubCode: 'ITGU01' },
     { type: 'popular', name: '인기', gubunSubCode: 'ITGU02' },
     { type: 'new', name: '신상품', gubunSubCode: 'ITGU03' },
     { type: 'specialPrice', name: '특가', gubunSubCode: 'ITGU04' },

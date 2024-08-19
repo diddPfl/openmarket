@@ -20,7 +20,7 @@ body {
 .header-content {
     max-width: 1200px;
     margin: 0 auto;
-    height: auto; /* 자동 높이 설정 */
+    height: 100px;
     display: flex;
     flex-direction: column; /* 세로 방향으로 정렬 */
     padding: 0 20px;
@@ -58,7 +58,26 @@ nav ul li a {
 
 .user-actions a {
     text-decoration: none;
-    color: #333;
+    color: white;
+    background-color: black;
+    width: 80px;
+    text-align: center;
+    display: block;
+    font-size: 0.9rem;
+    padding: 10px 0;
+}
+
+.category-and-support {
+    display: flex;
+    justify-content: space-between; /* 카테고리와 고객센터를 양쪽 끝으로 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    margin-top: 10px; /* 헤더의 아래쪽에 약간의 간격 추가 */
+}
+
+.support-link {
+    text-decoration: none;
+    color: #333; /* 고객센터 링크 색상 */
+    font-size: 0.9rem;
 }
 
 /* CategoryList 스타일 */
