@@ -45,12 +45,8 @@ const CategoryList = () => {
   };
 
   const handleCategoryClick = (categoryId) => {
-    if (activeCategory === categoryId) {
-      setActiveCategory(null);
-    } else {
-      setActiveCategory(categoryId);
-      navigate(`/categoryitems/category/${categoryId}`);
-    }
+    setActiveCategory(categoryId);
+    navigate(`/categoryitems/category/${categoryId}`);
   };
 
   const handleSubCategoryClick = (subCategoryId) => {
@@ -85,12 +81,10 @@ const CategoryList = () => {
                 >
                   {category.categoryName}
                 </div>
-                {activeCategory === category.categoryId && (
-                  <SubCategoryList
-                    parentId={category.categoryId}
-                    onSubCategoryClick={handleSubCategoryClick}
-                  />
-                )}
+                <SubCategoryList
+                  parentId={category.categoryId}
+                  onSubCategoryClick={handleSubCategoryClick}
+                />
               </div>
             ))
           )}
