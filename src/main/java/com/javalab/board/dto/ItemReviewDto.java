@@ -1,9 +1,7 @@
-package com.javalab.board.vo;
+package com.javalab.board.dto;
 
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -11,15 +9,14 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemReview {
+public class ItemReviewDto {
     private long reviewId;
     private long itemId;
     private String content;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime regdate;
     private String itemName;
     private String memberId;
     private String memberName;
-    private List<ReviewImage> images; // 이미지VO 리스트
-    private Item item; // Item 객체 추가
+    private List<ReviewImageDto> images; // 이미지DTO 리스트
+    private ItemDto item; // Item DTO 추가
 }

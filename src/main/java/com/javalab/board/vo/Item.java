@@ -1,5 +1,6 @@
 package com.javalab.board.vo;
 
+import com.javalab.board.dto.ReviewImageDto;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 

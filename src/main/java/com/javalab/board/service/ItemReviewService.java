@@ -1,11 +1,11 @@
 package com.javalab.board.service;
 
-import com.javalab.board.vo.ItemReview;
+import com.javalab.board.dto.ItemReviewDto;
 
 import java.util.List;
 
 public interface ItemReviewService {
-    List<ItemReview> findById(long itemId);
+    List<ItemReviewDto> findById(long itemId); // ItemReviewDto 리스트 반환
 
-    ItemReview findByReviewNo(long reviewNo);
+    ItemReviewDto findByReviewNo(long reviewNo); // 단일 ItemReviewDto 반환
 }

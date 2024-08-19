@@ -38,6 +38,32 @@ const ReviewDetail = () => {
     navigate(-1);
   };
 
+ /* 날짜 계산하는 함수 */
+  const getTimeDifference = (dateString) => {
+    const now = new Date();
+    const past = new Date(dateString);
+    const diffTime = now - past;
+    const diffSeconds = Math.floor(diffTime / 1000);
+    const diffMinutes = Math.floor(diffSeconds / 60);
+    const diffHours = Math.floor(diffMinutes / 60);
+    const diffDays = Math.floor(diffHours / 24);
+    const diffWeeks = Math.floor(diffDays / 7);
+    const diffMonths = Math.floor(diffDays / 30);
+    const diffYears = Math.floor(diffDays / 365);
+
+    if (diffSeconds < 60) return `${diffSeconds}초 전`;
+    if (diffMinutes < 60) return `${diffMinutes}분 전`;
+    if (diffHours < 24) return `${diffHours}시간 전`;
+    if (diffDays < 7) return `${diffDays}일 전`;
+    if (diffWeeks < 4) return `${diffWeeks}주 전`;
+    if (diffMonths < 12) return `${diffMonths}개월 전`;
+    return `${diffYears}년 전`;
+  };
+
+  const handleItemClick = (itemId) => {
+      navigate(`/item/${itemId}`);
+    };
+
   const slide = (direction) => {
     if (!review || !review.images || review.images.length <= 1) return;
 
@@ -63,6 +89,13 @@ const ReviewDetail = () => {
       <Header />
       <div className="review-detail-container">
         <div className="review-content-wrapper">
+
+        <div className="user-box">
+        <div className="user-info">
+        <p><strong>{review.memberName}</strong></p>
+        <p className="review-regdate">{getTimeDifference(review.regdate)}</p>
+        </div>
+        </div>
           <div className="review-slider-container">
             {review.images && review.images.length > 1 && (
               <i className="fa-solid fa-angle-left" onClick={() => slide(-1)}></i>
@@ -87,6 +120,8 @@ const ReviewDetail = () => {
                             src={`http://localhost:9000/view/${review.item.images[0].fileName}`}
                             alt={review.item.itemName}
                             className="item-tag-image"
+                            onClick={() => handleItemClick(review.item.itemId)}
+                            style={{ cursor: 'pointer' }}
                           />
                           <div className="item-tag-info">
                             <p className="item-tag-name">{review.item.itemName}</p>
@@ -96,10 +131,7 @@ const ReviewDetail = () => {
                       )}
                     </div>
           <div className="review-content">
-            <h2>리뷰 상세</h2>
-            <p><strong>작성자:</strong> {review.memberName}</p>
-            <p><strong>작성일:</strong> {new Date(review.regdate).toLocaleDateString()}</p>
-            <p><strong>내용:</strong> {review.content}</p>
+            <p>{review.content}</p>
           </div>
         </div>
         <button className="back-btn" onClick={handleGoBack}>

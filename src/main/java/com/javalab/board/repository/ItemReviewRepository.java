@@ -9,9 +9,9 @@ import java.util.List;
 @Mapper
 @Repository
 public interface ItemReviewRepository {
-    // id로 리뷰 조회
+    // 아이템 ID로 리뷰 조회
     List<ItemReview> findById(long itemId);
 
-    // reviewNo로 단일 리뷰 조회
+    // 리뷰 번호로 단일 리뷰 조회
     ItemReview findByReviewNo(long reviewNo);
 }

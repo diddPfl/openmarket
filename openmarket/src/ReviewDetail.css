@@ -33,6 +33,7 @@
 }
 
 .review-img-box {
+  border-radius: 15px;
   position: absolute;
   top: 0;
   left: 0;
@@ -87,7 +88,8 @@
 
 .review-content {
   width: 100%;
-  padding: 20px;
+  margin-top: 20px;
+  padding: 0;
   background-color: #f8f8f8;
   border-radius: 8px;
   box-sizing: border-box;
@@ -132,13 +134,41 @@ back-btn i {
   }
 }
 
-.item-tag img{
+.item-tag {
     width: 128px;
+    height: 175px;
+    border-radius: 15px;
+}
+
+.item-tag-img {
+    width: 100%
+}
+
+.item-tag-image {
+    border-radius: 15px;
+
+}
+
+.item-tag img{
+    width: 100%;
     height: 128px;
     border-radius: 15px;
-    margin-bottom: 20px;
 }
 
 .item-tag p {
-    font-size: 16px;
+    font-size: 13px;
+}
+
+.review-regdate {
+    color: #22222280;
+    font-size: 14px;
+}
+
+.user-box {
+    width: 100%;
+    padding-bottom: 13px;
+}
+
+.user-info {
+    float: left;
 }

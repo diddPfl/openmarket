@@ -150,17 +150,22 @@ hr {
     transform: scale(1.2); /* 마우스를 올렸을 때 크기를 1.2배로 확대 */
 }
 
-.item-category p {
-    color: #22222280;
-}
-
-.sell-status, .model-number, .item-id {
+.sell-status, .model-number, .item-id, .category-name {
     border-right: 1px solid #ebebeb;
 }
 
-.model-number, .item-id, .reg-date {
+.model-number, .item-id, .reg-date, .category-name {
     padding-left: 16px;
     margin-left: 16px;
+}
+
+.item-detail-info dt {
+    font-size: 12px;
+}
+
+.item-detail-info dd {
+    font-size: 12.8px;
+    color: #222222CC;
 }
 
 .button-box {

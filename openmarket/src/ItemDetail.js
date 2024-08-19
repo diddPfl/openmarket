@@ -107,6 +107,10 @@ function ItemDetail() {
                 <dt>판매상태</dt>
                 <dd>#</dd>
               </dl>
+              <dl className="category-name">
+                <dt>카테고리</dt>
+                <dd>{item.categoryName}</dd>
+              </dl>
               <dl className="model-number">
                 <dt>모델번호</dt>
                 <dd>#</dd>
@@ -121,7 +125,7 @@ function ItemDetail() {
               </dl>
             </div>
             <div className="item-price">
-              <h1>{item.price}원</h1>
+              <h1>{item.price.toLocaleString()}원</h1>
             </div>
             <div className="button-box">
               <div className="purchase-btn">
