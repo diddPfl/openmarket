@@ -10,6 +10,7 @@ import CategoryList from "./Category/CategoryList"
 import SubCategoryList from "./Category/SubCategoryList"
 import ItemReviewSection from './ItemReviewSection';
 import ReviewDetail from './ReviewDetail';
+import ItemInsert from './ItemInsert';
 
 
 // App 컴포넌트: 애플리케이션의 메인 컴포넌트입니다.
@@ -25,6 +26,7 @@ function App() {
             사용자가 메인 페이지에 접속하면 ItemList 컴포넌트가 렌더링됩니다.
           */}
           <Route path="/" element={<ItemList />} />
+          <Route path="/insertItem" element={<ItemInsert />} />
           {/*
             '/item/:id' 경로에 대한 라우트입니다.
             :id는 동적 세그먼트로, 특정 아이템의 ID를 나타냅니다.

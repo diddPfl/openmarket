@@ -1,10 +1,13 @@
 package com.javalab.board.service;
 
-import com.javalab.board.dto.ItemDto;
-
+import com.javalab.board.dto.ItemCreateDto;
+import com.javalab.board.dto.ItemResponseDto;
+import com.javalab.board.dto.ItemImageDto;
 import java.util.List;
 
 public interface ItemService {
-    List<ItemDto> findAll();
-    ItemDto findById(long itemId);
+    List<ItemResponseDto> findAll();
+    ItemResponseDto findById(long itemId);
+    ItemResponseDto save(ItemCreateDto itemCreateDto);
+    List<ItemImageDto> saveItemImages(long itemId, List<ItemImageDto> images);
 }

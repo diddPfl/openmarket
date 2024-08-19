@@ -5,7 +5,7 @@ const ItemDetailSection = ({ item }) => (
  <div className="item-detail-section">
     <div className="image-list">
       {item.images && item.images.map((image, index) => (
-        <img key={index} src={`/view/${image.fileName}`} alt={`상품 이미지 ${index + 1}`} className="item-image" />
+        <img key={index} src={`/view/${image.fullName}`} alt={`상품 이미지 ${index + 1}`} className="item-image" />
       ))}
     </div>
   </div>

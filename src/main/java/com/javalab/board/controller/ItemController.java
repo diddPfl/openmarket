@@ -1,8 +1,9 @@
 package com.javalab.board.controller;
 
-import com.javalab.board.dto.ItemDto;
+import com.javalab.board.dto.ItemCreateDto;
+import com.javalab.board.dto.ItemResponseDto;
+import com.javalab.board.dto.ItemImageDto;
 import com.javalab.board.service.ItemService;
-import com.javalab.board.vo.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,18 +23,33 @@ public class ItemController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<ItemDto>> getItemList() {
-        List<ItemDto> items = itemService.findAll();
-        return ResponseEntity.ok(items); // 200 OK와 함께 아이템 리스트 반환
+    public ResponseEntity<List<ItemResponseDto>> getItemList() {
+        List<ItemResponseDto> items = itemService.findAll();
+        return ResponseEntity.ok(items);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ItemDto> getItemById(@PathVariable("id") long itemId) {
-        ItemDto item = itemService.findById(itemId);
+    public ResponseEntity<ItemResponseDto> getItemById(@PathVariable("id") long itemId) {
+        ItemResponseDto item = itemService.findById(itemId);
         if (item != null) {
-            return ResponseEntity.ok(item); // 200 OK와 함께 아이템 반환
+            return ResponseEntity.ok(item);
         } else {
-            return ResponseEntity.notFound().build(); // 404 Not Found 반환
+            return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping
+    public ResponseEntity<ItemResponseDto> createItem(@RequestBody ItemCreateDto itemCreateDto) {
+        ItemResponseDto savedItem = itemService.save(itemCreateDto);
+        System.out.println("Received item data: {}" + itemCreateDto);
+        return ResponseEntity.ok(savedItem);
+    }
+
+    @PostMapping("/{itemId}/images")
+    public ResponseEntity<List<ItemImageDto>> addItemImages(
+            @PathVariable long itemId,
+            @RequestBody List<ItemImageDto> images) {
+        List<ItemImageDto> savedImages = itemService.saveItemImages(itemId, images);
+        return ResponseEntity.ok(savedImages);
     }
 }

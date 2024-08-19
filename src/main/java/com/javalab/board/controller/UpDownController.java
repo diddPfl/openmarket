@@ -22,6 +22,7 @@ import java.util.*;
  */
 @RestController
 @Log4j2
+@CrossOrigin
 public class UpDownController {
 
     //  환경설정파일에 com.javalab.boot.upload.path 이름으로 설정해놓은 값 조회

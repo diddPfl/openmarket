@@ -1,13 +1,15 @@
 package com.javalab.board.vo;
 
-import com.javalab.board.dto.ReviewImageDto;
+import com.javalab.board.constant.ItemSellStatus;
+import com.javalab.board.vo.ItemImage;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter @Setter
+@Getter
+@Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,5 +23,8 @@ public class Item {
     private int price;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate regdate;
-    private List<ItemImage> images; // 이미지VO 리스트
+    private List<ItemImage> images;
+    private int stockNumber;
+    private ItemSellStatus itemSellStatus;
+    private String brand;
 }

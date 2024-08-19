@@ -6,37 +6,60 @@
 <mapper namespace="com.javalab.board.repository.ItemRepository">
 
     <!-- 모든 아이템 조회 -->
-    <select id="findAll" resultType="com.javalab.board.vo.Item">
-        SELECT item_id AS itemId, category_id AS categoryId,
-        item_name AS itemName, item_detail AS itemDetail
-        FROM item
+    <select id="findAll" resultMap="itemResultMap">
+        SELECT i.item_id, i.category_id, i.item_name, i.item_detail, i.price, i.regdate, i.gubun_sub_code,
+        i.stock_number, i.item_sell_status, i.brand,
+        c.category_name,
+        im.uuid, im.file_name
+        FROM item i
+        LEFT JOIN category c ON i.category_id = c.category_id
+        LEFT JOIN item_image im ON i.item_id = im.item_id
+        ORDER BY i.item_id
     </select>
 
     <!-- id로 상품 조회 -->
     <select id="findById" parameterType="long" resultMap="itemResultMap">
-        SELECT i.item_id AS itemId, i.category_id AS categoryId, i.item_name AS itemName, i.regdate, i.item_sell_status AS sellStatus,
-        i.item_detail AS itemDetail, i.price,
-        im.uuid AS uuid, im.file_name AS fileName, im.item_id AS imageItemId, c.category_name AS categoryName
+        SELECT i.item_id, i.category_id, i.item_name, i.item_detail, i.price, i.regdate, i.gubun_sub_code,
+        i.stock_number, i.item_sell_status, i.brand,
+        c.category_name,
+        im.uuid, im.file_name
         FROM item i
-        LEFT JOIN item_image im ON i.item_id = im.item_id
         LEFT JOIN category c ON i.category_id = c.category_id
+        LEFT JOIN item_image im ON i.item_id = im.item_id
         WHERE i.item_id = #{itemId}
-        ORDER BY i.item_id
+    </select>
+
+    <insert id="insert" parameterType="com.javalab.board.vo.Item" useGeneratedKeys="true" keyProperty="itemId">
+        INSERT INTO item (category_id, gubun_sub_code, item_name, item_detail, price, regdate, stock_number, item_sell_status, brand)
+        VALUES (#{categoryId}, #{gubunSubCode}, #{itemName}, #{itemDetail}, #{price}, #{regdate}, #{stockNumber}, #{itemSellStatus}, #{brand})
+    </insert>
+
+    <insert id="insertItemImage" parameterType="com.javalab.board.vo.ItemImage">
+        INSERT INTO item_image (uuid, item_id, file_name)
+        VALUES (#{uuid}, #{itemId}, #{fileName})
+    </insert>
+
+    <select id="findCategoryNameById" parameterType="long" resultType="string">
+        SELECT category_name FROM category WHERE category_id = #{categoryId}
     </select>
 
     <!-- 아이템에 대한 결과 매핑 -->
     <resultMap id="itemResultMap" type="com.javalab.board.vo.Item">
-        <id property="itemId" column="itemId"/>
-        <result property="categoryId" column="categoryId"/>
-        <result property="categoryName" column="categoryName"/>
-        <result property="itemName" column="itemName"/>
-        <result property="regdate" column="regdate" />
-        <result property="itemDetail" column="itemDetail"/>
+        <id property="itemId" column="item_id"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="categoryName" column="category_name"/>
+        <result property="itemName" column="item_name"/>
+        <result property="itemDetail" column="item_detail"/>
         <result property="price" column="price"/>
+        <result property="regdate" column="regdate"/>
+        <result property="gubunSubCode" column="gubun_sub_code"/>
+        <result property="stockNumber" column="stock_number"/>
+        <result property="itemSellStatus" column="item_sell_status" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result property="brand" column="brand"/>
         <collection property="images" ofType="com.javalab.board.vo.ItemImage">
-            <id property="uuid" column="uuid"/>
-            <result property="fileName" column="fileName"/>
-            <result property="itemId" column="imageItemId"/>
+            <result property="uuid" column="uuid"/>
+            <result property="fileName" column="file_name"/>
+            <result property="itemId" column="item_id"/>
         </collection>
     </resultMap>
 

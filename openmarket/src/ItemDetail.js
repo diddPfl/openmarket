@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom"; // useNavigate 추가
+import { useParams, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import ItemDetailSection from "./ItemDetailSection";
 import ItemDescriptionSection from "./ItemDescriptionSection";
@@ -18,7 +18,7 @@ function ItemDetail() {
   const imgBoxRef = useRef(null);
   const [activeSection, setActiveSection] = useState('detail');
 
-  const navigate = useNavigate(); // useNavigate 훅 사용
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchItemById(id);
@@ -30,6 +30,7 @@ function ItemDetail() {
       setLoading(true);
       setError(null);
       const response = await axios.get(`http://localhost:9000/items/${itemId}`);
+      console.log('Fetched item data:', response.data);
       setItem(response.data);
     } catch (error) {
       console.error('Error fetching item details:', error);
@@ -46,6 +47,10 @@ function ItemDetail() {
     } catch (error) {
       console.error('Error fetching reviews:', error);
     }
+  };
+
+  const getImageUrl = (image) => {
+    return `http://localhost:9000/view/${image.fullName}`;
   };
 
   const slide = (direction) => {
@@ -70,7 +75,7 @@ function ItemDetail() {
   };
 
   const handleBackClick = () => {
-    navigate(-1); // 뒤로 가기
+    navigate(-1);
   };
 
   if (loading) return <div>로딩 중...</div>;
@@ -88,7 +93,15 @@ function ItemDetail() {
             )}
             <div className="img-box" ref={imgBoxRef}>
               {item.images && item.images.map((image, index) => (
-                <img key={index} src={`/view/${image.fileName}`} alt={`아이템 이미지 ${index + 1}`} />
+                <img
+                  key={index}
+                  src={getImageUrl(image)}
+                  alt={`아이템 이미지 ${index + 1}`}
+                  onError={(e) => {
+                    console.error(`Failed to load image: ${image.fullName}`);
+                    e.target.src = '/path/to/fallback/image.jpg'; // 대체 이미지 경로
+                  }}
+                />
               ))}
             </div>
             {item.images && item.images.length > 1 && (
@@ -105,7 +118,7 @@ function ItemDetail() {
             <div className="item-detail-info">
               <dl className="sell-status">
                 <dt>판매상태</dt>
-                <dd>#</dd>
+                <dd>{item.itemSellStatus}</dd>
               </dl>
               <dl className="category-name">
                 <dt>카테고리</dt>
@@ -113,7 +126,7 @@ function ItemDetail() {
               </dl>
               <dl className="model-number">
                 <dt>모델번호</dt>
-                <dd>#</dd>
+                <dd>{item.gubunSubCode}</dd>
               </dl>
               <dl className="item-id">
                 <dt>상품 번호</dt>
