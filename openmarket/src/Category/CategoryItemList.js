@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './CategoryList.css'; // 스타일 파일을 기존 CategoryList.css로 사용
+import { useParams, useNavigate } from 'react-router-dom';
+import './CategoryItemList.css';
 
-const CategoryItemList = ({ categoryId, gubunSubCode }) => {
+const CategoryItemList = () => {
+  const { categoryId, gubunSubCode } = useParams();
   const [items, setItems] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -13,7 +16,7 @@ const CategoryItemList = ({ categoryId, gubunSubCode }) => {
       try {
         let response;
         if (categoryId) {
-          response = await axios.get(`/api/categoryitems/byCategory/${categoryId}`);
+          response = await axios.get(`/api/categoryitems/byParentCategory/${categoryId}`);
         } else if (gubunSubCode) {
           response = await axios.get(`/api/categoryitems/byGubun/${gubunSubCode}`);
         } else {
@@ -33,21 +36,31 @@ const CategoryItemList = ({ categoryId, gubunSubCode }) => {
     }
   }, [categoryId, gubunSubCode]);
 
-  if (isLoading) return <div>로딩 중...</div>;
+  const handleItemClick = (itemId) => {
+    navigate(`/item/${itemId}`);
+  };
+
+  if (isLoading) return <div>로딩 중입니다. 잠시만 기다려 주세요...</div>;
   if (error) return <div>오류: {error}</div>;
-  if (items.length === 0) return <div>해당 카테고리의 상품이 없습니다.</div>;
+  if (items.length === 0) return <div>해당 카테고리에 상품이 없습니다.</div>;
 
   return (
-    <div className="items">
-      {items.map((item) => (
-        <div key={item.itemId} className="item">
-          <h3>{item.itemName}</h3>
-          <p>{item.itemDetail}</p>
-          <p>가격: {item.price}원</p>
-          <p>상태: {item.itemSellStatus}</p>
-          {item.brand && <p>브랜드: {item.brand}</p>}
-        </div>
-      ))}
+    <div className="category-item-list">
+      <div className="items">
+        {items.map((item) => (
+          <div key={item.itemId} className="item" onClick={() => handleItemClick(item.itemId)}>
+            <h3>{item.itemName}</h3>
+            <p>{item.itemDetail}</p>
+            <p>가격: {item.price}원</p>
+            {item.brand && <p>브랜드: {item.brand}</p>}
+            <div className="img-box">
+              {item.images && item.images.map((image) => (
+                <img key={image.uuid} src={`/Library/filetest/upload/${image.fileName}`} alt={`아이템 이미지`} />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
