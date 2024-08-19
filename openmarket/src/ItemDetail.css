@@ -6,18 +6,18 @@ body {
 .page-container {
     margin-top: 100px;
     display: flex;
-    justify-content: center; /* Centers the .aaa container horizontally */
-    align-items: flex-start; /* Aligns the content at the top vertically */
-    min-height: 100vh; /* Ensures the container takes at least the full viewport height */
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
 }
 
 .aaa {
-    margin: 20px 0 40px 0; /* Adjust top and bottom margins */
-    padding: 0 40px; /* Maintain left and right padding */
-    width: 100%; /* Use full width */
-    max-width: 1280px; /* Set a maximum width */
-    box-sizing: border-box; /* Include padding in the element's total width and height */
-    position: relative; /* 부모 요소에 상대 위치 설정 */
+    margin: 20px 0 40px 0;
+    padding: 0 40px;
+    width: 100%;
+    max-width: 1280px;
+    box-sizing: border-box;
+    position: relative;
 }
 
 .item-container {
@@ -127,27 +127,27 @@ hr {
 }
 
 .back-btn {
-    position: fixed; /* 화면에 고정 */
-    left: 2%; /* .aaa의 왼쪽에서 20% 떨어진 위치 */
-    top: 2%; /* 현재 위치에서 상단에서 120px 떨어진 위치 */
-    width: 50px; /* 버튼의 너비 조정 */
-    height: 50px; /* 버튼의 높이 조정 */
-    background-color: transparent; /* 기본 상태에서 배경색을 투명으로 설정 */
-    border-radius: 50%; /* 동그란 배경을 만들기 위해 50% 설정 */
-    display: flex; /* 아이콘을 중앙에 배치하기 위해 flex 사용 */
-    justify-content: center; /* 수평 중앙 정렬 */
-    align-items: center; /* 수직 중앙 정렬 */
-    transition: background-color 0.3s ease, transform 0.3s ease; /* 배경색과 크기 변화에 부드러운 전환 효과 */
+    position: fixed;
+    left: 2%;
+    top: 2%;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .back-btn i {
-    font-size: 30px; /* 아이콘 크기 설정 */
-    color: #333; /* 아이콘 색상 설정 */
+    font-size: 30px;
+    color: #333;
 }
 
 .back-btn:hover {
-    background-color: #EBEBEB; /* 마우스를 올렸을 때 배경색 설정 */
-    transform: scale(1.2); /* 마우스를 올렸을 때 크기를 1.2배로 확대 */
+    background-color: #EBEBEB;
+    transform: scale(1.2);
 }
 
 .sell-status, .model-number, .item-id, .category-name {
@@ -224,32 +224,55 @@ hr {
     color: #22222280;
 }
 
-/* Media Queries for Responsive Design */
+.sold-out-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.sold-out-text {
+    color: white;
+    font-size: 36px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.sold-out .img-box img {
+    filter: brightness(85%);
+}
+
 @media (max-width: 768px) {
     .aaa {
-        padding: 0 20px; /* Reduce padding on smaller screens */
+        padding: 0 20px;
     }
 
     .item-container {
-        flex-direction: column; /* Stack items vertically */
+        flex-direction: column;
     }
 
     .slider-container,
     .item-info {
-        width: 100%; /* Full width */
-        margin: 0; /* Remove margin */
+        width: 100%;
+        margin: 0;
     }
 
     .item-detail-info {
-        flex-direction: column; /* Stack details vertically */
+        flex-direction: column;
     }
 
     .button-box {
-        flex-direction: column; /* Stack buttons vertically */
+        flex-direction: column;
     }
 
     .sell-btn {
-        margin-left: 0; /* Remove left margin */
-        margin-top: 10px; /* Add top margin */
+        margin-left: 0;
+        margin-top: 10px;
     }
 }

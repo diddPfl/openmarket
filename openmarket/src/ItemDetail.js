@@ -87,7 +87,12 @@ function ItemDetail() {
       <Header />
       <div className="aaa">
         <div className="item-container">
-          <div className="slider-container">
+          <div className={`slider-container ${item.itemSellStatus === 'SOLD_OUT' ? 'sold-out' : ''}`}>
+            {item.itemSellStatus === 'SOLD_OUT' && (
+              <div className="sold-out-overlay">
+                <span className="sold-out-text">Sold Out</span>
+              </div>
+            )}
             {item.images && item.images.length > 1 && (
               <i className="fa-solid fa-angle-left" onClick={() => slide(-1)}></i>
             )}
@@ -99,7 +104,7 @@ function ItemDetail() {
                   alt={`아이템 이미지 ${index + 1}`}
                   onError={(e) => {
                     console.error(`Failed to load image: ${image.fullName}`);
-                    e.target.src = '/path/to/fallback/image.jpg'; // 대체 이미지 경로
+                    e.target.src = '/path/to/fallback/image.jpg';
                   }}
                 />
               ))}
