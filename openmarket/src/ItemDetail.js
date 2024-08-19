@@ -147,10 +147,10 @@ function ItemDetail() {
             </div>
             <div className="button-box">
               <div className="purchase-btn">
-                <button>구매</button>
+                <button><p>구매</p></button>
               </div>
               <div className="sell-btn">
-                <button>판매</button>
+                <button><p>판매</p></button>
               </div>
             </div>
             <div className="call-dibs">
