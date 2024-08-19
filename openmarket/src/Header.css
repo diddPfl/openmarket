@@ -64,5 +64,5 @@ nav ul li a {
 /* CategoryList 스타일 */
 .category-list-container {
     display: flex;
-    justify-content: flex-start; /* 왼쪽 정렬 */
+    justify-content: flex-start;
 }

@@ -1,0 +1,42 @@
+.main-page {
+  padding-top: 100px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.image-container {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+}
+
+.items-section {
+  margin-bottom: 40px;
+}
+
+.items-section h2 {
+  margin-bottom: 10px;
+}
+
+.items {
+  display: flex;
+  gap: 10px;
+}
+
+.item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  flex: 1;
+  text-align: center;
+}
+
+.item img {
+  max-width: 100%;
+  height: auto;
+}
