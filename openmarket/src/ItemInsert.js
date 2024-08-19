@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './ItemInsert.css';
 
 const ItemInsert = () => {
   const [item, setItem] = useState({
@@ -12,6 +13,7 @@ const ItemInsert = () => {
     itemSellStatus: 'SELL',
     brand: ''
   });
+
   const [images, setImages] = useState([]);
 
   const handleChange = (e) => {
@@ -70,79 +72,111 @@ const ItemInsert = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="itemName"
-        value={item.itemName}
-        onChange={handleChange}
-        placeholder="상품명"
-        required
-      />
-      <textarea
-        name="itemDetail"
-        value={item.itemDetail}
-        onChange={handleChange}
-        placeholder="상품 상세 설명"
-        required
-      />
-      <input
-        type="number"
-        name="categoryId"
-        value={item.categoryId}
-        onChange={handleChange}
-        placeholder="카테고리 ID"
-        required
-      />
-      <input
-        type="number"
-        name="price"
-        value={item.price}
-        onChange={handleChange}
-        placeholder="가격"
-        required
-      />
-      <input
-        type="text"
-        name="gubunSubCode"
-        value={item.gubunSubCode}
-        onChange={handleChange}
-        placeholder="구분 서브 코드"
-        required
-      />
-      <input
-        type="number"
-        name="stockNumber"
-        value={item.stockNumber}
-        onChange={handleChange}
-        placeholder="재고 수량"
-        required
-      />
-      <select
-        name="itemSellStatus"
-        value={item.itemSellStatus}
-        onChange={handleChange}
-        required
-      >
-        <option value="SELL">판매중</option>
-        <option value="SOLD_OUT">품절</option>
-      </select>
-      <input
-        type="text"
-        name="brand"
-        value={item.brand}
-        onChange={handleChange}
-        placeholder="브랜드"
-        required
-      />
-      <input
-        type="file"
-        multiple
-        onChange={handleImageChange}
-        accept="image/*"
-      />
-      <button type="submit">아이템 등록</button>
-    </form>
+    <div className="item-insert-container">
+      <h1>상품 등록</h1>
+      <form onSubmit={handleSubmit} className="item-insert-form">
+        <div className="form-group">
+          <label htmlFor="itemName">상품명</label>
+          <input
+            id="itemName"
+            type="text"
+            name="itemName"
+            value={item.itemName}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="itemDetail">상품 상세 설명</label>
+          <textarea
+            id="itemDetail"
+            name="itemDetail"
+            value={item.itemDetail}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="categoryId">카테고리 ID</label>
+          <input
+            id="categoryId"
+            type="number"
+            name="categoryId"
+            value={item.categoryId}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="price">가격</label>
+          <input
+            id="price"
+            type="number"
+            name="price"
+            value={item.price}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="gubunSubCode">구분 서브 코드</label>
+          <input
+            id="gubunSubCode"
+            type="text"
+            name="gubunSubCode"
+            value={item.gubunSubCode}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="stockNumber">재고 수량</label>
+          <input
+            id="stockNumber"
+            type="number"
+            name="stockNumber"
+            value={item.stockNumber}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="itemSellStatus">판매 상태</label>
+          <select
+            id="itemSellStatus"
+            name="itemSellStatus"
+            value={item.itemSellStatus}
+            onChange={handleChange}
+            required
+          >
+            <option value="SELL">판매중</option>
+            <option value="SOLD_OUT">품절</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <label htmlFor="brand">브랜드</label>
+          <input
+            id="brand"
+            type="text"
+            name="brand"
+            value={item.brand}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="images">상품 이미지</label>
+          <input
+            id="images"
+            type="file"
+            multiple
+            onChange={handleImageChange}
+            accept="image/*"
+          />
+        </div>
+        <button type="submit" className="submit-btn">아이템 등록</button>
+      </form>
+    </div>
   );
 };
 
