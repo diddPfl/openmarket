@@ -1,0 +1,36 @@
+.items {
+  padding-top: 120px;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  width: calc(33.333% - 20px);
+  box-sizing: border-box;
+  text-align: center;
+  cursor: pointer;
+}
+
+.item h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.item p {
+  margin: 5px 0;
+}
+
+.img-box {
+  margin-top: 10px;
+}
+
+.img-box img {
+  max-width: 100%;
+  height: auto;
+}

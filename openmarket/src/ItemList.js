@@ -40,7 +40,6 @@ function ItemList() {
 
   return (
     <div>
-      <h2>Item List</h2>
       {items.length > 0 ? (
         <ul>
           {items.map(item => (
