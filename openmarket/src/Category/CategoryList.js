@@ -24,7 +24,14 @@ const CategoryList = () => {
       setIsLoading(true);
       try {
         const response = await axios.get('/api/category/list');
-        setCategories(response.data);
+
+        // 응답 데이터가 배열인지 확인
+        if (Array.isArray(response.data)) {
+          setCategories(response.data);
+        } else {
+          setCategories([]); // 배열이 아닐 경우 빈 배열로 설정
+          console.error('API 응답이 배열이 아닙니다:', response.data);
+        }
       } catch (error) {
         console.error('카테고리 가져오기 오류:', error);
         setError('카테고리 가져오기 실패');
@@ -83,7 +90,7 @@ const CategoryList = () => {
       {isCategoryListVisible && (
         <div className="category-display">
           <div className="main-categories">
-            {categories.map((category) => (
+            {Array.isArray(categories) && categories.map((category) => (
               <div
                 key={category.categoryId}
                 className={`category-item ${activeCategory === category.categoryId ? 'active-category' : ''}`}

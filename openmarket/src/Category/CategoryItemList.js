@@ -26,7 +26,13 @@ const CategoryItemList = () => {
         // 응답 데이터를 콘솔에 출력
         console.log('받은 아이템:', response.data);
 
-        setItems(response.data);
+        // 응답 데이터가 배열인지 확인
+        if (Array.isArray(response.data)) {
+          setItems(response.data);
+        } else {
+          setItems([]); // 배열이 아닐 경우 빈 배열로 설정
+          console.error('API 응답이 배열이 아닙니다:', response.data);
+        }
       } catch (error) {
         console.error('아이템 가져오기 오류:', error);
         setError('아이템 가져오기 실패');

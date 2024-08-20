@@ -25,7 +25,7 @@ const MainPage = () => {
         for (const menuItem of menuItems) {
           if (menuItem.type !== 'allCategories') {
             const response = await axios.get(`/api/categoryitems/byGubun/${menuItem.gubunSubCode}?limit=5`);
-            fetchedItems[menuItem.type] = response.data;
+            fetchedItems[menuItem.type] = Array.isArray(response.data) ? response.data : [];
           }
         }
         setItems(fetchedItems);
@@ -73,7 +73,7 @@ const MainPage = () => {
               </button>
             </div>
             <div className="items">
-              {items[menuItem.type]?.map((item) => (
+              {Array.isArray(items[menuItem.type]) && items[menuItem.type].map((item) => (
                 <div key={item.itemId} className="item" onClick={() => handleItemClick(item.itemId)}>
                   <h3>{item.itemName}</h3>
                   <p>가격: {item.price}원</p>
