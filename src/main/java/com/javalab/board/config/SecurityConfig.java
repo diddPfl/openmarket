@@ -1,7 +1,6 @@
 package com.javalab.board.config;
 
 import com.javalab.board.handler.AuthFailureHandler;
-import com.javalab.board.handler.AuthSucessHandler;
 import com.javalab.board.security.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -65,6 +64,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/mypage/cart", "/mypage/cart/**").permitAll()
+                        .requestMatchers("/","/api/**").permitAll()
                         .requestMatchers("/mypage/**").permitAll()
                         .requestMatchers("/mypage/reviews").permitAll()
                         .requestMatchers("/order/**").permitAll()
