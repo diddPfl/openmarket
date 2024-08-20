@@ -4,7 +4,7 @@ import com.javalab.board.vo.Item;
 
 import java.util.List;
 
-public interface CategoryItemsMapper {
+public interface CategoryItemsService {
 	List<Item> selectItemsByGubunSubCode(String gubunSubCode);
 	List<Item> selectItemsByCategoryId(Long categoryId);
 }

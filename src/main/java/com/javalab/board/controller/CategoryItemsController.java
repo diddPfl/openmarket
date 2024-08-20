@@ -16,11 +16,11 @@ public class CategoryItemsController {
 
 	@GetMapping("/byGubun/{gubunSubCode}")
 	public List<Item> getItemsByGubun(@PathVariable String gubunSubCode) {
-		return categoryItemsService.getItemsByGubunSubCode(gubunSubCode);
+		return categoryItemsService.selectItemsByGubunSubCode(gubunSubCode);
 	}
 
 	@GetMapping("/byCategory/{categoryId}")
 	public List<Item> getItemsByCategory(@PathVariable Long categoryId) {
-		return categoryItemsService.getItemsByCategoryId(categoryId);
+		return categoryItemsService.selectItemsByCategoryId(categoryId);
 	}
 }
