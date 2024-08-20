@@ -38,21 +38,35 @@ const CategoryItemList = () => {
     navigate(`/item/${itemId}`);
   };
 
-  if (isLoading) return <div>로딩 중...</div>;
-  if (error) return <div>오류: {error}</div>;
-  if (items.length === 0) return <div>해당 카테고리의 상품이 없습니다.</div>;
+  const getImageUrl = (image) => {
+    return `http://localhost:9000/view/${image.fileName}`; // 실제 서버 URL과 경로로 수정 필요
+  };
+
+  if (isLoading) return <div className="loading">로딩 중...</div>;
+  if (error) return <div className="error">오류: {error}</div>;
+  if (items.length === 0) return <div className="no-items">해당 카테고리의 상품이 없습니다.</div>;
 
   return (
     <div className="items">
       {items.map((item) => (
-        <div key={item.itemId} className="item" onClick={() => handleItemClick(item.itemId)}>
+        <div
+          key={item.itemId}
+          className="item"
+          onClick={() => handleItemClick(item.itemId)}
+          role="button"
+          tabIndex={0}
+        >
           <h3>{item.itemName}</h3>
           <p>{item.itemDetail}</p>
-          <p>가격: {item.price}원</p>
+          <p>가격: {item.price.toLocaleString()}원</p>
           {item.brand && <p>브랜드: {item.brand}</p>}
           <div className="img-box">
             {item.images && item.images.map((image) => (
-              <img key={image.uuid} src={`/Library/filetest/upload/${image.fileName}`} alt={`아이템 이미지`} />
+              <img
+                key={image.uuid}
+                src={getImageUrl(image)}
+                alt={`아이템 이미지 - ${item.itemName}`}
+              />
             ))}
           </div>
         </div>
