@@ -1,17 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Home Page</title>
+	<style>
+		body {
+            font-family: Arial, sans-serif;
+        }
+        .login-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .login-button:hover {
+            background-color: #0056b3;
+        }
+	</style>
 </head>
 <body>
-	<h3>Hello Everyone</h3>
-	<br><br>
-	현재시간 : <p th:text="${date}">current date</p>
-	
-	<h3>애국가</h3>
-	<br>
-	<p> 동해물과 백두사이 마르고 닳도록 </p>
-	
+<h3>Hello Everyone</h3>
+<br><br>
+현재시간 : <p th:text="${date}">current date</p>
+
+<h3>애국가</h3>
+<br>
+<p> 동해물과 백두사이 마르고 닳도록 </p>
+
+<a href="/login" class="login-button">Login</a>
+<a th:href="@{/member/create}">Sign Up</a> <!-- Sign Up button -->
 </body>
 </html>

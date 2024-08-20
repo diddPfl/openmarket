@@ -11,10 +11,10 @@ import java.util.Date;
 @Slf4j
 public class HomeController {
 
-		@GetMapping("/")
-		public String home(Model model) {
-			log.info("여기는 DemoController home()");
-			model.addAttribute("date", new Date());
-			return "index";
-		}	
+	@GetMapping("/")
+	public String home(Model model) {
+		log.info("여기는 DemoController home()");
+		model.addAttribute("date", new Date());
+		return "index";
 	}
+}

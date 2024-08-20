@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Member</title>
+    <link rel="stylesheet" type="text/css" href="/css/loginheader.css">
+    <style>
+        /* Styles for the create member form */
+        .form-container {
+            width: 320px;
+            margin: 100px auto;
+            padding: 30px 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+
+        .form-container label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="password"],
+        .form-container input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .form-container input[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            background-color: #333;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .form-container input[type="submit"]:hover {
+            background-color: #000;
+        }
+
+        ::placeholder {
+            color: #aaa;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+<!-- Include the header here -->
+<div th:replace="fragments/header :: header"></div>
+
+<!-- Create Member form -->
+<div class="form-container">
+    <h3>Create Member</h3>
+    <form th:action="@{/member/create}" method="post" th:object="${member}">
+        <label for="name" >Name</label>
+        <input type="text" th:field="*{name}" id="name" placeholder="Name" required>
+
+        <label for="email">Email</label>
+        <input type="email" th:field="*{email}" id="email" placeholder="Email" required>
+
+        <label for="password">Password</label>
+        <input type="password" th:field="*{password}" id="password" placeholder="Password" required>
+
+        <!-- Roles can be managed separately or included here as checkboxes if needed -->
+
+        <input type="submit" value="Sign Up">
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sidebar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .sidebar {
+            width: 200px; /* Set a fixed width for the sidebar */
+            padding: 20px;
+            background-color: #f8f8f8; /* Light background color for the sidebar */
+        }
+
+        .sidebar ul {
+            list-style-type: none; /* Remove default list styling */
+            padding: 0;
+        }
+
+        .sidebar li {
+            margin-bottom: 15px; /* Add space between items */
+        }
+
+        .sidebar a {
+            text-decoration: none; /* Remove underline from links */
+            font-size: 18px; /* Increase font size */
+            font-weight: bold; /* Make the text bold */
+            color: #333; /* Set text color */
+        }
+
+        .sidebar hr {
+            margin: 20px 0; /* Add space above and below the line */
+            border: 1px solid #ccc; /* Style the horizontal line */
+        }
+    </style>
+
+</head>
+<body>
+<div th:fragment="sidebar" class="sidebar">
+    <ul>
+        <li><a href="#">주문/배송조회</a></li>
+        <li><a href="#">장바구니</a></li>
+        <li><a href="#">좋아요</a></li>
+        <li><a href="#">리뷰</a></li>
+        <hr>
+        <li><a href="#">정보수정</a></li>
+        <li><a href="#">계좌관리</a></li>
+        <li><a href="#">배송지관리</a></li>
+    </ul>
+</div>
+</body>
+</html>
