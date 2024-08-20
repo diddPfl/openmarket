@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Member</title>
-    <link rel="stylesheet" type="text/css" href="/css/loginheader.css">
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
     <style>
         /* Styles for the create member form */
         .form-container {
@@ -62,7 +62,7 @@
 </head>
 <body>
 <!-- Include the header here -->
-<div th:replace="fragments/header :: header"></div>
+<div th:insert="fragments/header :: header-fragment"></div>
 
 <!-- Create Member form -->
 <div class="form-container">
