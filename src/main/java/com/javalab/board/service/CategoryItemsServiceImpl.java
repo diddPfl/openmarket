@@ -14,12 +14,12 @@ public class CategoryItemsServiceImpl implements CategoryItemsService {
 	private final CategoryItemsMapper categoryItemsMapper;
 
 	@Override
-	public List<Item> getItemsByGubunSubCode(String gubunSubCode) {
+	public List<Item> selectItemsByGubunSubCode(String gubunSubCode) {
 		return categoryItemsMapper.selectItemsByGubunSubCode(gubunSubCode);
 	}
 
 	@Override
-	public List<Item> getItemsByCategoryId(Long categoryId) {
+	public List<Item> selectItemsByCategoryId(Long categoryId) {
 		return categoryItemsMapper.selectItemsByCategoryId(categoryId);
 	}
 }

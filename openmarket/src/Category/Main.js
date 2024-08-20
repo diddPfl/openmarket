@@ -50,7 +50,8 @@ const MainPage = () => {
 
   // 이미지 URL 생성 함수
   const getImageUrl = (fileName) => {
-    return `/Library/filetest/upload/${fileName}`;
+    const encodedFileName = encodeURIComponent(fileName);
+    return `http://localhost:9000/view/${encodedFileName}`;
   };
 
   if (isLoading) return <div>로딩 중입니다. 잠시만 기다려 주세요...</div>;
