@@ -1,12 +1,10 @@
 package com.javalab.board.controller;
 
 import lombok.extern.log4j.Log4j2;
-import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +13,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 업로드 레스트 컨트롤러
@@ -93,7 +92,7 @@ public class UpDownController {
      *         .body("Hello World"); // 본문 설정
      */
     @GetMapping("/view/{fileName}")
-    public ResponseEntity<Resource> viewFileGET(@PathVariable String fileName) {
+    public ResponseEntity<Resource> viewFileGET(@PathVariable("fileName") String fileName) {
         Path filePath = Paths.get(uploadPath, fileName);
         Resource resource = new FileSystemResource(filePath.toFile());
 
