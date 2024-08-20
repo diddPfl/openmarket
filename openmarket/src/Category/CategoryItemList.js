@@ -22,6 +22,10 @@ const CategoryItemList = () => {
         } else {
           throw new Error('카테고리 ID 또는 구분 서브 코드가 필요합니다.');
         }
+
+        // 응답 데이터를 콘솔에 출력
+        console.log('받은 아이템:', response.data);
+
         setItems(response.data);
       } catch (error) {
         console.error('아이템 가져오기 오류:', error);
@@ -39,7 +43,7 @@ const CategoryItemList = () => {
   };
 
   const getImageUrl = (image) => {
-    return `http://localhost:9000/view/${image.fileName}`; // 실제 서버 URL과 경로로 수정 필요
+    return `http://localhost:9000/view/${image.fileName}`;
   };
 
   if (isLoading) return <div className="loading">로딩 중...</div>;
