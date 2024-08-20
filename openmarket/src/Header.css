@@ -1,6 +1,7 @@
 body {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 .header-container {
@@ -10,6 +11,7 @@ body {
     background-color: white;
     z-index: 1000;
     transition: box-shadow 0.3s ease;
+    height: 100px;
 }
 
 .header-container.scrolled {
@@ -22,15 +24,16 @@ body {
     margin: 0 auto;
     height: 100px;
     display: flex;
-    flex-direction: column; /* 세로 방향으로 정렬 */
+    flex-direction: column;
     padding: 0 20px;
+    box-sizing: border-box;
 }
 
 .top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100px; /* 헤더 상단 바 높이 설정 */
+    height: 100px; /* 헤더 상단 바의 높이를 설정 */
 }
 
 .logo {
@@ -44,6 +47,8 @@ nav ul {
     list-style-type: none;
     display: flex;
     gap: 1rem;
+    margin: 0; /* 기본 margin 제거 */
+    padding: 0; /* 기본 padding 제거 */
 }
 
 nav ul li a {
@@ -69,18 +74,17 @@ nav ul li a {
 
 .category-and-support {
     display: flex;
-    justify-content: space-between; /* 카테고리와 고객센터를 양쪽 끝으로 정렬 */
-    align-items: center; /* 수직 중앙 정렬 */
-    margin-top: 10px; /* 헤더의 아래쪽에 약간의 간격 추가 */
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
 }
 
 .support-link {
     text-decoration: none;
-    color: #333; /* 고객센터 링크 색상 */
+    color: #333;
     font-size: 0.9rem;
 }
 
-/* CategoryList 스타일 */
 .category-list-container {
     display: flex;
     justify-content: flex-start;

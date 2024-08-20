@@ -1,7 +1,7 @@
 .category-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch; /* 아이템을 동일한 높이로 설정 */
 }
 
 .menu-bar {
@@ -12,19 +12,70 @@
 .menu-item {
   cursor: pointer;
   margin-right: 10px;
-  padding: 5px 0;
+  font-size: 16px;
+  color: #333; /* 기본 텍스트 색상 */
   transition: color 0.3s;
+  padding: 0;
+  border: none;
 }
 
-.main-categories,
-.sub-categories {
-  cursor: pointer;
+.menu-item:hover {
+  color: #007BFF; /* 호버 시 텍스트 색상 변경 */
+}
+
+.active-menu {
+  font-weight: bold;
+  color: #007BFF;
+  background-color: transparent;
+}
+
+.category-display {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.main-categories {
   display: flex;
   flex-direction: column;
   margin-right: 20px;
 }
 
+.category-item {
+  cursor: pointer;
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: #333;
+  transition: color 0.3s;
+  padding: 0;
+  border: none;
+}
+
+.category-item:hover {
+  color: #007BFF;
+}
+
 .active-category {
   font-weight: bold;
-  color: #333;
+  color: #007BFF;
+  background-color: transparent;
+}
+
+.sub-categories {
+  display: flex;
+  flex-direction: column;
+}
+
+.sub-category-item {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.3s;
+  padding: 0;
+  border: none;
+}
+
+.sub-category-item:hover {
+  color: #007BFF;
 }
