@@ -3,12 +3,12 @@ import Header from "./Header";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ItemDetail from "./ItemDetail";
 import CategoryItemList from './Category/CategoryItemList';
-import MainPage from './Category/Main';
+import MainPage from './Main';
 import CategoryList from './Category/CategoryList';
 
 function App() {
   return (
-    <Router>햣
+    <Router>
       <div className="App">
         <Header />
         <Routes>

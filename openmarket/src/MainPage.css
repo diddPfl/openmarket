@@ -1,0 +1,105 @@
+.main-page-container {
+  padding-top: 120px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.main-page-image-container {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.main-page-image-container img {
+  width: 100%;
+  height: auto;
+}
+
+.main-page-items-section {
+  margin-bottom: 40px;
+}
+
+.main-page-section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.main-page-section-header h2 {
+  margin: 0;
+  margin-right: 10px;
+}
+
+.main-page-view-all-button {
+  background-color: transparent;
+  color: #333;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+
+.main-page-view-all-button:hover {
+  color: #555;
+}
+
+.main-page-items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.main-page-item {
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: left;
+  flex: 0 0 calc(20% - 10px);
+}
+
+.main-page-item img {
+  max-width: 100%;
+  height: auto;
+}
+
+.brand-and-icons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.main-page-item-brand {
+  font-size: 0.85em;
+  padding-bottom: 5px;
+  color: #555;
+}
+
+.icon-container {
+  display: flex;
+  gap: 10px;
+}
+
+.icon {
+  font-size: 1em;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.3s;
+}
+
+.icon:hover {
+  color: #ff4081;
+}
+
+.main-page-item-name {
+  font-size: 1em;
+  font-weight: normal;
+  margin-bottom: 3px;
+}
+
+.main-page-item-price {
+  font-weight: bold;
+}

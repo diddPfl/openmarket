@@ -58,28 +58,35 @@ const MainPage = () => {
   if (error) return <div>오류: {error}</div>;
 
   return (
-    <div className="main-page">
-      <div className="image-container">
+    <div className="main-page-container">
+      <div className="main-page-image-container">
         <img src="/Library/filetest/upload/main-img.jpg" alt="메인 이미지" />
       </div>
 
       {menuItems.map((menuItem) => (
         menuItem.type !== 'allCategories' && (
-          <div className="items-section" key={menuItem.type}>
-            <div className="section-header">
+          <div className="main-page-items-section" key={menuItem.type}>
+            <div className="main-page-section-header">
               <h2>{menuItem.name}</h2>
-              <button className="view-all-button" onClick={() => handleViewAllClick(menuItem.gubunSubCode)}>
+              <button className="main-page-view-all-button" onClick={() => handleViewAllClick(menuItem.gubunSubCode)}>
                 전체보기 &gt;
               </button>
             </div>
-            <div className="items">
-              {Array.isArray(items[menuItem.type]) && items[menuItem.type].map((item) => (
-                <div key={item.itemId} className="item" onClick={() => handleItemClick(item.itemId)}>
-                  <h3>{item.itemName}</h3>
-                  <p>가격: {item.price}원</p>
+            <div className="main-page-items">
+              {Array.isArray(items[menuItem.type]) && items[menuItem.type].slice(0, 5).map((item) => (
+                <div key={item.itemId} className="main-page-item" onClick={() => handleItemClick(item.itemId)}>
                   {item.images && item.images[0] && (
                     <img src={getImageUrl(item.images[0].fileName)} alt={item.itemName} />
                   )}
+                  <div className="brand-and-icons">
+                    {item.brand && <p className="main-page-item-brand">{item.brand}</p>}
+                    <div className="icon-container">
+                      <i className="fas fa-heart icon" title="좋아요"></i>
+                      <i className="fas fa-shopping-cart icon" title="장바구니"></i>
+                    </div>
+                  </div>
+                  <h3 className="main-page-item-name">{item.itemName}</h3>
+                  <p className="main-page-item-price">{item.price.toLocaleString()}원</p>
                 </div>
               ))}
             </div>
