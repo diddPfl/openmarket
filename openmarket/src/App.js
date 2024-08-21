@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "./Header";
+import Footer from "./Footer";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ItemDetail from "./ItemDetail";
 import CategoryItemList from './Category/CategoryItemList';
@@ -18,6 +19,7 @@ function App() {
           <Route path="/categoryitems/gubun/:gubunSubCode" element={<CategoryItemList />} />
           <Route path="/item/:id" element={<ItemDetail />} />
         </Routes>
+        <Footer />
       </div>
     </Router>
   );

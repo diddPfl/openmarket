@@ -60,7 +60,7 @@ const MainPage = () => {
   return (
     <div className="main-page-container">
       <div className="main-page-image-container">
-        <img src="/Library/filetest/upload/main-img.jpg" alt="메인 이미지" />
+        <img src="../image/main1.jpg" alt="메인 이미지" />
       </div>
 
       {menuItems.map((menuItem) => (
