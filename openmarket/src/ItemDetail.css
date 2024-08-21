@@ -22,6 +22,7 @@ body {
 
 .item-container {
     display: flex;
+    height: 560px;
 }
 
 .slider-container {
@@ -35,6 +36,16 @@ body {
 
 .item-info {
     flex: 1;
+    padding: 0;
+    margin-left: 60px;
+    overflow-y: auto;
+    height: 100%;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.item-info::-webkit-scrollbar {
+    display: none;
 }
 
 .img-box {
@@ -80,12 +91,6 @@ body {
 
 .slider-container i.fa-angle-right {
     right: 10px;
-}
-
-.item-info {
-    flex: 1;
-    padding: 0;
-    margin-left: 60px;
 }
 
 .item-info p, .item-info h1, .item-info h2 {
@@ -261,12 +266,19 @@ hr {
 
     .item-container {
         flex-direction: column;
+        height: auto;
     }
 
     .slider-container,
     .item-info {
         width: 100%;
         margin: 0;
+    }
+
+    .item-info {
+        height: auto;
+        max-height: 500px;
+        margin-top: 20px;
     }
 
     .item-detail-info {
