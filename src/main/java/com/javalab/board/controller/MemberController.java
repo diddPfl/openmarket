@@ -3,17 +3,17 @@ package com.javalab.board.controller;
 import com.javalab.board.vo.Member;
 import com.javalab.board.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Optional;
 
-@Controller
-@RequestMapping("/member")
+@RestController
+@RequestMapping("/api/members")
 @Slf4j
 public class MemberController {
 
@@ -23,29 +23,27 @@ public class MemberController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/create")
-    public String createMemberForm(Model model) {
-        log.info("Accessing the member creation form.");
-        model.addAttribute("member", new Member());
-        return "createmember";
-    }
-
-    @PostMapping("/create")
-    public String createMember(@ModelAttribute Member member, Model model) {
-        member.setPassword(passwordEncoder.encode(member.getPassword()));
-        memberService.createMember(member);
-        return "redirect:/member/login";
+    @PostMapping
+    public ResponseEntity<?> createMember(@RequestBody Member member) {
+        try {
+            member.setPassword(passwordEncoder.encode(member.getPassword()));
+            member.setRole("CUSTOMER");
+            Member createdMember = memberService.createMember(member);
+            return new ResponseEntity<>(createdMember, HttpStatus.CREATED);
+        } catch (Exception e) {
+            log.error("Error creating member: ", e);
+            return new ResponseEntity<>("Failed to create account. Please try again.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{memberId}")
-    public String getMember(@PathVariable("memberId") Long memberId, Model model) {
+    public ResponseEntity<?> getMember(@PathVariable("memberId") Long memberId) {
         Optional<Member> memberOpt = memberService.getMemberById(memberId);
         if (memberOpt.isPresent()) {
-            model.addAttribute("member", memberOpt.get());
-            return "mypage";
+            return new ResponseEntity<>(memberOpt.get(), HttpStatus.OK);
         } else {
             log.error("Member not found with ID: {}", memberId);
-            return "redirect:/member/login";
+            return new ResponseEntity<>("Member not found", HttpStatus.NOT_FOUND);
         }
     }
 }

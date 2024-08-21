@@ -1,8 +1,8 @@
 package com.javalab.board.config;
 
 import com.javalab.board.handler.AuthFailureHandler;
-import com.javalab.board.handler.AuthSucessHandler;
 import com.javalab.board.security.MemberService;
+import com.javalab.board.security.handler.CustomSocialLoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -22,9 +22,9 @@ public class SecurityConfig {
 
     private final MemberService memberService;
     private final AuthFailureHandler authFailureHandler;
-    private final AuthenticationSuccessHandler customSocialLoginSuccessHandler;
     private final AccessDeniedHandler accessDeniedHandler;
     private final PasswordEncoder passwordEncoder;
+    private final CustomSocialLoginSuccessHandler customSocialLoginSuccessHandler;
 
     @Autowired
     public SecurityConfig(
@@ -32,9 +32,7 @@ public class SecurityConfig {
             AuthFailureHandler authFailureHandler,
             AccessDeniedHandler accessDeniedHandler,
             PasswordEncoder passwordEncoder,
-            @Qualifier("customSocialLoginSuccessHandler")
-            AuthenticationSuccessHandler customSocialLoginSuccessHandler) {
-
+            CustomSocialLoginSuccessHandler customSocialLoginSuccessHandler) {
         this.memberService = memberService;
         this.authFailureHandler = authFailureHandler;
         this.accessDeniedHandler = accessDeniedHandler;
@@ -48,57 +46,53 @@ public class SecurityConfig {
         auth.userDetailsService(memberService).passwordEncoder(passwordEncoder);
 
         http
+                .csrf(csrf -> csrf.disable())  // Disable CSRF for API requests
                 .formLogin(formLogin -> formLogin
-                        .loginPage("/member/login")
-                        .loginProcessingUrl("/member/login")
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
                         .usernameParameter("email")
                         .passwordParameter("password")
-                        .successHandler(customSocialLoginSuccessHandler)
+                        .successHandler(customSocialLoginSuccessHandler)  // Use custom success handler
                         .failureHandler(authFailureHandler)
+                        .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-                        .logoutSuccessUrl("/member/login")
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessUrl("/login")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                         .permitAll()
                 )
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/mypage/cart", "/mypage/cart/**").permitAll()
-                        .requestMatchers("/mypage/**").permitAll()
-                        .requestMatchers("/mypage/reviews").permitAll()
-                        .requestMatchers("/order/**").permitAll()
+                        .requestMatchers("/api/members", "/api/login", "/api/logout", "/login", "/signup").permitAll()
                         .requestMatchers("/", "/css/**", "/js/**", "/images/**", "/fonts/**", "/ckeditor2/**", "/vendor/**").permitAll()
                         .requestMatchers("/view/**", "/emp/**").permitAll()
-                        //.requestMatchers("/member/login", "/member/join/**", "/login").permitAll()
-                        .requestMatchers("/member/login", "/login").permitAll()
-                        .requestMatchers("/member/create").permitAll()  // Allow unauthenticated access to the member creation page
-                        .requestMatchers("/member/modify").hasRole("USER")
+                        .requestMatchers("/", "/{path:[^\\.]*}").permitAll()
                         .requestMatchers("/board/**").permitAll()
                         .requestMatchers("/item/view/**", "/item/list/**", "/item/read/**").permitAll()
-                        .requestMatchers("/mypage").permitAll()
+                        .requestMatchers("/mypage/**", "/mypage/cart/**", "/mypage/reviews", "/order/**").permitAll()
+                        .requestMatchers("/member/modify").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/item/register/**", "/item/modify/**", "/item/remove/**").hasRole("ADMIN")
-                        .requestMatchers("/cart/**", "cartItem/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/cart/**", "/cartItem/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/track/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
-                ) // 아이디 기억 관련 설정
+                )
                 .rememberMe(rememberMe -> rememberMe
-                        .userDetailsService(memberService)  // Set UserDetailsService for remember-me
+                        .userDetailsService(memberService)
                         .alwaysRemember(false)
                         .tokenValiditySeconds(43200)
                         .rememberMeParameter("remember-me")
-                ) // 권한 없는 페이지 요청 처리
+                )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .accessDeniedHandler(accessDeniedHandler)
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
-                        .loginPage("/member/login")
-                        .successHandler(customSocialLoginSuccessHandler)
+                        .loginPage("/login")
+                        .successHandler(customSocialLoginSuccessHandler)  // Use custom success handler
                 );
 
         http.authenticationManager(auth.build());
         return http.build();
     }
-
 }

@@ -6,9 +6,16 @@ import CategoryItemList from './Category/CategoryItemList';
 import MainPage from './Category/Main';
 import CategoryList from './Category/CategoryList';
 
+//login
+import LoginComponent from './Components/LoginComponent';
+import LogoutComponent from './Components/LogoutComponent';
+import CreateMemberComponent from './Components/CreateMemberComponent'; // Import the CreateMemberComponent
+// import MyPageComponent from './components/MyPageComponent';  // Commented out
+// import AdminBoardComponent from './components/AdminBoardComponent';  // Commented out
+
 function App() {
   return (
-    <Router>햣
+    <Router>
       <div className="App">
         <Header />
         <Routes>
@@ -17,6 +24,14 @@ function App() {
           <Route path="/categoryitems/category/:categoryId" element={<CategoryItemList />} />
           <Route path="/categoryitems/gubun/:gubunSubCode" element={<CategoryItemList />} />
           <Route path="/item/:id" element={<ItemDetail />} />
+
+          {/* New login-related routes */}
+          <Route path="/login" element={<LoginComponent />} />
+          <Route path="/logout" element={<LogoutComponent />} />
+           <Route path="/signup" element={<CreateMemberComponent />} /> {/* Updated route */}
+          {/* Commented out routes for components that don't exist yet */}
+          {/* <Route path="/mypage" element={<MyPageComponent />} /> */}
+          {/* <Route path="/board/admin" element={<AdminBoardComponent />} /> */}
         </Routes>
       </div>
     </Router>
