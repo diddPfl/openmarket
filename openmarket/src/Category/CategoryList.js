@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import CategoryItemList from './CategoryItemList';
+import { useNavigate } from 'react-router-dom';
 import './CategoryList.css';
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
-  const [activeMenu, setActiveMenu] = useState(null);
   const [activeCategory, setActiveCategory] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isCategoryListVisible, setIsCategoryListVisible] = useState(false);
+  const navigate = useNavigate();
 
   const menuItems = [
-    { type: 'allCategories', name: '전체카테고리', gubunSubCode: 'ITGU01' },
+    { type: 'allCategories', name: '카테고리', gubunSubCode: 'ITGU01' },
     { type: 'popular', name: '인기', gubunSubCode: 'ITGU02' },
     { type: 'new', name: '신상품', gubunSubCode: 'ITGU03' },
     { type: 'specialPrice', name: '특가', gubunSubCode: 'ITGU04' },
@@ -23,7 +24,14 @@ const CategoryList = () => {
       setIsLoading(true);
       try {
         const response = await axios.get('/api/category/list');
-        setCategories(response.data);
+
+        // 응답 데이터가 배열인지 확인
+        if (Array.isArray(response.data)) {
+          setCategories(response.data);
+        } else {
+          setCategories([]); // 배열이 아닐 경우 빈 배열로 설정
+          console.error('API 응답이 배열이 아닙니다:', response.data);
+        }
       } catch (error) {
         console.error('카테고리 가져오기 오류:', error);
         setError('카테고리 가져오기 실패');
@@ -34,13 +42,12 @@ const CategoryList = () => {
     fetchCategories();
   }, []);
 
-  const handleMenuClick = (menuType) => {
-    if (activeMenu === menuType) {
-      setActiveMenu(null);
+  const handleMenuClick = (gubunSubCode) => {
+    if (gubunSubCode === 'ITGU01') {
+      setIsCategoryListVisible((prev) => !prev);
     } else {
-      setActiveMenu(menuType);
-      setActiveCategory(null);
-      setSubCategories([]);
+      setIsCategoryListVisible(false); // Close category list before navigating
+      navigate(`/categoryitems/gubun/${gubunSubCode}`);
     }
   };
 
@@ -59,6 +66,11 @@ const CategoryList = () => {
     }
   };
 
+  const handleSubCategoryClick = (categoryId) => {
+    setIsCategoryListVisible(false); // Close category list before navigating
+    navigate(`/categoryitems/category/${categoryId}`);
+  };
+
   if (isLoading) return <div>로딩 중...</div>;
   if (error) return <div>오류: {error}</div>;
 
@@ -68,41 +80,39 @@ const CategoryList = () => {
         {menuItems.map((item) => (
           <div
             key={item.type}
-            className={`menu-item ${activeMenu === item.type ? 'active-menu' : ''}`}
-            onClick={() => handleMenuClick(item.type)}
+            className="menu-item"
+            onClick={() => handleMenuClick(item.gubunSubCode)}
           >
             {item.name}
           </div>
         ))}
       </div>
-      {activeMenu && (
+      {isCategoryListVisible && (
         <div className="category-display">
-          {activeMenu === 'allCategories' && (
-            <div className="main-categories">
-              {categories.map((category) => (
-                <div
-                  key={category.categoryId}
-                  className={`category-item ${activeCategory === category.categoryId ? 'active-category' : ''}`}
-                  onClick={() => handleCategoryClick(category.categoryId)}
-                >
-                  {category.categoryName}
-                </div>
-              ))}
-            </div>
-          )}
+          <div className="main-categories">
+            {Array.isArray(categories) && categories.map((category) => (
+              <div
+                key={category.categoryId}
+                className={`category-item ${activeCategory === category.categoryId ? 'active-category' : ''}`}
+                onClick={() => handleCategoryClick(category.categoryId)}
+              >
+                {category.categoryName}
+              </div>
+            ))}
+          </div>
           {activeCategory && (
             <div className="sub-categories">
               {subCategories.map((subCategory) => (
-                <div key={subCategory.categoryId} className="sub-category-item">
+                <div
+                  key={subCategory.categoryId}
+                  className="sub-category-item"
+                  onClick={() => handleSubCategoryClick(subCategory.categoryId)}
+                >
                   {subCategory.categoryName}
                 </div>
               ))}
             </div>
           )}
-          <CategoryItemList
-            gubunSubCode={menuItems.find(item => item.type === activeMenu)?.gubunSubCode}
-            categoryId={activeCategory}
-          />
         </div>
       )}
     </div>

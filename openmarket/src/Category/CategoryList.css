@@ -1,8 +1,7 @@
-/* CategoryList.css */
 .category-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch; /* 아이템을 동일한 높이로 설정 */
 }
 
 .menu-bar {
@@ -13,19 +12,21 @@
 .menu-item {
   cursor: pointer;
   margin-right: 10px;
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  transition: background-color 0.3s;
+  font-size: 16px;
+  color: #333; /* 기본 텍스트 색상 */
+  transition: color 0.3s;
+  padding: 0;
+  border: none;
 }
 
 .menu-item:hover {
-  background-color: #f0f0f0;
+  color: #007BFF; /* 호버 시 텍스트 색상 변경 */
 }
 
 .active-menu {
   font-weight: bold;
-  background-color: #e0e0e0;
+  color: #007BFF;
+  background-color: transparent;
 }
 
 .category-display {
@@ -43,19 +44,21 @@
 .category-item {
   cursor: pointer;
   margin-bottom: 5px;
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  transition: background-color 0.3s;
+  font-size: 16px;
+  color: #333;
+  transition: color 0.3s;
+  padding: 0;
+  border: none;
 }
 
 .category-item:hover {
-  background-color: #f0f0f0;
+  color: #007BFF;
 }
 
 .active-category {
   font-weight: bold;
-  background-color: #e0e0e0;
+  color: #007BFF;
+  background-color: transparent;
 }
 
 .sub-categories {
@@ -65,7 +68,14 @@
 
 .sub-category-item {
   margin-bottom: 5px;
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.3s;
+  padding: 0;
+  border: none;
+}
+
+.sub-category-item:hover {
+  color: #007BFF;
 }

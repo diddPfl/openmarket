@@ -1,29 +1,30 @@
-//package com.javalab.board.security.handler;
 //
-//import lombok.extern.log4j.Log4j2;
-//import org.springframework.security.core.context.SecurityContextHolder;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.web.bind.annotation.GetMapping;
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
 //
-///**
-// * 접근 권한이 없을 경우 처리 컨트롤러
-// *  - 시큐리티 환경설정 파일에 설정됨.
-// *    http.exceptionHandling().accessDeniedPage("/access-denied");
-// */
-//@Controller
-//@Log4j2
-//public class ErrorController {
-//
-//    @GetMapping("/access-denied")
-//    public String accessDenied(Model model) {
-//
-//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//        model.addAttribute("username", username);
-//        model.addAttribute("error", "해당 페이지에 접근 권한이 없습니다.");
-//
-//        log.info("accessDenied username : " + username);
-//
-//        return "error/access-denied";
-//    }
-//}
+
+package com.javalab.board.security.handler;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class ErrorController {
+    private static final Logger log = LogManager.getLogger(ErrorController.class);
+
+    public ErrorController() {
+    }
+
+    @GetMapping({"/access-denied"})
+    public String accessDenied(Model model) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        model.addAttribute("username", username);
+        model.addAttribute("error", "�빐�떦 �럹�씠吏��뿉 �젒洹� 沅뚰븳�씠 �뾾�뒿�땲�떎.");
+        log.info("accessDenied username : " + username);
+        return "error/access-denied";
+    }
+}

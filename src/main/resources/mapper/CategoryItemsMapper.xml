@@ -2,11 +2,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.javalab.board.repository.CategoryItemsMapper">
-	<select id="selectItemsByGubunSubCode" resultType="Item">
-		SELECT * FROM Item WHERE gubun_sub_code = #{gubunSubCode}
+
+	<resultMap id="itemResultMap" type="com.javalab.board.vo.Item">
+		<id property="itemId" column="item_id"/>
+		<result property="categoryId" column="category_id"/>
+		<result property="categoryName" column="category_name"/>
+		<result property="itemName" column="item_name"/>
+		<result property="itemDetail" column="item_detail"/>
+		<result property="price" column="price"/>
+		<result property="regdate" column="regdate"/>
+		<result property="gubunSubCode" column="gubun_sub_code"/>
+		<result property="stockNumber" column="stock_number"/>
+		<result property="itemSellStatus" column="item_sell_status" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+		<result property="brand" column="brand"/>
+		<collection property="images" ofType="com.javalab.board.vo.ItemImage">
+			<result property="uuid" column="uuid"/>
+			<result property="fileName" column="file_name"/>
+			<result property="itemId" column="item_id"/>
+		</collection>
+	</resultMap>
+
+	<select id="selectItemsByGubunSubCode" parameterType="String" resultMap="itemResultMap">
+		SELECT i.*, img.uuid, img.file_name
+		FROM item i
+		LEFT JOIN item_image img ON i.item_id = img.item_id
+		WHERE i.gubun_sub_code = #{gubunSubCode}
 	</select>
 
-	<select id="selectItemsByCategoryId" resultType="Item">
-		SELECT * FROM Item WHERE category_id = #{categoryId}
+	<select id="selectItemsByCategoryId" parameterType="Long" resultMap="itemResultMap">
+		SELECT i.*, img.uuid, img.file_name
+		FROM item i
+		LEFT JOIN item_image img ON i.item_id = img.item_id
+		WHERE i.category_id = #{categoryId}
 	</select>
+
+	<select id="selectItemById" parameterType="Long" resultMap="itemResultMap">
+		SELECT i.*, img.uuid, img.file_name
+		FROM item i
+		LEFT JOIN item_image img ON i.item_id = img.item_id
+		WHERE i.item_id = #{itemId}
+	</select>
+
 </mapper>

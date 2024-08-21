@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javalab.board.repository.MemberRepository">
+
+    <resultMap id="memberResultMap" type="com.javalab.board.vo.Member">
+        <id property="memberId" column="member_id"/>
+        <result property="regdate" column="regdate"/>
+        <result property="name" column="name"/>
+        <result property="email" column="email"/>
+        <result property="password" column="password"/>
+        <result property="address" column="address"/>
+        <result property="del" column="del"/>
+        <result property="social" column="social"/>
+        <result property="role" column="role"/>
+        <result property="approvedAt" column="approved_at"/>
+    </resultMap>
+
+    <insert id="save" parameterType="com.javalab.board.vo.Member">
+        INSERT INTO member (name, email, password, address, del, role, social, approved_at)
+        VALUES (
+        #{name},
+        #{email},
+        #{password},
+        #{address,jdbcType=VARCHAR},
+        COALESCE(#{del}, false),
+        #{role},
+        COALESCE(#{social}, false),
+        #{approvedAt,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <select id="findById" parameterType="long" resultMap="memberResultMap">
+        SELECT * FROM member WHERE member_id = #{memberId}
+    </select>
+
+    <select id="findByEmail" parameterType="string" resultMap="memberResultMap">
+        SELECT * FROM member WHERE email = #{email}
+    </select>
+
+    <update id="update" parameterType="com.javalab.board.vo.Member">
+        UPDATE member
+        SET name = #{name},
+        email = #{email},
+        password = #{password},
+        address = #{address,jdbcType=VARCHAR},
+        del = #{del},
+        role = #{role},
+        social = #{social},
+        approved_at = #{approvedAt,jdbcType=TIMESTAMP}
+        WHERE member_id = #{memberId}
+    </update>
+
+    <update id="updatePasswordAndSocial">
+        UPDATE member
+        SET password = #{password}, social = true
+        WHERE email = #{email}
+    </update>
+
+    <select id="findAll" resultMap="memberResultMap">
+        SELECT * FROM member
+    </select>
+
+</mapper>

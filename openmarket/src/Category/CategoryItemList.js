@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './CategoryList.css'; // 스타일 파일을 기존 CategoryList.css로 사용
+import { useNavigate, useParams } from 'react-router-dom';
+import './CategoryItemList.css';
 
-const CategoryItemList = ({ categoryId, gubunSubCode }) => {
+const CategoryItemList = () => {
   const [items, setItems] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+  const { categoryId, gubunSubCode } = useParams();
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -19,7 +22,17 @@ const CategoryItemList = ({ categoryId, gubunSubCode }) => {
         } else {
           throw new Error('카테고리 ID 또는 구분 서브 코드가 필요합니다.');
         }
-        setItems(response.data);
+
+        // 응답 데이터를 콘솔에 출력
+        console.log('받은 아이템:', response.data);
+
+        // 응답 데이터가 배열인지 확인
+        if (Array.isArray(response.data)) {
+          setItems(response.data);
+        } else {
+          setItems([]); // 배열이 아닐 경우 빈 배열로 설정
+          console.error('API 응답이 배열이 아닙니다:', response.data);
+        }
       } catch (error) {
         console.error('아이템 가져오기 오류:', error);
         setError('아이템 가져오기 실패');
@@ -28,24 +41,44 @@ const CategoryItemList = ({ categoryId, gubunSubCode }) => {
       }
     };
 
-    if (categoryId || gubunSubCode) {
-      fetchItems();
-    }
+    fetchItems();
   }, [categoryId, gubunSubCode]);
 
-  if (isLoading) return <div>로딩 중...</div>;
-  if (error) return <div>오류: {error}</div>;
-  if (items.length === 0) return <div>해당 카테고리의 상품이 없습니다.</div>;
+  const handleItemClick = (itemId) => {
+    navigate(`/item/${itemId}`);
+  };
+
+  const getImageUrl = (image) => {
+    return `http://localhost:9000/view/${image.fileName}`;
+  };
+
+  if (isLoading) return <div className="loading">로딩 중...</div>;
+  if (error) return <div className="error">오류: {error}</div>;
+  if (items.length === 0) return <div className="no-items">해당 카테고리의 상품이 없습니다.</div>;
 
   return (
     <div className="items">
       {items.map((item) => (
-        <div key={item.itemId} className="item">
+        <div
+          key={item.itemId}
+          className="item"
+          onClick={() => handleItemClick(item.itemId)}
+          role="button"
+          tabIndex={0}
+        >
           <h3>{item.itemName}</h3>
           <p>{item.itemDetail}</p>
-          <p>가격: {item.price}원</p>
-          <p>상태: {item.itemSellStatus}</p>
+          <p>가격: {item.price.toLocaleString()}원</p>
           {item.brand && <p>브랜드: {item.brand}</p>}
+          <div className="img-box">
+            {item.images && item.images.map((image) => (
+              <img
+                key={image.uuid}
+                src={getImageUrl(image)}
+                alt={`아이템 이미지 - ${item.itemName}`}
+              />
+            ))}
+          </div>
         </div>
       ))}
     </div>

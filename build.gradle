@@ -28,6 +28,18 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+
+    //security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.2.1'
+    implementation 'org.modelmapper:modelmapper:3.0.0'
+    implementation 'org.hibernate:hibernate-validator:6.2.1.Final'
+    implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
+    implementation 'net.coobird:thumbnailator:0.4.16'
+    implementation 'org.springframework.security:spring-security-crypto:6.1.2'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     compileOnly 'org.projectlombok:lombok'
@@ -59,6 +71,9 @@ dependencies {
     // Thumbnail
     implementation 'net.coobird:thumbnailator:0.4.16'
 
+    implementation 'org.springframework.security:spring-security-crypto:6.1.2'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
 //    // 스프링 시큐리티
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
 //    // 타임리프에서 시큐리티 사용
@@ -73,3 +88,5 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+
