@@ -17,11 +17,6 @@ public class SecurityBeansConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean(name = "customSocialLoginSuccessHandler")
-    public AuthenticationSuccessHandler customSocialLoginSuccessHandler() {
-        return new CustomSocialLoginSuccessHandler();
-    }
-
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
         return new CustomAccessDeniedHandler();

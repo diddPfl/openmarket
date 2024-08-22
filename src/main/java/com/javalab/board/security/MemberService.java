@@ -32,10 +32,13 @@ public class MemberService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("Attempting to load user: " + username);
         Member member = memberRepository.findByEmail(username);
         if (member == null) {
+            System.out.println("No member found with email: " + username);
             throw new UsernameNotFoundException("No member found with email: " + username);
         }
+        System.out.println("Member found: " + member);
 
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_" + member.getRole().name()));

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Page</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        .sidebar {
+            width: 300px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-right: 1px solid #000;
+            box-sizing: border-box;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+        .sidebar .text-logo {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #000;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar li {
+            margin-bottom: 20px;
+        }
+        .sidebar a {
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            color: #000;
+        }
+        .sidebar hr {
+            margin: 20px 0;
+            border: 1px solid #000;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            box-sizing: border-box;
+            margin-left: 320px;
+            width: calc(100% - 340px);
+        }
+        .main-content h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #000;
+        }
+        .status-box {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            border: 1px solid #000;
+            padding: 10px 0;
+            box-sizing: border-box;
+            background-color: #ffffff;
+        }
+        .status-box div {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            font-size: 16px;
+            color: #000;
+        }
+        .status-box div:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            height: 50%;
+            width: 1px;
+            background-color: #000;
+        }
+        .status-box span {
+            display: block;
+            font-size: 18px;
+            margin-top: 5px;
+            font-weight: bold;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+<div th:insert="~{fragments/header :: header-fragment}"></div>
+<div class="container">
+    <div class="sidebar">
+        <div class="text-logo">
+            마이페이지
+        </div>
+        <ul>
+            <li><a href="#">주문/배송조회</a></li>
+            <li><a th:href="@{/mypage/cart}">장바구니</a></li>
+            <li><a href="#">좋아요</a></li>
+            <li><a th:href="@{/mypage/reviews}">리뷰</a></li>
+            <hr>
+            <li><a href="#">정보수정</a></li>
+            <li><a href="#">계좌관리</a></li>
+            <li><a href="#">배송지관리</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <h1 th:text="${name} + ' 님'">이름 님</h1>
+        <div class="status-box">
+            <div>주문접수 <span th:text="${orderStatus.received}">0</span></div>
+            <div>상품준비중 <span th:text="${orderStatus.preparing}">0</span></div>
+            <div>배송중 <span th:text="${orderStatus.shipping}">0</span></div>
+            <div>배송완료 <span th:text="${orderStatus.delivered}">0</span></div>
+        </div>
+        <div class="status-box">
+            <div>취소 <span th:text="${orderStatus.cancelled}">0</span></div>
+            <div>교환 <span th:text="${orderStatus.exchanged}">0</span></div>
+            <div>반품 <span th:text="${orderStatus.returned}">0</span></div>
+            <div>구매확정 <span th:text="${orderStatus.confirmed}">0</span></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+.container {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.sidebar {
+  width: 300px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-right: 1px solid #000;
+  box-sizing: border-box;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.text-logo {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #000;
+}
+
+.nav-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  margin-bottom: 20px;
+}
+
+.nav-item a {
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+}
+
+.hr {
+  margin: 20px 0;
+  border: 1px solid #000;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  box-sizing: border-box;
+  margin-left: 320px;
+  width: calc(100% - 340px);
+}
+
+.h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #000;
+}
+
+.status-box {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  border: 1px solid #000;
+  padding: 10px 0;
+  box-sizing: border-box;
+  background-color: #ffffff;
+}
+
+.status-item {
+  flex: 1;
+  text-align: center;
+  position: relative;
+  font-size: 16px;
+  color: #000;
+}
+
+.status-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  height: 50%;
+  width: 1px;
+  background-color: #000;
+}
+
+.status-item span {
+  display: block;
+  font-size: 18px;
+  margin-top: 5px;
+  font-weight: bold;
+  color: #000;
+}

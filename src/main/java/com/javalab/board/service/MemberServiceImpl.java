@@ -23,7 +23,7 @@ public class MemberServiceImpl implements MemberService {
         this.memberRepository = memberRepository;
     }
 
-    @Override
+    /*@Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Member member = memberRepository.findByEmail(email);
         if (member == null) {
@@ -31,7 +31,7 @@ public class MemberServiceImpl implements MemberService {
         }
         return new User(member.getEmail(), member.getPassword(),
                 Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + member.getRole().name())));
-    }
+    }*/
 
     @Override
     @Transactional

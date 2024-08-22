@@ -1,0 +1,90 @@
+.form-container {
+    width: 320px;
+    margin: 100px auto;
+    padding: 30px 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+.form-container label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.form-container input[type="text"],
+.form-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: #333;
+}
+
+.form-container input[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    background-color: #333;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.form-container input[type="submit"]:hover {
+    background-color: #000;
+}
+
+.form-container .options {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+}
+
+.form-container .options a {
+    color: #333;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color 0.3s;
+}
+
+.form-container .options a:hover {
+    color: #000;
+}
+
+.form-container .options span {
+    color: #ccc;
+}
+
+.form-container .remember-me {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #555;
+}
+
+.form-container .remember-me input[type="checkbox"] {
+    margin-right: 5px;
+    margin-top: 0;
+}
+
+.form-container .remember-me label {
+    margin-top: 2px;
+}
+
+::placeholder {
+    color: #aaa;
+    font-style: italic;
+}
