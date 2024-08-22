@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './MainPage.css';
+import MainImageSlider from './MainImageSlider';
 
 // 메뉴 항목 정의
 const menuItems = [
@@ -59,9 +60,7 @@ const MainPage = () => {
 
   return (
     <div className="main-page-container">
-      <div className="main-page-image-container">
-        <img src="../image/main1.jpg" alt="메인 이미지" />
-      </div>
+      <MainImageSlider />
 
       {menuItems.map((menuItem) => (
         menuItem.type !== 'allCategories' && (

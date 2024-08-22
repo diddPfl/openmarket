@@ -4,19 +4,18 @@ import Footer from "./Footer";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ItemDetail from "./ItemDetail";
 import CategoryItemList from './Category/CategoryItemList';
-import MainPage from './Main';
+import MainPage from './Main/Main';
 import CategoryList from './Category/CategoryList';
 import NoticeList from './Notice/NoticeList';
 import NoticeView from './Notice/NoticeView';
 import NoticeForm from './Notice/NoticeForm';
-import Admin from './Admin/Admin';
+//import Admin from './Admin/Admin';
 
 function App() {
   return (
     <Router>
       <div className="App">
         <Header />
-        <Admin />
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/categories" element={<CategoryList />} />
