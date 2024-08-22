@@ -4,7 +4,7 @@ import com.javalab.board.vo.Member;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.Optional;
 
-public interface MemberService extends UserDetailsService {
+public interface MemberService {
     Member createMember(Member member);
     Optional<Member> getMemberById(Long memberId);
     Member getMemberByEmail(String email);

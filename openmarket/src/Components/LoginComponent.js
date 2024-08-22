@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext'; // AuthContext에서 useAuth 가져오기
 import './LoginComponent.css';
 
 const LoginComponent = () => {
@@ -8,6 +9,7 @@ const LoginComponent = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth(); // useAuth를 통해 login 함수 사용, login 함수는 JWT 토큰을 저장하고 인증 상태를 업데이트하는 역할
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,17 +26,20 @@ const LoginComponent = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(requestBody),
-        credentials: 'include', // Ensure cookies (like session cookies) are sent with the request
+        credentials: 'include',
       });
 
       console.log('Response status:', response.status);
 
       if (response.ok) {
-        const userData = await response.json();
-        console.log('Login successful:', userData);
-        // Save user data to localStorage if needed, or handle it differently
-        localStorage.setItem('user', JSON.stringify(userData));
-        navigate('/'); // Redirect to the home page or wherever needed
+        const jwtToken = response.headers.get('Authorization');
+        const userData = await response.json(); // body에 저장한 사용자 데이터를 받아옴
+        console.log('userData : ', userData);
+
+        if (jwtToken) {
+          login(jwtToken, userData.name);    // login 함수를 통해 JWT 토큰 저장 및 사용자명 전달
+          navigate('/'); // 로그인 성공 시 리다이렉트
+        }
       } else {
         const errorData = await response.text();
         console.error('Login failed:', errorData);

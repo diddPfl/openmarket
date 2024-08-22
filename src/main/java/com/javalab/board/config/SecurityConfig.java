@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -41,21 +42,28 @@ public class SecurityConfig {
     }
 
     @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder auth = http.getSharedObject(AuthenticationManagerBuilder.class);
+        auth.userDetailsService(memberService).passwordEncoder(passwordEncoder);
+        return auth.build();
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder auth = http.getSharedObject(AuthenticationManagerBuilder.class);
         auth.userDetailsService(memberService).passwordEncoder(passwordEncoder);
 
         http
-                .csrf(csrf -> csrf.disable())  // Disable CSRF for API requests
-                .formLogin(formLogin -> formLogin
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))  // Disable CSRF for API requests
+
+                /*.formLogin(formLogin -> formLogin
                         .loginPage("/login")
-                        .loginProcessingUrl("/login")
                         .usernameParameter("email")
                         .passwordParameter("password")
                         .successHandler(customSocialLoginSuccessHandler)  // Use custom success handler
                         .failureHandler(authFailureHandler)
                         .permitAll()
-                )
+                )*/
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/login")
@@ -70,7 +78,9 @@ public class SecurityConfig {
                         .requestMatchers("/", "/{path:[^\\.]*}").permitAll()
                         .requestMatchers("/board/**").permitAll()
                         .requestMatchers("/item/view/**", "/item/list/**", "/item/read/**").permitAll()
+                        .requestMatchers("/api/mypage").authenticated()
                         .requestMatchers("/mypage/**", "/mypage/cart/**", "/mypage/reviews", "/order/**").permitAll()
+                        .requestMatchers("/mypage/cart/payment/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/member/modify").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/item/register/**", "/item/modify/**", "/item/remove/**").hasRole("ADMIN")
                         .requestMatchers("/cart/**", "/cartItem/**").hasAnyRole("USER", "ADMIN")

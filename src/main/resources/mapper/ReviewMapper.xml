@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.javalab.board.repository.ReviewRepository">
+
+    <resultMap id="ReviewImageResultMap" type="com.javalab.board.vo.ReviewImage">
+        <id property="imageId" column="image_id"/>
+        <result property="reviewNo" column="review_no"/>
+        <result property="fileName" column="file_name"/>
+    </resultMap>
+
+    <select id="getReviewImages" resultMap="ReviewImageResultMap">
+        SELECT * FROM review_image WHERE review_no = #{reviewNo}
+    </select>
+
+    <insert id="insertReviewImage" parameterType="com.javalab.board.vo.ReviewImage">
+        INSERT INTO review_image (review_no, file_name)
+        VALUES (#{reviewNo}, #{fileName})
+    </insert>
+
+    <delete id="deleteReviewImage">
+        DELETE FROM review_image WHERE image_id = #{imageId}
+    </delete>
+
+    <select id="getAllReviews" resultType="com.javalab.board.vo.Review">
+        SELECT * FROM reviews
+    </select>
+
+</mapper>

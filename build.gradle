@@ -71,18 +71,23 @@ dependencies {
     // Thumbnail
     implementation 'net.coobird:thumbnailator:0.4.16'
 
-    implementation 'org.springframework.security:spring-security-crypto:6.1.2'
+    // 스프링 시큐리티
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
-//    // 스프링 시큐리티
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
-//    // 타임리프에서 시큐리티 사용
-//    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
-
     // 소셜 로그인
-//    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
+    // JJWT core and API library
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 
+    // JJWT implementation library with Jackson for JSON processing
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+
+    // JJWT implementation library with GSON for JSON processing
+    implementation 'io.jsonwebtoken:jjwt-gson:0.11.5'
+
+    // 이 의존성은? JJWT를 사용할 때 필요한 의존성으로, JJWT에서 제공하는 알고리즘을 사용할 때 필요
+    implementation 'jakarta.annotation:jakarta.annotation-api:2.0.0'
 }
 
 tasks.named('test') {

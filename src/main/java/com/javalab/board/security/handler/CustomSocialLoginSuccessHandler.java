@@ -17,7 +17,7 @@ public class CustomSocialLoginSuccessHandler implements AuthenticationSuccessHan
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        log.info("Social Login Success");
+        log.info("Login Success");
 
         MemberSecurityDTO memberSecurityDTO = (MemberSecurityDTO) authentication.getPrincipal();
 
@@ -27,7 +27,8 @@ public class CustomSocialLoginSuccessHandler implements AuthenticationSuccessHan
         if (memberSecurityDTO.isSocial() && memberSecurityDTO.getPassword().equals("1111")) {
             response.getWriter().write("{\"success\":true,\"redirect\":\"/member/modify?from=social\"}");
         } else {
-            response.getWriter().write("{\"success\":true,\"redirect\":\"/\"}");
+            // Redirect to mypage for successful login
+            response.getWriter().write("{\"success\":true,\"redirect\":\"/mypage\"}");
         }
     }
 }
