@@ -58,7 +58,6 @@ const CategoryItemList = () => {
         response = await axios.get(url);
         console.log('받은 아이템:', response.data);
         if (Array.isArray(response.data)) {
-          // 아이템을 itemId 기준으로 내림차순 정렬
           const sortedItems = response.data.sort((a, b) => b.itemId - a.itemId);
           setItems(sortedItems);
           setFilteredItems(sortedItems);
@@ -97,7 +96,8 @@ const CategoryItemList = () => {
       const max = maxPrice ? parseFloat(maxPrice) : Infinity;
       return price >= min && price <= max && (selectedBrand ? item.brand === selectedBrand : true);
     });
-    setFilteredItems(filtered);
+    const sortedFilteredItems = filtered.sort((a, b) => b.itemId - a.itemId);
+    setFilteredItems(sortedFilteredItems);
     setCurrentPage(1);
   };
 
@@ -137,15 +137,20 @@ const CategoryItemList = () => {
     }
   };
 
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo(0, 0);
+  };
+
   const isFilterSelected = selectedBrand || minPrice || maxPrice;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  console.log('filteredItems length:', filteredItems.length);
+  console.log('itemsPerPage:', itemsPerPage);
+  console.log('currentPage:', currentPage);
 
   if (isLoading) return <div>로딩 중...</div>;
   if (error) return <div>{error}</div>;
@@ -197,33 +202,32 @@ const CategoryItemList = () => {
         </div>
       )}
       <div className="category-display">
-        <div className="main-categories">
-          {currentItems.map((item) => (
-            <div key={item.itemId} className="category-item" onClick={() => handleItemClick(item.itemId)}>
+        {currentItems.map((item) => (
+          <div key={item.itemId} className="category-item" onClick={() => handleItemClick(item.itemId)}>
+            <div className="img-box">
               {item.images && item.images.length > 0 && (
-                <img src={getImageUrl(item.images[0])} alt={item.itemName} className="item-image" />
+                <img src={getImageUrl(item.images[0])} alt={item.itemName} />
               )}
-              <div className="item-info">
-                <div className="brand-and-icons">
-                  <p className="item-brand">{item.brand}</p>
-                  <div className="icon-container">
-                    <i className="fas fa-heart icon" title="좋아요"></i>
-                    <i className="fas fa-shopping-cart icon" title="장바구니"></i>
-                  </div>
-                </div>
-                <h3 className="item-name">{item.itemName}</h3>
-                <p className="item-price">{item.price.toLocaleString()}원</p>
+            </div>
+            <div className="brand-and-icons">
+              <p className="item-brand">{item.brand}</p>
+              <div className="icon-container">
+                <i className="fas fa-heart icon" title="좋아요"></i>
+                <i className="fas fa-shopping-cart icon" title="장바구니"></i>
               </div>
             </div>
-          ))}
-        </div>
+            <h3 className="item-name">{item.itemName}</h3>
+            <p className="item-price">{item.price.toLocaleString()}원</p>
+          </div>
+        ))}
       </div>
-      <Pagination
-        itemsPerPage={itemsPerPage}
-        totalItems={filteredItems.length}
-        paginate={handlePageChange}
-        currentPage={currentPage}
-      />
+      {filteredItems.length > 0 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(filteredItems.length / itemsPerPage)}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
   );
 };
