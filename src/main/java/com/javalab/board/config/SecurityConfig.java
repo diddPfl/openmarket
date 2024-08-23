@@ -50,20 +50,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder auth = http.getSharedObject(AuthenticationManagerBuilder.class);
-        auth.userDetailsService(memberService).passwordEncoder(passwordEncoder);
-
         http
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))  // Disable CSRF for API requests
-
-                /*.formLogin(formLogin -> formLogin
-                        .loginPage("/login")
-                        .usernameParameter("email")
-                        .passwordParameter("password")
-                        .successHandler(customSocialLoginSuccessHandler)  // Use custom success handler
-                        .failureHandler(authFailureHandler)
-                        .permitAll()
-                )*/
+                .csrf(csrf -> csrf.disable())  // Disable CSRF for API requests
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/login")
@@ -107,8 +95,6 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .successHandler(customSocialLoginSuccessHandler)  // Use custom success handler
                 );
-
-        http.authenticationManager(auth.build());
         return http.build();
     }
 }
