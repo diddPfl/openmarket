@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import './CategoryItemList.css';
+import Pagination from './Pagination';
 
 const CategoryItemList = () => {
   const [items, setItems] = useState([]);
@@ -14,6 +15,8 @@ const CategoryItemList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showBrandDropdown, setShowBrandDropdown] = useState(false);
   const [showPriceDropdown, setShowPriceDropdown] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
   const navigate = useNavigate();
   const location = useLocation();
   const { categoryId, gubunSubCode } = useParams();
@@ -58,7 +61,7 @@ const CategoryItemList = () => {
 
         if (Array.isArray(response.data)) {
           setItems(response.data);
-          setFilteredItems(response.data); // 초기에는 모든 아이템을 표시
+          setFilteredItems(response.data);
         } else {
           setItems([]);
           setFilteredItems([]);
@@ -75,20 +78,18 @@ const CategoryItemList = () => {
     fetchItems();
   }, [categoryId, gubunSubCode]);
 
-  // categoryId 또는 gubunSubCode가 변경될 때 필터 초기화
   useEffect(() => {
     setSelectedBrand('');
     setMinPrice('');
     setMaxPrice('');
+    setCurrentPage(1);
   }, [categoryId, gubunSubCode]);
 
-  // 경로가 변경될 때 드롭다운 닫기
   useEffect(() => {
     setShowBrandDropdown(false);
     setShowPriceDropdown(false);
   }, [location]);
 
-  // 필터링된 아이템을 검색하는 함수
   const searchFilteredItems = () => {
     const filtered = items.filter(item => {
       const price = item.price;
@@ -98,6 +99,7 @@ const CategoryItemList = () => {
       return price >= min && price <= max && (selectedBrand ? item.brand === selectedBrand : true);
     });
     setFilteredItems(filtered);
+    setCurrentPage(1); // 검색 결과 적용 시 첫 페이지로 이동
   };
 
   const handleItemClick = (itemId) => {
@@ -137,6 +139,15 @@ const CategoryItemList = () => {
   };
 
   const isFilterSelected = selectedBrand || minPrice || maxPrice;
+
+  // 페이징 관련 계산
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   if (isLoading) return <div className="category-item-list-loading">로딩 중...</div>;
   if (error) return <div className="category-item-list-error">오류: {error}</div>;
@@ -197,10 +208,10 @@ const CategoryItemList = () => {
         {(minPrice || maxPrice) && <p>{minPrice}원 - {maxPrice === Infinity ? '무제한' : `${maxPrice}원`}</p>}
       </div>
       <div className="category-item-list-items">
-        {filteredItems.length === 0 ? (
+        {currentItems.length === 0 ? (
           <div className="category-item-list-no-items">해당 카테고리의 상품이 없습니다.</div>
         ) : (
-          filteredItems.map((item) => (
+          currentItems.map((item) => (
             <div
               key={item.itemId}
               className="category-item-list-item"
@@ -230,6 +241,11 @@ const CategoryItemList = () => {
           ))
         )}
       </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={Math.ceil(filteredItems.length / itemsPerPage)}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };

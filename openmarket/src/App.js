@@ -18,7 +18,7 @@ import PaymentComponent from './Components/PaymentComponent';
 import NoticeList from './Notice/NoticeList';
 import NoticeView from './Notice/NoticeView';
 import NoticeForm from './Notice/NoticeForm';
-//import Admin from './Admin/Admin';
+import Admin from './Admin/Admin';
 function App() {
   return (
     <AuthProvider>
@@ -44,6 +44,7 @@ function App() {
               <Route path="/notices/new" element={<NoticeForm />} />
               <Route path="/notices/:noticeNo/edit" element={<NoticeForm />} />
               <Route path="/notices/:noticeNo/edit" element={<NoticeForm />} />
+              <Route path="/admin" element={<Admin />} />
             </Routes>
             <Footer />
           </div>

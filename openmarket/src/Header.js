@@ -41,6 +41,7 @@ function Header() {
               <li><Link to="/sell">Sell</Link></li>
               <li><Link to="/about">About</Link></li>
               <li><Link to="/item/insert">상품등록</Link></li>
+              <li><Link to="/admin">관리자페이지</Link></li>
             </ul>
           </nav>
           <div className="user-actions">

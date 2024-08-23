@@ -4,7 +4,6 @@ import com.javalab.board.handler.AuthFailureHandler;
 import com.javalab.board.security.MemberService;
 import com.javalab.board.security.handler.CustomSocialLoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -82,7 +80,7 @@ public class SecurityConfig {
                         .requestMatchers("/view/**", "/emp/**").permitAll()
                         .requestMatchers("/", "/{path:[^\\.]*}").permitAll()
                         .requestMatchers("/board/**").permitAll()
-                        .requestMatchers("/items/**", "/item/read/**", "review/**", "/api/category/list", "/api/categoryitems/**").permitAll()
+                        .requestMatchers("/items/**", "/item/read/**", "review/**", "/api/category/list", "/api/categoryitems/**","/item/**").permitAll()
                         .requestMatchers("/api/mypage").authenticated()
                         .requestMatchers("/mypage/**", "/mypage/cart/**", "/mypage/reviews", "/order/**").permitAll()
                         .requestMatchers("/mypage/cart/payment/**").hasAnyRole("USER", "ADMIN")
