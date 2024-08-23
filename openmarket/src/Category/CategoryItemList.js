@@ -17,6 +17,7 @@ const CategoryItemList = () => {
   const [showPriceDropdown, setShowPriceDropdown] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+
   const navigate = useNavigate();
   const location = useLocation();
   const { categoryId, gubunSubCode } = useParams();
@@ -38,7 +39,6 @@ const CategoryItemList = () => {
         console.error('브랜드 가져오기 오류:', error);
       }
     };
-
     fetchBrands();
   }, []);
 
@@ -55,13 +55,13 @@ const CategoryItemList = () => {
         } else {
           throw new Error('카테고리 ID 또는 구분 서브 코드가 필요합니다.');
         }
-
         response = await axios.get(url);
         console.log('받은 아이템:', response.data);
-
         if (Array.isArray(response.data)) {
-          setItems(response.data);
-          setFilteredItems(response.data);
+          // 아이템을 itemId 기준으로 내림차순 정렬
+          const sortedItems = response.data.sort((a, b) => b.itemId - a.itemId);
+          setItems(sortedItems);
+          setFilteredItems(sortedItems);
         } else {
           setItems([]);
           setFilteredItems([]);
@@ -95,11 +95,10 @@ const CategoryItemList = () => {
       const price = item.price;
       const min = minPrice ? parseFloat(minPrice) : 0;
       const max = maxPrice ? parseFloat(maxPrice) : Infinity;
-
       return price >= min && price <= max && (selectedBrand ? item.brand === selectedBrand : true);
     });
     setFilteredItems(filtered);
-    setCurrentPage(1); // 검색 결과 적용 시 첫 페이지로 이동
+    setCurrentPage(1);
   };
 
   const handleItemClick = (itemId) => {
@@ -140,7 +139,6 @@ const CategoryItemList = () => {
 
   const isFilterSelected = selectedBrand || minPrice || maxPrice;
 
-  // 페이징 관련 계산
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
@@ -149,102 +147,82 @@ const CategoryItemList = () => {
     setCurrentPage(pageNumber);
   };
 
-  if (isLoading) return <div className="category-item-list-loading">로딩 중...</div>;
-  if (error) return <div className="category-item-list-error">오류: {error}</div>;
+  if (isLoading) return <div>로딩 중...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
-    <div className="category-item-list-page-container">
-      <div className="category-item-list-filters">
-        <button onClick={toggleBrandDropdown} className="category-item-list-brand-button">
-          브랜드 선택
-        </button>
-        {showBrandDropdown && (
-          <div className="category-item-list-brand-dropdown">
-            {brands.map((brand) => (
-              <div key={brand} onClick={() => handleBrandSelect(brand)} className="category-item-list-brand-option">
-                {brand}
-              </div>
-            ))}
-          </div>
-        )}
-        <button onClick={togglePriceDropdown} className="category-item-list-brand-button">
-          가격 선택
-        </button>
-        {showPriceDropdown && (
-          <div className="category-item-list-price-dropdown">
-            {priceRanges.map((range) => (
-              <div
-                key={range.label}
-                onClick={() => handlePriceRangeSelect(range.min, range.max)}
-                className="category-item-list-price-option"
-              >
-                {range.label}
-              </div>
-            ))}
-            <div className="category-item-list-price-inputs">
-              <input
-                type="number"
-                placeholder="최소 가격"
-                value={minPrice}
-                onChange={(e) => handlePriceInputChange(e, 'min')}
-                className="category-item-list-price-input"
-              />
-              <input
-                type="number"
-                placeholder="최대 가격"
-                value={maxPrice}
-                onChange={(e) => handlePriceInputChange(e, 'max')}
-                className="category-item-list-price-input"
-              />
-            </div>
-          </div>
-        )}
-        {isFilterSelected && (
-          <button onClick={searchFilteredItems} className="category-item-list-search-button">검색</button>
-        )}
+    <div className="category-container">
+      <div className="menu-bar">
+        <button className="menu-item" onClick={toggleBrandDropdown}>브랜드 선택</button>
+        <button className="menu-item" onClick={togglePriceDropdown}>가격 범위 선택</button>
+        <button className="menu-item" onClick={searchFilteredItems}>검색</button>
       </div>
-      <div className="category-item-list-selected-filters">
-        {selectedBrand && <p>{selectedBrand}</p>}
-        {(minPrice || maxPrice) && <p>{minPrice}원 - {maxPrice === Infinity ? '무제한' : `${maxPrice}원`}</p>}
+      {showBrandDropdown && (
+        <div className="sub-categories">
+          <button className="sub-category-item" onClick={() => handleBrandSelect('')}>전체</button>
+          {brands.map((brand, index) => (
+            <button key={index} className="sub-category-item" onClick={() => handleBrandSelect(brand)}>{brand}</button>
+          ))}
+        </div>
+      )}
+      {showPriceDropdown && (
+        <div className="sub-categories">
+          {priceRanges.map((range, index) => (
+            <button key={index} className="sub-category-item" onClick={() => handlePriceRangeSelect(range.min, range.max)}>
+              {range.label}
+            </button>
+          ))}
+        </div>
+      )}
+      <div className="price-input">
+        <input
+          type="number"
+          placeholder="최소 가격"
+          value={minPrice}
+          onChange={(e) => handlePriceInputChange(e, 'min')}
+        />
+        <input
+          type="number"
+          placeholder="최대 가격"
+          value={maxPrice}
+          onChange={(e) => handlePriceInputChange(e, 'max')}
+        />
       </div>
-      <div className="category-item-list-items">
-        {currentItems.length === 0 ? (
-          <div className="category-item-list-no-items">해당 카테고리의 상품이 없습니다.</div>
-        ) : (
-          currentItems.map((item) => (
-            <div
-              key={item.itemId}
-              className="category-item-list-item"
-              onClick={() => handleItemClick(item.itemId)}
-              role="button"
-              tabIndex={0}
-            >
-              <div className="img-box">
-                {item.images && item.images.map((image) => (
-                  <img
-                    key={image.uuid}
-                    src={getImageUrl(image)}
-                    alt={`아이템 이미지 - ${item.itemName}`}
-                  />
-                ))}
-              </div>
-              <div className="brand-and-icons">
-                {item.brand && <p className="category-item-list-item-brand">{item.brand}</p>}
-                <div className="icon-container">
-                  <i className="fas fa-heart icon" title="좋아요"></i>
-                  <i className="fas fa-shopping-cart icon" title="장바구니"></i>
+      {isFilterSelected && (
+        <div className="filter-info">
+          {selectedBrand && <span>브랜드: {selectedBrand}</span>}
+          {(minPrice || maxPrice) && (
+            <span>가격: {minPrice}원 - {maxPrice === Infinity ? '무제한' : `${maxPrice}원`}</span>
+          )}
+        </div>
+      )}
+      <div className="category-display">
+        <div className="main-categories">
+          {currentItems.map((item) => (
+            <div key={item.itemId} className="category-item" onClick={() => handleItemClick(item.itemId)}>
+              {item.images && item.images.length > 0 && (
+                <img src={getImageUrl(item.images[0])} alt={item.itemName} className="item-image" />
+              )}
+              <div className="item-info">
+                <div className="brand-and-icons">
+                  <p className="item-brand">{item.brand}</p>
+                  <div className="icon-container">
+                    <i className="fas fa-heart icon" title="좋아요"></i>
+                    <i className="fas fa-shopping-cart icon" title="장바구니"></i>
+                  </div>
                 </div>
+                <h3 className="item-name">{item.itemName}</h3>
+                <p className="item-price">{item.price.toLocaleString()}원</p>
               </div>
-              <h3 className="category-item-list-item-name">{item.itemName}</h3>
-              <p className="category-item-list-item-price">{item.price.toLocaleString()}원</p>
             </div>
-          ))
-        )}
+          ))}
+        </div>
       </div>
       <Pagination
+        itemsPerPage={itemsPerPage}
+        totalItems={filteredItems.length}
+        paginate={handlePageChange}
         currentPage={currentPage}
-        totalPages={Math.ceil(filteredItems.length / itemsPerPage)}
-        onPageChange={handlePageChange}
       />
     </div>
   );
