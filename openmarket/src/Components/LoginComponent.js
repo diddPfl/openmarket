@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext'; // AuthContext에서 useAuth 가져오기
-import './LoginComponent.css';
+import styles from './LoginComponent.module.css';
 
 const LoginComponent = () => {
   const [email, setEmail] = useState('');
@@ -88,14 +88,14 @@ const LoginComponent = () => {
         <input type="submit" value="Sign In" />
       </form>
 
-      <div className="options">
-        <Link to="/signup">Sign Up</Link>
-        <span>|</span>
-        <Link to="/find-id">Find ID</Link>
-        <span>|</span>
-        <Link to="/find-password">Find Password</Link>
-      </div>
-    </div>
+      <div className={styles.options}>
+              <Link to="/signup">Sign Up</Link>
+              <span>|</span>
+              <Link to="/find-id">Find ID</Link>
+              <span>|</span>
+              <Link to="/find-password">Find Password</Link>
+            </div>
+          </div>
   );
 };
 
