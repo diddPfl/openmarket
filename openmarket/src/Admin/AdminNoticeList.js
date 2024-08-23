@@ -38,17 +38,17 @@ const AdminNoticeList = () => {
     }
   };
 
-  if (isLoading) return <div>로딩 중...</div>;
-  if (error) return <div>{error}</div>;
+  if (isLoading) return <div className="loading">로딩 중...</div>;
+  if (error) return <div className="error">{error}</div>;
 
   return (
     <div className="admin-notice-list">
       <h1>공지사항 관리</h1>
-      <Link to="/notices/new" className="create-button">새 공지사항 작성</Link>
+      <Link to="/admin/notices/new" className="create-button">새 공지사항 작성</Link>
       {notices.length === 0 ? (
-        <p>공지사항이 없습니다.</p>
+        <p className="no-notices">공지사항이 없습니다.</p>
       ) : (
-        <table>
+        <table className="notice-table">
           <thead>
             <tr>
               <th>제목</th>
@@ -62,7 +62,7 @@ const AdminNoticeList = () => {
                 <td>{notice.title}</td>
                 <td>{notice.regdate ? new Date(notice.regdate).toLocaleDateString() : 'N/A'}</td>
                 <td>
-                  <Link to={`/notices/${notice.noticeNo}/edit`} className="edit-button">수정</Link>
+                  <Link to={`/admin/notices/${notice.noticeNo}/edit`} className="edit-button">수정</Link>
                   <button onClick={() => handleDelete(notice.noticeNo)} className="delete-button">삭제</button>
                 </td>
               </tr>
