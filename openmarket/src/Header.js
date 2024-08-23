@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './Header.css';
 import CategoryList from './Category/CategoryList';
-import { useAuth } from './context/AuthContext'; // AuthContext에서 useAuth 가져오기
+import { useAuth } from './context/AuthContext';
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const { isAuthenticated, name, logout } = useAuth(); // useAuth에서 로그인 상태와 사용자명, logout 함수를 가져옴
+  const { isAuthenticated, name, logout } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {

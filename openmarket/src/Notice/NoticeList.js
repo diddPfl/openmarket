@@ -17,7 +17,6 @@ const NoticeList = () => {
     setError(null);
     try {
       const data = await getAllNotices();
-      console.log('공지사항 데이터:', data); // 디버깅을 위한 로그
       setNotices(data);
     } catch (error) {
       console.error('공지사항을 불러오는 데 실패했습니다:', error);
@@ -27,19 +26,13 @@ const NoticeList = () => {
     }
   };
 
-  if (isLoading) {
-    return <div>로딩 중...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
+  if (isLoading) return <div>로딩 중...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div className="customer-service-page">
       <h1 className="title">공지사항</h1>
       <hr className="underline" />
-      <Link to="/notices/new">새 공지사항 작성</Link>
       {notices.length === 0 ? (
         <p>공지사항이 없습니다.</p>
       ) : (

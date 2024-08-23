@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { getNoticeById, deleteNotice } from './NoticeService';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { getNoticeById } from './NoticeService';
 import './NoticeView.css';
 
 const NoticeView = () => {
@@ -8,13 +8,8 @@ const NoticeView = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { noticeNo } = useParams();
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchNotice();
-  }, [noticeNo]);
-
-  const fetchNotice = async () => {
+  const fetchNotice = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
@@ -26,19 +21,11 @@ const NoticeView = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [noticeNo]);
 
-  const handleDelete = async () => {
-    if (window.confirm('정말로 이 공지사항을 삭제하시겠습니까?')) {
-      try {
-        await deleteNotice(noticeNo);
-        navigate('/notices');
-      } catch (error) {
-        console.error('공지사항 삭제에 실패했습니다:', error);
-        alert('공지사항 삭제에 실패했습니다. 나중에 다시 시도해 주세요.');
-      }
-    }
-  };
+  useEffect(() => {
+    fetchNotice();
+  }, [fetchNotice]);
 
   if (isLoading) return <div>로딩 중...</div>;
   if (error) return <div>{error}</div>;
@@ -50,8 +37,6 @@ const NoticeView = () => {
       <p>등록일: {new Date(notice.regdate).toLocaleDateString()}</p>
       <div className="notice-content">{notice.content}</div>
       <div className="notice-actions">
-        <Link to={`/notices/${noticeNo}/edit`} className="edit-link">수정</Link>
-        <button onClick={handleDelete} className="delete-button">삭제</button>
         <Link to="/notices" className="back-link">목록으로 돌아가기</Link>
       </div>
     </div>

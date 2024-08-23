@@ -2,6 +2,7 @@ import React from 'react';
 import ItemList from './ItemList';
 import MemberList from './MemberList';
 import BrandList from './BrandList';
+import NoticeList from './NoticeList';
 
 const Admin = () => {
   return (
@@ -10,6 +11,7 @@ const Admin = () => {
       <ItemList />
       <MemberList />
       <BrandList />
+      <NoticeList />
     </div>
   );
 };

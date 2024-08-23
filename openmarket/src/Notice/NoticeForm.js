@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getNoticeById, createNotice, updateNotice } from './NoticeService';
+import { getNoticeById, createNotice, updateNotice } from '../Notice/NoticeService';
 import './NoticeForm.css';
 
 const NoticeForm = () => {
@@ -11,6 +11,7 @@ const NoticeForm = () => {
   const navigate = useNavigate();
 
   const fetchNotice = useCallback(async () => {
+    if (!noticeNo) return;
     setLoading(true);
     setError(null);
     try {
@@ -25,10 +26,8 @@ const NoticeForm = () => {
   }, [noticeNo]);
 
   useEffect(() => {
-    if (noticeNo) {
-      fetchNotice();
-    }
-  }, [noticeNo, fetchNotice]);
+    fetchNotice();
+  }, [fetchNotice]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,7 +50,7 @@ const NoticeForm = () => {
         await createNotice(notice);
         alert('새 공지사항이 성공적으로 생성되었습니다.');
       }
-      navigate('/notices');
+      navigate('/admin/notices');
     } catch (error) {
       setError(`공지사항을 ${noticeNo ? '수정' : '생성'}하는 데 실패했습니다. 다시 시도해 주세요.`);
       console.error('공지사항 저장에 실패했습니다:', error);
@@ -92,7 +91,7 @@ const NoticeForm = () => {
           <button type="submit" disabled={loading}>
             {loading ? '처리 중...' : (noticeNo ? '수정' : '작성')}
           </button>
-          <button type="button" onClick={() => navigate('/notices')} disabled={loading}>
+          <button type="button" onClick={() => navigate('/admin/notices')} disabled={loading}>
             취소
           </button>
         </div>
