@@ -43,6 +43,13 @@
         SELECT category_name FROM category WHERE category_id = #{categoryId}
     </select>
 
+    <!-- 아이템 비활성화 -->
+    <update id="disableItem" parameterType="long">
+        UPDATE item
+        SET is_disabled = 1
+        WHERE item_id = #{itemId}
+    </update>
+
     <!-- 아이템에 대한 결과 매핑 -->
     <resultMap id="itemResultMap" type="com.javalab.board.vo.Item">
         <id property="itemId" column="item_id"/>

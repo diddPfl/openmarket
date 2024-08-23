@@ -67,4 +67,16 @@ public class ItemController {
             }
         }
     }
+
+    @PutMapping("/{itemId}/disabled")
+    public ResponseEntity<Void> disableItem(@PathVariable("itemId") long itemId) {
+        try {
+            itemService.disableItem(itemId);
+            logger.info("Item disabled: {}", itemId);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            logger.error("Error disabling item: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }

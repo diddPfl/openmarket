@@ -61,6 +61,12 @@ public class ItemServiceImpl implements ItemService {
         return imageDtos;
     }
 
+    @Override
+    @Transactional
+    public void disableItem(long itemId) {
+        itemRepository.disableItem(itemId);
+    }
+
     private ItemListDto convertToListDto(Item item) {
         return new ItemListDto(
                 item.getItemId(),

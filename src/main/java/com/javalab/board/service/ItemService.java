@@ -11,4 +11,6 @@ public interface ItemService {
     ItemResponseDto findById(long itemId);
     ItemResponseDto save(ItemCreateDto itemCreateDto);
     List<ItemImageDto> saveItemImages(long itemId, List<ItemImageDto> images);
+
+    void disableItem(long itemId);
 }

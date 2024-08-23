@@ -14,5 +14,6 @@ public interface ItemRepository {
     Item findById(long id);
     void insert(Item item);
     void insertItemImage(ItemImage itemImage);
+    void disableItem(long itemId);
     String findCategoryNameById(long categoryId);
 }
