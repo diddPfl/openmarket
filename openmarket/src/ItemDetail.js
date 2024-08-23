@@ -7,6 +7,7 @@ import ItemDescriptionSection from "./ItemDescriptionSection";
 import ItemReviewSection from "./ItemReviewSection";
 import ItemQnASection from "./ItemQnASection";
 import "./ItemDetail.css";
+import { useAuth } from './context/AuthContext';
 
 function ItemDetail() {
   const [item, setItem] = useState(null);
@@ -30,11 +31,8 @@ function ItemDetail() {
       setLoading(true);
       setError(null);
       const response = await axios.get(`http://localhost:9000/items/${itemId}`);
-      console.log('Fetched item data:', response.data);
-      console.log('isDisabled value:', response.data.isDisabled);
       setItem(response.data);
     } catch (error) {
-      console.error('Error fetching item details:', error);
       setError('아이템 정보를 가져오는데 실패했습니다. 나중에 다시 시도해주세요.');
     } finally {
       setLoading(false);
@@ -56,7 +54,6 @@ function ItemDetail() {
 
   const slide = (direction) => {
     if (!item || !item.images || item.images.length <= 1) return;
-
     let newIndex = currentIndex + direction;
     if (newIndex < 0) {
       newIndex = item.images.length - 1;
@@ -94,17 +91,16 @@ function ItemDetail() {
     }
   };
 
-
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>에러: {error}</div>;
   if (!item) return <div>아이템을 찾을 수 없습니다.</div>;
 
   return (
-    <div className="page-container">
+    <div className="item-detail-page">
       <Header />
-      <div className="aaa">
-        <div className="item-container">
-          <div className={`slider-container ${item.itemSellStatus === 'SOLD_OUT' ? 'sold-out' : ''}`}>
+      <div className="item-detail-content">
+        <div className="item-detail-container">
+          <div className={`item-slider-container ${item.itemSellStatus === 'SOLD_OUT' ? 'sold-out' : ''}`}>
             {item.itemSellStatus === 'SOLD_OUT' && (
               <div className="sold-out-overlay">
                 <span className="sold-out-text">Sold Out</span>
@@ -113,7 +109,7 @@ function ItemDetail() {
             {item.images && item.images.length > 1 && (
               <i className="fa-solid fa-angle-left" onClick={() => slide(-1)}></i>
             )}
-            <div className="img-box" ref={imgBoxRef}>
+            <div className="item-image-box" ref={imgBoxRef}>
               {item.images && item.images.map((image, index) => (
                 <img
                   key={index}
@@ -131,22 +127,22 @@ function ItemDetail() {
             )}
           </div>
           <div className="item-info">
-            <div className="item-name">
+            <div className="item-detail-name">
               <h1>{item.itemName}</h1>
             </div>
-            <div className="item-detail">
+            <div className="item-detail-description">
               <p>{item.itemDetail}</p>
             </div>
             <div className="item-detail-info">
-              <dl className="sell-status">
+              <dl className="item-sell-status">
                 <dt>판매상태</dt>
                 <dd>{item.itemSellStatus}</dd>
               </dl>
-              <dl className="category-name">
+              <dl className="item-category">
                 <dt>카테고리</dt>
                 <dd>{item.categoryName}</dd>
               </dl>
-              <dl className="model-number">
+              <dl className="item-model-number">
                 <dt>모델번호</dt>
                 <dd>{item.gubunSubCode}</dd>
               </dl>
@@ -154,7 +150,7 @@ function ItemDetail() {
                 <dt>상품 번호</dt>
                 <dd>{item.itemId}</dd>
               </dl>
-              <dl className="reg-date">
+              <dl className="item-reg-date">
                 <dt>상품 등록일</dt>
                 <dd>{item.regdate}</dd>
               </dl>
@@ -162,29 +158,30 @@ function ItemDetail() {
             <div className="item-price">
               <h1>{item.price.toLocaleString()}원</h1>
             </div>
-            <div className="button-box">
-              <div className="purchase-btn">
-                <button><p>구매</p></button>
+            {item.isDisabled !== 1 ? (
+              <div className="button-box">
+                <div className="purchase-button">
+                  <button><p>구매</p></button>
+                </div>
+                <div className="sell-button">
+                  <button><p>판매</p></button>
+                </div>
+                <div className="call-dibs">
+                  <button>위시리스트</button>
+                </div>
               </div>
-              <div className="sell-btn">
-                <button><p>판매</p></button>
+            ) : null}
+            {item.isDisabled === 1 && (
+              <div>
+                <h2>비활성화됨</h2>
               </div>
-            </div>
-            <div className="call-dibs">
-              <button>위시리스트</button>
-            </div>
-            <button onClick={handleDisableItem} disabled={item.isDisabled === 1}>
-              {item.isDisabled === 1 ? "비활성화됨" : "위시리스트"}
-            </button>
-            <div>
-                <h2>{item.isDisabled === 1 ? "비활성화됨" : "활성화됨"}</h2>
-            </div>
-            <div className="back-btn" onClick={handleBackClick}>
+            )}
+            <div className="back-button" onClick={handleBackClick}>
               <i className="fa-solid fa-arrow-left"></i>
             </div>
           </div>
         </div>
-        <div className="item-descript">
+        <div className="item-description">
           <div className="item-menu">
             <a href="#" onClick={(e) => handleSectionChange('detail', e)} className={activeSection === 'detail' ? 'active' : ''}>상품 상세</a>
             <a href="#" onClick={(e) => handleSectionChange('description', e)} className={activeSection === 'description' ? 'active' : ''}>상품 설명</a>

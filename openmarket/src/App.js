@@ -19,6 +19,7 @@ import NoticeList from './Notice/NoticeList';
 import NoticeView from './Notice/NoticeView';
 import NoticeForm from './Notice/NoticeForm';
 import Admin from './Admin/Admin';
+import ItemDisable from './ItemDisable';  // Fix import statement
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
                 <Route path="/mypage/cart/payment/:orderId" element={<PaymentComponent />} />
                 <Route path="/notices" element={<NoticeList />} />
                 <Route path="/notices/:noticeNo" element={<NoticeView />} />
+                <Route path="/item/disable" element={<ItemDisable />} /> {/* Updated path */}
               </Routes>
             </NormalLayout>
           } />
