@@ -156,20 +156,6 @@ function ItemDetail() {
             <div className="call-dibs">
               <button>위시리스트</button>
             </div>
-            <div><p>asdasdasdasd</p></div>
-            <div><p>asdasdasdasd</p></div>
-            <div><p>asdasdasdasd</p></div>
-            <div><p>asdasdasdasd</p></div>
-            <div><p>asdasdasdasd</p></div><div><p>asdasdasdasd</p></div>
-            <div><p>asdasdasdasd</p></div>
-            <div><p>asdasdasdasd</p></div>
-            <div><p>asdasdasdasd</p></div>
-            <div><p>asdasdasdasd</p></div>
-            <div><p>asdasdasdasd</p></div>
-            <div><p>asdasdasdasd</p></div>
-            <div><p>asdasdasdasd</p></div>
-            <div><p>asdasdasdasd</p></div>
-
             <div className="back-btn" onClick={handleBackClick}>
               <i className="fa-solid fa-arrow-left"></i>
             </div>

@@ -1,11 +1,11 @@
 package com.javalab.board.controller;
 
-import com.javalab.board.dto.ItemCreateDto;
-import com.javalab.board.dto.ItemListDto;
-import com.javalab.board.dto.ItemResponseDto;
-import com.javalab.board.dto.ItemImageDto;
+import com.javalab.board.dto.*;
 import com.javalab.board.service.ItemService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +16,7 @@ import java.util.List;
 @RequestMapping("/items")
 public class ItemController {
 
+    private static final Logger logger = LoggerFactory.getLogger(ItemController.class);
     private final ItemService itemService;
 
     @Autowired
@@ -41,16 +42,29 @@ public class ItemController {
 
     @PostMapping
     public ResponseEntity<ItemResponseDto> createItem(@RequestBody ItemCreateDto itemCreateDto) {
-        ItemResponseDto savedItem = itemService.save(itemCreateDto);
-        System.out.println("Received item data: {}" + itemCreateDto);
-        return ResponseEntity.ok(savedItem);
+        try {
+            ItemResponseDto savedItem = itemService.save(itemCreateDto);
+            logger.info("Item created: {}", savedItem);
+            return ResponseEntity.ok(savedItem);
+        } catch (Exception e) {
+            logger.error("Error creating item: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @PostMapping("/{itemId}/images")
     public ResponseEntity<List<ItemImageDto>> addItemImages(
-            @PathVariable long itemId,
+            @PathVariable("itemId") long itemId,
             @RequestBody List<ItemImageDto> images) {
-        List<ItemImageDto> savedImages = itemService.saveItemImages(itemId, images);
-        return ResponseEntity.ok(savedImages);
+        {
+            try {
+                List<ItemImageDto> savedImages = itemService.saveItemImages(itemId, images);
+                logger.info("Images added to item {}: {}", itemId, savedImages);
+                return ResponseEntity.ok(savedImages);
+            } catch (Exception e) {
+                logger.error("Error adding item images: {}", e.getMessage(), e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            }
+        }
     }
 }

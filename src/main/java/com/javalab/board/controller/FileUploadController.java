@@ -30,7 +30,7 @@ public class FileUploadController {
             String originalFileName = file.getOriginalFilename();
             String uuid = UUID.randomUUID().toString();
             String savedFileName = uuid + "_" + originalFileName;
-
+            System.out.println(savedFileName);
             try {
                 Path filePath = Paths.get(uploadPath, savedFileName);
                 Files.createDirectories(filePath.getParent());

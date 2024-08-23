@@ -77,7 +77,7 @@ public class SecurityConfig {
                         .requestMatchers("/view/**", "/emp/**").permitAll()
                         .requestMatchers("/", "/{path:[^\\.]*}").permitAll()
                         .requestMatchers("/board/**").permitAll()
-                        .requestMatchers("/item/view/**", "/item/list/**", "/item/read/**").permitAll()
+                        .requestMatchers("/item/view/**", "/item//**", "/item/read/**").permitAll()
                         .requestMatchers("/api/mypage").authenticated()
                         .requestMatchers("/mypage/**", "/mypage/cart/**", "/mypage/reviews", "/order/**").permitAll()
                         .requestMatchers("/mypage/cart/payment/**").hasAnyRole("USER", "ADMIN")
