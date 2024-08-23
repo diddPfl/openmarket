@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './MainPage.css';
+import MainImageSlider from './MainImageSlider';
 
 // 메뉴 항목 정의
 const menuItems = [
@@ -46,7 +47,7 @@ const MainPage = () => {
   }, []);
 
   const handleItemClick = (itemId) => {
-    navigate(`/items/${itemId}`);
+    navigate(`/item/${itemId}`);
   };
 
   const handleViewAllClick = (gubunSubCode) => {
@@ -54,36 +55,43 @@ const MainPage = () => {
   };
 
   // 이미지 URL 생성 함수
-  const getImageUrl = (fileName) => {
-    return `/Library/filetest/upload/${fileName}`;
+  const getImageUrl = (image) => {
+    return `http://localhost:9000/view/${image.fileName}`;
   };
 
   if (isLoading) return <div>로딩 중입니다. 잠시만 기다려 주세요...</div>;
   if (error) return <div>오류: {error}</div>;
 
   return (
-    <div className="main-page">
-      <div className="image-container">
-        <img src="/Library/filetest/upload/main-img.jpg" alt="메인 이미지" />
-      </div>
+    <div className="main-page-container">
+      <MainImageSlider />
 
       {menuItems.map((menuItem) => (
         menuItem.type !== 'allCategories' && (
-          <div className="items-section" key={menuItem.type}>
-            <div className="section-header">
+          <div className="main-page-items-section" key={menuItem.type}>
+            <div className="main-page-section-header">
               <h2>{menuItem.name}</h2>
-              <button className="view-all-button" onClick={() => handleViewAllClick(menuItem.gubunSubCode)}>
+              <button className="main-page-view-all-button" onClick={() => handleViewAllClick(menuItem.gubunSubCode)}>
                 전체보기 &gt;
               </button>
             </div>
-            <div className="items">
-              {Array.isArray(items[menuItem.type]) && items[menuItem.type].map((item) => (
-                <div key={item.itemId} className="item" onClick={() => handleItemClick(item.itemId)}>
-                  <h3>{item.itemName}</h3>
-                  <p>가격: {item.price}원</p>
-                  {item.images && item.images[0] && (
-                    <img src={getImageUrl(item.images[0].fileName)} alt={item.itemName} />
-                  )}
+            <div className="main-page-items">
+              {Array.isArray(items[menuItem.type]) && items[menuItem.type].slice(0, 5).map((item) => (
+                <div key={item.itemId} className="main-page-item" onClick={() => handleItemClick(item.itemId)}>
+                  <div className="img-box">
+                    {item.images && item.images.length > 0 && (
+                      <img src={getImageUrl(item.images[0])} alt={`아이템 이미지 - ${item.itemName}`} />
+                    )}
+                  </div>
+                  <div className="brand-and-icons">
+                    {item.brand && <p className="main-page-item-brand">{item.brand}</p>}
+                    <div className="icon-container">
+                      <i className="fas fa-heart icon" title="좋아요"></i>
+                      <i className="fas fa-shopping-cart icon" title="장바구니"></i>
+                    </div>
+                  </div>
+                  <h3 className="main-page-item-name">{item.itemName}</h3>
+                  <p className="main-page-item-price">{item.price.toLocaleString()}원</p>
                 </div>
               ))}
             </div>

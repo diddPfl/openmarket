@@ -5,7 +5,7 @@ import com.javalab.board.dto.ItemImageDto;
 import com.javalab.board.dto.ItemListDto;
 import com.javalab.board.dto.ItemResponseDto;
 import com.javalab.board.repository.ItemRepository;
-import com.javalab.board.service.ItemService;
+import com.javalab.board.vo.BrandDto;
 import com.javalab.board.vo.Item;
 import com.javalab.board.vo.ItemImage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,5 +126,28 @@ public class ItemServiceImpl implements ItemService {
 
     private String generateDefaultGubunSubCode() {
         return "DEFAULT_" + System.currentTimeMillis();
+    }
+
+    @Override
+    public List<String> getAllBrands() {
+        return itemRepository.findAllBrands();
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteBrandAndRelatedItems(String brandName) {
+        if (itemRepository.findBrandByName(brandName) != null) {
+            itemRepository.deleteItemsByBrand(brandName);
+            return true;
+        }
+        return false;
+    }
+    @Override
+    public BrandDto getBrandByName(String brandName) {
+        String brand = itemRepository.findBrandByName(brandName);
+        if (brand != null) {
+            return new BrandDto(brand);
+        }
+        return null;
     }
 }

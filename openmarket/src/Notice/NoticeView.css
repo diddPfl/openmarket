@@ -1,0 +1,100 @@
+.notice-view {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.notice-view h1 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+.notice-view p {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.notice-content {
+  color: #444;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  white-space: pre-wrap;
+}
+
+.notice-actions {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.notice-actions a, .notice-actions button {
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.edit-link {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.edit-link:hover {
+  background-color: #45a049;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f;
+}
+
+.back-link {
+  background-color: #2196F3;
+  color: white;
+}
+
+.back-link:hover {
+  background-color: #1e88e5;
+}
+
+@media (max-width: 600px) {
+  .notice-view {
+    padding: 15px;
+  }
+
+  .notice-view h1 {
+    font-size: 20px;
+  }
+
+  .notice-content {
+    font-size: 14px;
+  }
+
+  .notice-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .notice-actions a, .notice-actions button {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+}

@@ -43,4 +43,10 @@
 		WHERE i.item_id = #{itemId}
 	</select>
 
+	<!-- 모든 브랜드명 가져오기 -->
+	<select id="selectAllBrands" resultType="String">
+		SELECT DISTINCT brand
+		FROM item
+	</select>
+
 </mapper>
