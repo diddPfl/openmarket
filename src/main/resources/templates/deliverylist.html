@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주문/배송조회</title>
+    <style>
+        body {
+            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        .tabs {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px 0;
+            cursor: pointer;
+            color: #333;
+            font-weight: 500;
+            border: 1px solid #ddd;
+            background-color: #fff; /* Default white background */
+            margin-right: -1px;
+        }
+        .tab:last-child {
+            margin-right: 0;
+        }
+        .tab.active {
+            border: 1px solid black;
+            font-weight: bold;
+            background-color: #f0f0f0; /* Light grey background for the active tab */
+        }
+        .order-box {
+            border: 1px solid #ddd;
+            background-color: #fff; /* White background for boxes */
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        .order-header {
+            font-size: 14px;
+            color: #999;
+            text-align: right;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        .order-info {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            line-height: 1.5;
+        }
+        .order-info .label {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .order-info .value {
+            color: #333;
+        }
+        .order-info .status {
+            color: orange;
+            font-weight: bold;
+        }
+        .order-info .status.completed {
+            color: #666;
+        }
+        .order-section {
+            display: none;
+        }
+        .order-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>주문/배송조회</h1>
+
+    <div class="tabs">
+        <div class="tab active" onclick="activateTab(this, 'section3')">3개월</div>
+        <div class="tab" onclick="activateTab(this, 'section6')">6개월</div>
+        <div class="tab" onclick="activateTab(this, 'section9')">9개월</div>
+        <div class="tab" onclick="activateTab(this, 'section12')">12개월</div>
+    </div>
+
+    <!-- Section for 3개월 -->
+    <div id="section3" class="order-section active">
+        <div class="order-box">
+            <div class="order-header">2023년 12월 31일</div>
+            <div class="order-info">
+                <div>
+                    <div class="label">주문번호</div>
+                    <div class="value">12345678901234</div>
+                </div>
+                <div>
+                    <div class="label">상품명</div>
+                    <div class="value">상품명 외 6건</div>
+                </div>
+                <div>
+                    <div class="label">결제방법</div>
+                    <div class="value">카드</div>
+                </div>
+                <div>
+                    <div class="label">결제금액</div>
+                    <div class="value">123,456원</div>
+                </div>
+                <div>
+                    <div class="label">배송상태</div>
+                    <div class="value status">배송중</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section for 6개월 -->
+    <div id="section6" class="order-section">
+        <!-- Empty section (no orders to display) -->
+    </div>
+
+    <!-- Section for 9개월 -->
+    <div id="section9" class="order-section">
+        <!-- Empty section (no orders to display) -->
+    </div>
+
+    <!-- Section for 12개월 -->
+    <div id="section12" class="order-section">
+        <div class="order-box">
+            <div class="order-header">2023년 11월 25일</div>
+            <div class="order-info">
+                <div>
+                    <div class="label">주문번호</div>
+                    <div class="value">09876543210987</div>
+                </div>
+                <div>
+                    <div class="label">상품명</div>
+                    <div class="value">상품명 외 3건</div>
+                </div>
+                <div>
+                    <div class="label">결제방법</div>
+                    <div class="value">카드</div>
+                </div>
+                <div>
+                    <div class="label">결제금액</div>
+                    <div class="value">456,789원</div>
+                </div>
+                <div>
+                    <div class="label">배송상태</div>
+                    <div class="value status completed">배송완료</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function activateTab(element, sectionId) {
+        // Remove the 'active' class from all tabs and sections
+        var tabs = document.getElementsByClassName('tab');
+        var sections = document.getElementsByClassName('order-section');
+
+        for (var i = 0; i < tabs.length; i++) {
+            tabs[i].classList.remove('active');
+        }
+
+        for (var i = 0; i < sections.length; i++) {
+            sections[i].classList.remove('active');
+        }
+
+        // Add the 'active' class to the clicked tab and the corresponding section
+        element.classList.add('active');
+        document.getElementById(sectionId).classList.add('active');
+    }
+</script>
+</body>
+</html>

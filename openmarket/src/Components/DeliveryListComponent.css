@@ -1,0 +1,82 @@
+body {
+    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+}
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+.tabs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+.tab {
+    flex: 1;
+    text-align: center;
+    padding: 15px 0;
+    cursor: pointer;
+    color: #333;
+    font-weight: 500;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    margin-right: -1px;
+}
+.tab:last-child {
+    margin-right: 0;
+}
+.tab.active {
+    border: 1px solid black;
+    font-weight: bold;
+    background-color: #f0f0f0;
+}
+.order-box {
+    border: 1px solid #ddd;
+    background-color: #fff;
+    margin-bottom: 20px;
+    padding: 20px;
+}
+.order-header {
+    font-size: 14px;
+    color: #999;
+    text-align: right;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+.order-info {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    line-height: 1.5;
+}
+.order-info .label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+.order-info .value {
+    color: #333;
+}
+.order-info .status {
+    color: orange;
+    font-weight: bold;
+}
+.order-info .status.completed {
+    color: #666;
+}
+.order-section {
+    display: none;
+}
+.order-section.active {
+    display: block;
+}

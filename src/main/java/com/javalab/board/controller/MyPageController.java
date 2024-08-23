@@ -50,4 +50,74 @@ public class MyPageController {
         }
         return "redirect:/login";
     }
+
+    @GetMapping("/cart")
+    public String cart(Model model, Authentication authentication) {
+        logger.info("Cart page accessed");
+        if (authentication != null && authentication.isAuthenticated()) {
+            logger.info("User authenticated: {}", authentication.getName());
+            try {
+                Member member = memberService.getMemberByEmail(authentication.getName());
+                if (member != null) {
+                    logger.info("Member found: {}", member.getName());
+                    model.addAttribute("name", member.getName());
+                    return "cart";
+                } else {
+                    logger.warn("Member not found for email: {}", authentication.getName());
+                }
+            } catch (Exception e) {
+                logger.error("Error retrieving member information", e);
+            }
+        } else {
+            logger.info("User not authenticated");
+        }
+        return "redirect:/login";
+    }
+
+    @GetMapping("/orders")
+    public String orders(Model model, Authentication authentication) {
+        logger.info("Orders page accessed");
+        if (authentication != null && authentication.isAuthenticated()) {
+            logger.info("User authenticated: {}", authentication.getName());
+            try {
+                Member member = memberService.getMemberByEmail(authentication.getName());
+                if (member != null) {
+                    logger.info("Member found: {}", member.getName());
+                    model.addAttribute("name", member.getName());
+                    model.addAttribute("orders", orderService.getOrdersByMemberId(member.getMemberId()));
+                    return "orders";
+                } else {
+                    logger.warn("Member not found for email: {}", authentication.getName());
+                }
+            } catch (Exception e) {
+                logger.error("Error retrieving member information", e);
+            }
+        } else {
+            logger.info("User not authenticated");
+        }
+        return "redirect:/login";
+    }
+
+    @GetMapping("/profile")
+    public String profile(Model model, Authentication authentication) {
+        logger.info("Profile page accessed");
+        if (authentication != null && authentication.isAuthenticated()) {
+            logger.info("User authenticated: {}", authentication.getName());
+            try {
+                Member member = memberService.getMemberByEmail(authentication.getName());
+                if (member != null) {
+                    logger.info("Member found: {}", member.getName());
+                    model.addAttribute("member", member);
+                    return "profile";
+                } else {
+                    logger.warn("Member not found for email: {}", authentication.getName());
+                }
+            } catch (Exception e) {
+                logger.error("Error retrieving member information", e);
+            }
+        } else {
+            logger.info("User not authenticated");
+        }
+        return "redirect:/login";
+    }
 }

@@ -1,8 +1,18 @@
+.payment-wrapper {
+  padding-top: 120px; /* Increased from 80px to 120px for more space below the header */
+  min-height: calc(100vh - 120px); /* Adjust to match the new padding */
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: #f0f0f0;
+}
+
 .payment-container {
   max-width: 600px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 20px;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -10,6 +20,7 @@
 h2 {
   text-align: center;
   color: #333;
+  margin-bottom: 20px;
 }
 
 .order-summary, .payment-method {
@@ -18,6 +29,7 @@ h2 {
 
 h3 {
   color: #555;
+  margin-bottom: 10px;
 }
 
 select {
@@ -26,20 +38,30 @@ select {
   margin-top: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  font-size: 16px;
 }
 
 .pay-button {
   display: block;
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   background-color: #4CAF50;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
 }
 
 .pay-button:hover {
   background-color: #45a049;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .payment-container {
+    margin: 10px;
+    padding: 15px;
+  }
 }
