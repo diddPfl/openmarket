@@ -1,0 +1,87 @@
+.footer {
+  background-color: #f8f8f8;
+  padding: 20px;
+  text-align: left;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.footer-section,
+.company-footer-section,
+.p-footer-section {
+  flex: 1;
+  margin-right: 5px; /* 섹션 간의 간격 줄이기 */
+}
+
+.footer-section:last-child,
+.company-footer-section:last-child,
+.p-footer-section:last-child {
+  margin-right: 0;
+}
+
+.footer-section h4,
+.company-footer-section h4,
+.p-footer-section h4 {
+  margin-bottom: 5px; /* 제목과 내용 사이의 간격 줄이기 */
+  font-size: 0.9em;
+}
+
+.footer-section h4 i,
+.company-footer-section h4 i,
+.p-footer-section h4 i {
+  margin-right: 8px;
+}
+
+.company-info {
+  font-size: 0.8em;
+  color: #555;
+  margin-top: 5px; /* 고객센터와의 간격 */
+}
+
+.footer-section ul,
+.company-footer-section ul,
+.p-footer-section ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.footer-section ul li,
+.company-footer-section ul li,
+.p-footer-section ul li {
+  margin-bottom: 4px; /* 목록 항목 하단 여백 */
+}
+
+.footer-section a,
+.company-footer-section a,
+.p-footer-section a {
+  text-decoration: none;
+  color: #333;
+  font-size: 0.8em;
+}
+
+.footer-section a:hover,
+.company-footer-section a:hover,
+.p-footer-section a:hover {
+  text-decoration: underline;
+}
+
+.social-media-section {
+  text-align: right;
+}
+
+.social-media {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  font-size: 1.2em;
+}
+
+.footer-bottom {
+  text-align: center;
+  font-size: 0.8em;
+  color: #777;
+}

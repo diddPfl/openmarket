@@ -59,7 +59,7 @@ function Header() {
         </div>
         <div className="category-and-support">
           <CategoryList />
-          <Link to="/support" className="support-link">고객센터</Link>
+          <Link to="/notices" className="support-link">고객센터</Link>
         </div>
       </div>
     </header>

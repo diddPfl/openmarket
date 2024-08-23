@@ -73,6 +73,11 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/api/members", "/api/login", "/api/logout", "/login", "/signup").permitAll()
+                        .requestMatchers("/mypage/cart", "/mypage/cart/**").permitAll()
+                        .requestMatchers("/","/api/**","/api/category/**","/api/categoryitems/**","/api/notices/**").permitAll()
+                        .requestMatchers("/mypage/**").permitAll()
+                        .requestMatchers("/mypage/reviews").permitAll()
+                        .requestMatchers("/order/**").permitAll()
                         .requestMatchers("/", "/css/**", "/js/**", "/images/**", "/fonts/**", "/ckeditor2/**", "/vendor/**").permitAll()
                         .requestMatchers("/view/**", "/emp/**").permitAll()
                         .requestMatchers("/", "/{path:[^\\.]*}").permitAll()
