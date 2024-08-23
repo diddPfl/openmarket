@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './CategoryList.css';
 
 const CategoryList = () => {
@@ -11,6 +11,7 @@ const CategoryList = () => {
   const [error, setError] = useState(null);
   const [isCategoryListVisible, setIsCategoryListVisible] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const menuItems = [
     { type: 'allCategories', name: '카테고리', gubunSubCode: 'ITGU01' },
@@ -42,11 +43,15 @@ const CategoryList = () => {
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    // Close category list when location changes
+    setIsCategoryListVisible(false);
+  }, [location]);
+
   const handleMenuClick = (gubunSubCode) => {
     if (gubunSubCode === 'ITGU01') {
       setIsCategoryListVisible((prev) => !prev);
     } else {
-      setIsCategoryListVisible(false); // Close category list before navigating
       navigate(`/categoryitems/gubun/${gubunSubCode}`);
     }
   };
@@ -67,7 +72,6 @@ const CategoryList = () => {
   };
 
   const handleSubCategoryClick = (categoryId) => {
-    setIsCategoryListVisible(false); // Close category list before navigating
     navigate(`/categoryitems/category/${categoryId}`);
   };
 
