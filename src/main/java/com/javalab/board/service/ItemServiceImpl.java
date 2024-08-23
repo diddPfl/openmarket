@@ -52,7 +52,7 @@ public class ItemServiceImpl implements ItemService {
     @Transactional
     public List<ItemImageDto> saveItemImages(long itemId, List<ItemImageDto> imageDtos) {
         List<ItemImage> images = imageDtos.stream()
-                .map(dto -> new ItemImage(dto.getUuid(), itemId, dto.getFileName()))
+                .map(dto -> new ItemImage(dto.getUuid(), itemId, dto.getFileName(), dto.getRepimg()))
                 .collect(Collectors.toList());
 
         for (ItemImage image : images) {
@@ -77,7 +77,7 @@ public class ItemServiceImpl implements ItemService {
                 item.getPrice(),
                 item.getRegdate(),
                 item.getItemSellStatus(),
-                item.getIsDisabled(), // 변환
+                item.getIsDisabled(),
                 item.getImages() != null ? item.getImages().stream().map(this::convertImageToDto).collect(Collectors.toList()) : null
         );
     }
@@ -93,7 +93,7 @@ public class ItemServiceImpl implements ItemService {
         item.setBrand(dto.getBrand());
         item.setStockNumber(dto.getStockNumber());
         item.setRegdate(LocalDate.now());
-        item.setIsDisabled(0); // Default value
+        item.setIsDisabled(0);
 
         if (item.getGubunSubCode() == null) {
             item.setGubunSubCode(generateDefaultGubunSubCode());
@@ -116,12 +116,12 @@ public class ItemServiceImpl implements ItemService {
                 item.getBrand(),
                 item.getStockNumber(),
                 item.getItemSellStatus().toString(),
-                item.getIsDisabled() // 변환
+                item.getIsDisabled()
         );
     }
 
     private ItemImageDto convertImageToDto(ItemImage image) {
-        return new ItemImageDto(image.getUuid(), image.getFileName(), image.getItemId());
+        return new ItemImageDto(image.getUuid(), image.getFileName(), image.getItemId(), image.getRepimg());
     }
 
     private String generateDefaultGubunSubCode() {
@@ -142,6 +142,7 @@ public class ItemServiceImpl implements ItemService {
         }
         return false;
     }
+
     @Override
     public BrandDto getBrandByName(String brandName) {
         String brand = itemRepository.findBrandByName(brandName);

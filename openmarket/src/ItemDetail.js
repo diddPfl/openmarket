@@ -31,7 +31,14 @@ function ItemDetail() {
       setLoading(true);
       setError(null);
       const response = await axios.get(`http://localhost:9000/items/${itemId}`);
-      setItem(response.data);
+      const fetchedItem = response.data;
+
+      // Sort images to put repimg=1 first
+      if (fetchedItem.images && fetchedItem.images.length > 0) {
+        fetchedItem.images.sort((a, b) => (b.repimg || 0) - (a.repimg || 0));
+      }
+
+      setItem(fetchedItem);
     } catch (error) {
       setError('아이템 정보를 가져오는데 실패했습니다. 나중에 다시 시도해주세요.');
     } finally {

@@ -25,7 +25,26 @@ const ItemInsert = () => {
   };
 
   const handleImageChange = (e) => {
-    setImages([...e.target.files]);
+    const files = Array.from(e.target.files);
+    setImages(prevImages => [
+      ...prevImages,
+      ...files.map(file => ({
+        file,
+        preview: URL.createObjectURL(file)
+      }))
+    ]);
+  };
+
+  const handleImageReorder = (dragIndex, hoverIndex) => {
+    const draggedImage = images[dragIndex];
+    const newImages = [...images];
+    newImages.splice(dragIndex, 1);
+    newImages.splice(hoverIndex, 0, draggedImage);
+    setImages(newImages);
+  };
+
+  const handleRemoveImage = (index) => {
+    setImages(prevImages => prevImages.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e) => {
@@ -36,18 +55,19 @@ const ItemInsert = () => {
 
       if (images.length > 0) {
         const formData = new FormData();
-        images.forEach((image) => {
-          formData.append('files', image);
+        images.forEach((image, index) => {
+          formData.append('files', image.file);
         });
 
         const imageResponse = await axios.post(`http://localhost:9000/upload`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
 
-        const imageData = imageResponse.data.map(img => ({
+        const imageData = imageResponse.data.map((img, index) => ({
           uuid: img.uuid,
           fileName: img.fileName,
-          itemId: savedItemId
+          itemId: savedItemId,
+          repimg: index === 0 ? 1 : 0
         }));
 
         await axios.post(`http://localhost:9000/items/${savedItemId}/images`, imageData);
@@ -174,6 +194,29 @@ const ItemInsert = () => {
             accept="image/*"
           />
         </div>
+
+        {images.length > 0 && (
+          <div className="image-preview-container">
+            {images.map((image, index) => (
+              <div
+                key={index}
+                className={`image-preview ${index === 0 ? 'main-image' : ''}`}
+                draggable
+                onDragStart={(e) => e.dataTransfer.setData('text/plain', index)}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  const draggedIndex = Number(e.dataTransfer.getData('text/plain'));
+                  handleImageReorder(draggedIndex, index);
+                }}
+              >
+                <img src={image.preview} alt={`Preview ${index + 1}`} />
+                <button type="button" onClick={() => handleRemoveImage(index)}>X</button>
+              </div>
+            ))}
+          </div>
+        )}
+
         <button type="submit" className="submit-btn">아이템 등록</button>
       </form>
     </div>

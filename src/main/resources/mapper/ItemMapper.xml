@@ -10,7 +10,7 @@
         SELECT i.item_id, i.category_id, i.item_name, i.item_detail, i.price, i.regdate, i.gubun_sub_code,
         i.stock_number, i.item_sell_status, i.brand, i.is_disabled,
         c.category_name,
-        im.uuid, im.file_name
+        im.uuid, im.file_name, im.repimg
         FROM item i
         LEFT JOIN category c ON i.category_id = c.category_id
         LEFT JOIN item_image im ON i.item_id = im.item_id
@@ -22,7 +22,7 @@
         SELECT i.item_id, i.category_id, i.item_name, i.item_detail, i.price, i.regdate, i.gubun_sub_code,
         i.stock_number, i.item_sell_status, i.brand, i.is_disabled,
         c.category_name,
-        im.uuid, im.file_name
+        im.uuid, im.file_name, im.repimg
         FROM item i
         LEFT JOIN category c ON i.category_id = c.category_id
         LEFT JOIN item_image im ON i.item_id = im.item_id
@@ -35,13 +35,14 @@
     </insert>
 
     <insert id="insertItemImage" parameterType="com.javalab.board.vo.ItemImage">
-        INSERT INTO item_image (uuid, item_id, file_name)
-        VALUES (#{uuid}, #{itemId}, #{fileName})
+        INSERT INTO item_image (uuid, item_id, file_name, repimg)
+        VALUES (#{uuid}, #{itemId}, #{fileName}, #{repimg})
     </insert>
 
     <select id="findCategoryNameById" parameterType="long" resultType="string">
         SELECT category_name FROM category WHERE category_id = #{categoryId}
     </select>
+
     <select id="findAllBrands" resultType="string">
         SELECT DISTINCT brand FROM item WHERE brand IS NOT NULL AND brand != ''
     </select>
@@ -79,6 +80,7 @@
             <result property="uuid" column="uuid"/>
             <result property="fileName" column="file_name"/>
             <result property="itemId" column="item_id"/>
+            <result property="repimg" column="repimg"/>
         </collection>
     </resultMap>
 
