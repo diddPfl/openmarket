@@ -22,4 +22,9 @@ public class CategoryItemsServiceImpl implements CategoryItemsService {
 	public List<Item> selectItemsByCategoryId(Long categoryId) {
 		return categoryItemsMapper.selectItemsByCategoryId(categoryId);
 	}
+
+	@Override
+	public List<String> selectAllBrands() {
+		return categoryItemsMapper.selectAllBrands();
+	}
 }

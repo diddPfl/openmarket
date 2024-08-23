@@ -15,4 +15,7 @@ public interface ItemRepository {
     void insert(Item item);
     void insertItemImage(ItemImage itemImage);
     String findCategoryNameById(long categoryId);
+    List<String> findAllBrands();
+    String findBrandByName(String brandName);
+    void deleteItemsByBrand(String brandName);
 }

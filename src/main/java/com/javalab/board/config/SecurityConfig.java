@@ -64,7 +64,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/mypage/cart", "/mypage/cart/**").permitAll()
-                        .requestMatchers("/","/api/**").permitAll()
+                        .requestMatchers("/","/api/**","/api/category/**","/api/categoryitems/**","/api/notices/**").permitAll()
                         .requestMatchers("/mypage/**").permitAll()
                         .requestMatchers("/mypage/reviews").permitAll()
                         .requestMatchers("/order/**").permitAll()

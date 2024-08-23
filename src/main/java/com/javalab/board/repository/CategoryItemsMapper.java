@@ -10,4 +10,5 @@ import java.util.List;
 public interface CategoryItemsMapper {
     List<Item> selectItemsByGubunSubCode(@Param("gubunSubCode") String gubunSubCode);
     List<Item> selectItemsByCategoryId(@Param("categoryId") Long categoryId);
+    List<String> selectAllBrands();
 }

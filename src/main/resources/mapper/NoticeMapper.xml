@@ -1,16 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.javalab.board.repository.CategoryMapper">
-	<select id="selectCategories" resultType="CategoryFormDTO">
-		SELECT * FROM Category
-		<where>
-			<if test="parentId != null">
-				parent_id = #{parentId}
-			</if>
-			<if test="parentId == null">
-				parent_id IS NULL
-			</if>
-		</where>
+<mapper namespace="com.javalab.board.repository.NoticeMapper">
+
+	<select id="getAllNotices" resultType="com.javalab.board.vo.Notice">
+		SELECT * FROM notice
+		ORDER BY regdate DESC
+	</select>
+
+	<select id="getNoticeById" parameterType="Long" resultType="com.javalab.board.vo.Notice">
+		SELECT * FROM notice
+		WHERE notice_no = #{noticeNo}
+	</select>
+
+	<insert id="insertNotice" parameterType="com.javalab.board.vo.Notice" useGeneratedKeys="true" keyProperty="noticeNo">
+		INSERT INTO notice (title, content, member_id, regdate)
+		VALUES (#{title}, #{content}, #{memberId}, NOW())
+	</insert>
+
+	<update id="updateNotice" parameterType="com.javalab.board.vo.Notice">
+		UPDATE notice
+		SET title = #{title},
+		content = #{content}
+		WHERE notice_no = #{noticeNo}
+	</update>
+
+	<delete id="deleteNotice" parameterType="Long">
+		DELETE FROM notice
+		WHERE notice_no = #{noticeNo}
+	</delete>
+
+	<!-- 추가된 메서드들에 대한 SQL 구문 -->
+	<select id="getNoticesByMemberId" parameterType="Long" resultType="com.javalab.board.vo.Notice">
+		SELECT * FROM notice
+		WHERE member_id = #{memberId}
+		ORDER BY regdate DESC
+	</select>
+
+	<select id="searchNoticesByTitle" parameterType="String" resultType="com.javalab.board.vo.Notice">
+		SELECT * FROM notice
+		WHERE title LIKE CONCAT('%', #{title}, '%')
+		ORDER BY regdate DESC
+	</select>
+
+	<select id="getNoticesWithPaging" resultType="com.javalab.board.vo.Notice">
+		SELECT * FROM notice
+		ORDER BY regdate DESC
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+
+	<select id="getTotalNoticeCount" resultType="int">
+		SELECT COUNT(*) FROM notice
 	</select>
 </mapper>

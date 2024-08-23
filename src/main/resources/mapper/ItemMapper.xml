@@ -42,6 +42,17 @@
     <select id="findCategoryNameById" parameterType="long" resultType="string">
         SELECT category_name FROM category WHERE category_id = #{categoryId}
     </select>
+    <select id="findAllBrands" resultType="string">
+        SELECT DISTINCT brand FROM item WHERE brand IS NOT NULL AND brand != ''
+    </select>
+
+    <select id="findBrandByName" parameterType="string" resultType="string">
+        SELECT DISTINCT brand FROM item WHERE brand = #{brandName} LIMIT 1
+    </select>
+
+    <delete id="deleteItemsByBrand" parameterType="string">
+        DELETE FROM item WHERE brand = #{brandName}
+    </delete>
 
     <!-- 아이템에 대한 결과 매핑 -->
     <resultMap id="itemResultMap" type="com.javalab.board.vo.Item">

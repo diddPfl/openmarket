@@ -1,7 +1,10 @@
 package com.javalab.board.service;
 
 import com.javalab.board.vo.Member;
+import com.javalab.board.vo.MemberDto;
 import org.springframework.security.core.userdetails.UserDetailsService;
+
+import java.util.List;
 import java.util.Optional;
 
 public interface MemberService extends UserDetailsService {
@@ -9,4 +12,5 @@ public interface MemberService extends UserDetailsService {
     Optional<Member> getMemberById(Long memberId);
     Member getMemberByEmail(String email);
     Member updateMember(Member member);
+    List<MemberDto> getAllMembers();
 }
