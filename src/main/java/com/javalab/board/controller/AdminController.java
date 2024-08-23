@@ -4,10 +4,13 @@ import com.javalab.board.dto.ItemListDto;
 import com.javalab.board.dto.ItemResponseDto;
 import com.javalab.board.service.ItemService;
 import com.javalab.board.service.MemberService;
+import com.javalab.board.service.NoticeService;
 import com.javalab.board.vo.BrandDto;
 import com.javalab.board.vo.Member;
 import com.javalab.board.vo.MemberDto;
+import com.javalab.board.vo.Notice;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,11 +23,13 @@ public class AdminController {
 
 	private final ItemService itemService;
 	private final MemberService memberService;
+	private final NoticeService noticeService;
 
 	@Autowired
-	public AdminController(ItemService itemService, MemberService memberService) {
+	public AdminController(ItemService itemService, MemberService memberService, NoticeService noticeService) {
 		this.itemService = itemService;
 		this.memberService = memberService;
+		this.noticeService = noticeService;
 	}
 
 	// 상품 관리
@@ -99,5 +104,37 @@ public class AdminController {
 	public ResponseEntity<BrandDto> getBrandByName(@PathVariable("brandName") String brandName) {
 		BrandDto brand = itemService.getBrandByName(brandName);
 		return brand != null ? ResponseEntity.ok(brand) : ResponseEntity.notFound().build();
+	}
+
+	// 공지사항 관리
+	@GetMapping("/notices")
+	public ResponseEntity<List<Notice>> listNotices() {
+		List<Notice> notices = noticeService.getAllNotices();
+		return ResponseEntity.ok(notices);
+	}
+
+	@GetMapping("/notices/{noticeNo}")
+	public ResponseEntity<Notice> getNotice(@PathVariable("noticeNo") Long noticeNo) {
+		Notice notice = noticeService.getNoticeById(noticeNo);
+		return notice != null ? ResponseEntity.ok(notice) : ResponseEntity.notFound().build();
+	}
+
+	@PostMapping("/notices")
+	public ResponseEntity<Notice> createNotice(@RequestBody Notice notice) {
+		Notice createdNotice = noticeService.createNotice(notice);
+		return ResponseEntity.status(HttpStatus.CREATED).body(createdNotice);
+	}
+
+	@PutMapping("/notices/{noticeNo}")
+	public ResponseEntity<Notice> updateNotice(@PathVariable("noticeNo") Long noticeNo, @RequestBody Notice notice) {
+		notice.setNoticeNo(noticeNo);
+		Notice updatedNotice = noticeService.updateNotice(notice);
+		return ResponseEntity.ok(updatedNotice);
+	}
+
+	@DeleteMapping("/notices/{noticeNo}")
+	public ResponseEntity<Void> deleteNotice(@PathVariable("noticeNo") Long noticeNo) {
+		noticeService.deleteNotice(noticeNo);
+		return ResponseEntity.noContent().build();
 	}
 }
