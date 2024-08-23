@@ -32,7 +32,7 @@ function App() {
               <Route path="/signup" element={<CreateMemberComponent />} />
               <Route path="/mypage" element={<MyPageComponent />} />
               <Route path="/mypage/cart" element={<CartComponent />} />
-              <Route path="/mypage/cart/payment/:orderId" element={<PaymentComponent />} />
+              <Route path="/mypage/cart/payment" element={<PaymentComponent />} />
             </Routes>
           </div>
         </Router>

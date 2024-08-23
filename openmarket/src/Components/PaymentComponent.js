@@ -12,9 +12,14 @@ const PaymentComponent = () => {
     const fetchOrderDetails = async () => {
       try {
         const response = await axios.get('/api/cart');
-        setOrderDetails(response.data);
+        if (response.data && Object.keys(response.data).length > 0) {
+          setOrderDetails(response.data);
+        } else {
+          setOrderDetails({ totalAmount: 0, items: [] });
+        }
       } catch (error) {
         console.error('Error fetching order details:', error);
+        setOrderDetails({ totalAmount: 0, items: [] });
       }
     };
 
@@ -27,6 +32,12 @@ const PaymentComponent = () => {
 
   const handlePayment = async () => {
     try {
+      if (orderDetails.totalAmount === 0) {
+        alert('Your cart is empty. Please add items before proceeding with payment.');
+        navigate('/mypage/cart');
+        return;
+      }
+
       const paymentData = {
         payType: paymentMethod,
         // Add any other necessary payment data

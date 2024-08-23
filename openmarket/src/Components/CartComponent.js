@@ -64,18 +64,8 @@ const CartComponent = () => {
     }
   };
 
-  const handleOrder = async () => {
-    try {
-      const response = await axios.post('/api/order', { cartItems, totalAmount, discountAmount, shippingFee });
-      if (response.data.orderId) {
-        navigate(`/mypage/cart/payment/${response.data.orderId}`);
-      } else {
-        alert('Failed to create order. Please try again.');
-      }
-    } catch (error) {
-      console.error('Error placing order:', error);
-      alert('Failed to place order. Please try again.');
-    }
+  const handleOrder = () => {
+    navigate('/mypage/cart/payment');
   };
 
   const handleSelectAll = (event) => {
