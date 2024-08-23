@@ -4,7 +4,7 @@ import { getNoticeById, createNotice, updateNotice } from './NoticeService';
 import './NoticeForm.css';
 
 const NoticeForm = () => {
-  const [notice, setNotice] = useState({ title: '', content: '', memberId: '' });
+  const [notice, setNotice] = useState({ title: '', content: '', memberId: '1' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { noticeNo } = useParams();
