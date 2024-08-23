@@ -2,6 +2,7 @@ import React from "react";
 import Header from "./Header";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ItemDetail from "./ItemDetail";
+import ReviewDetail from "./ReviewDetail";
 import ItemInsert from "./ItemInsert";
 import CategoryItemList from './Category/CategoryItemList';
 import MainPage from './Category/Main';
@@ -27,6 +28,7 @@ function App() {
               <Route path="/categoryitems/gubun/:gubunSubCode" element={<CategoryItemList />} />
               <Route path="/item/:id" element={<ItemDetail />} />
               <Route path="/item/insert" element={<ItemInsert />} />
+              <Route path="/review/detail/:reviewId" element={<ReviewDetail />} />
               <Route path="/login" element={<LoginComponent />} />
               <Route path="/logout" element={<LogoutComponent />} />
               <Route path="/signup" element={<CreateMemberComponent />} />

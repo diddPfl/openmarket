@@ -46,7 +46,7 @@ const MainPage = () => {
   }, []);
 
   const handleItemClick = (itemId) => {
-    navigate(`/item/${itemId}`);
+    navigate(`/items/${itemId}`);
   };
 
   const handleViewAllClick = (gubunSubCode) => {
