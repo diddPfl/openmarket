@@ -27,6 +27,8 @@ public class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final CustomSocialLoginSuccessHandler customSocialLoginSuccessHandler;
 
+
+
     @Autowired
     public SecurityConfig(
             MemberService memberService,
@@ -77,7 +79,7 @@ public class SecurityConfig {
                         .requestMatchers("/view/**", "/emp/**").permitAll()
                         .requestMatchers("/", "/{path:[^\\.]*}").permitAll()
                         .requestMatchers("/board/**").permitAll()
-                        .requestMatchers("/items/**", "/item/read/**", "review/**", "/api/category/list", "/api/categoryitems/**").permitAll()
+                        .requestMatchers("/items/**", "review/**", "/api/category/**", "/api/categoryitems/**").permitAll()
                         .requestMatchers("/api/mypage").authenticated()
                         .requestMatchers("/mypage/**", "/mypage/cart/**", "/mypage/reviews", "/order/**").permitAll()
                         .requestMatchers("/mypage/cart/payment/**").hasAnyRole("USER", "ADMIN")

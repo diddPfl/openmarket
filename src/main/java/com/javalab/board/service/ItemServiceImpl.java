@@ -1,10 +1,11 @@
 package com.javalab.board.service;
 
 import com.javalab.board.dto.ItemCreateDto;
+import com.javalab.board.dto.ItemImageDto;
 import com.javalab.board.dto.ItemListDto;
 import com.javalab.board.dto.ItemResponseDto;
-import com.javalab.board.dto.ItemImageDto;
 import com.javalab.board.repository.ItemRepository;
+import com.javalab.board.service.ItemService;
 import com.javalab.board.vo.Item;
 import com.javalab.board.vo.ItemImage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +77,7 @@ public class ItemServiceImpl implements ItemService {
                 item.getPrice(),
                 item.getRegdate(),
                 item.getItemSellStatus(),
+                item.getIsDisabled(), // 변환
                 item.getImages() != null ? item.getImages().stream().map(this::convertImageToDto).collect(Collectors.toList()) : null
         );
     }
@@ -88,9 +90,10 @@ public class ItemServiceImpl implements ItemService {
         item.setPrice(dto.getPrice());
         item.setItemSellStatus(dto.getItemSellStatus());
         item.setGubunSubCode(dto.getGubunSubCode());
-        item.setBrand(dto.getBrand());  // 추가
-        item.setStockNumber(dto.getStockNumber());  // 추가
+        item.setBrand(dto.getBrand());
+        item.setStockNumber(dto.getStockNumber());
         item.setRegdate(LocalDate.now());
+        item.setIsDisabled(0); // Default value
 
         if (item.getGubunSubCode() == null) {
             item.setGubunSubCode(generateDefaultGubunSubCode());
@@ -110,9 +113,10 @@ public class ItemServiceImpl implements ItemService {
                 item.getPrice(),
                 item.getRegdate(),
                 item.getImages() != null ? item.getImages().stream().map(this::convertImageToDto).collect(Collectors.toList()) : null,
-                item.getBrand(),  // 추가
-                item.getStockNumber(),  // 추가
-                item.getItemSellStatus().toString()  // 추가
+                item.getBrand(),
+                item.getStockNumber(),
+                item.getItemSellStatus().toString(),
+                item.getIsDisabled() // 변환
         );
     }
 

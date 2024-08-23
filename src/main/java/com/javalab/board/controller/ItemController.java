@@ -34,6 +34,7 @@ public class ItemController {
     public ResponseEntity<ItemResponseDto> getItemById(@PathVariable("id") long itemId) {
         ItemResponseDto item = itemService.findById(itemId);
         if (item != null) {
+            System.out.println(item);
             return ResponseEntity.ok(item);
         } else {
             return ResponseEntity.notFound().build();
@@ -79,4 +80,5 @@ public class ItemController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
 }
