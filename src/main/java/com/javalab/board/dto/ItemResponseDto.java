@@ -20,4 +20,5 @@ public class ItemResponseDto {
     private String brand;  // 추가
     private int stockNumber;  // 추가
     private String itemSellStatus;  // 추가 (Enum을 문자열로 처리)
+    private int isDisabled;
 }

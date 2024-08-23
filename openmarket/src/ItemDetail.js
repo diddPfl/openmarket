@@ -31,6 +31,7 @@ function ItemDetail() {
       setError(null);
       const response = await axios.get(`http://localhost:9000/items/${itemId}`);
       console.log('Fetched item data:', response.data);
+      console.log('isDisabled value:', response.data.isDisabled);
       setItem(response.data);
     } catch (error) {
       console.error('Error fetching item details:', error);
@@ -77,6 +78,22 @@ function ItemDetail() {
   const handleBackClick = () => {
     navigate(-1);
   };
+
+  const handleDisableItem = async () => {
+    try {
+      const response = await axios.put(`http://localhost:9000/items/${id}/disabled`);
+      if (response.status === 200) {
+        setItem((prevItem) => ({ ...prevItem, isDisabled: 1 }));
+        alert('Item has been disabled');
+      } else {
+        throw new Error('Failed to disable the item');
+      }
+    } catch (error) {
+      console.error('Error disabling item:', error);
+      alert('Failed to disable the item');
+    }
+  };
+
 
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>에러: {error}</div>;
@@ -155,6 +172,12 @@ function ItemDetail() {
             </div>
             <div className="call-dibs">
               <button>위시리스트</button>
+            </div>
+            <button onClick={handleDisableItem} disabled={item.isDisabled === 1}>
+              {item.isDisabled === 1 ? "비활성화됨" : "위시리스트"}
+            </button>
+            <div>
+                <h2>{item.isDisabled === 1 ? "비활성화됨" : "활성화됨"}</h2>
             </div>
             <div className="back-btn" onClick={handleBackClick}>
               <i className="fa-solid fa-arrow-left"></i>

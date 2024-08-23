@@ -27,4 +27,5 @@ public class Item {
     private int stockNumber;
     private ItemSellStatus itemSellStatus;
     private String brand;
+    private int isDisabled;
 }

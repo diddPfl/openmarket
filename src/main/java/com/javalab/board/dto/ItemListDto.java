@@ -18,5 +18,6 @@ public class ItemListDto {
     private int price;           // 가격
     private LocalDate regdate;   // 등록일
     private ItemSellStatus itemSellStatus;
+    private int isDisabled;
     private List<ItemImageDto> images; // 이미지DTO 리스트
 }

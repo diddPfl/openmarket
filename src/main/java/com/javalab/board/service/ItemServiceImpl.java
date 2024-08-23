@@ -77,6 +77,7 @@ public class ItemServiceImpl implements ItemService {
                 item.getPrice(),
                 item.getRegdate(),
                 item.getItemSellStatus(),
+                item.getIsDisabled(), // 변환
                 item.getImages() != null ? item.getImages().stream().map(this::convertImageToDto).collect(Collectors.toList()) : null
         );
     }
@@ -89,9 +90,10 @@ public class ItemServiceImpl implements ItemService {
         item.setPrice(dto.getPrice());
         item.setItemSellStatus(dto.getItemSellStatus());
         item.setGubunSubCode(dto.getGubunSubCode());
-        item.setBrand(dto.getBrand());  // 추가
-        item.setStockNumber(dto.getStockNumber());  // 추가
+        item.setBrand(dto.getBrand());
+        item.setStockNumber(dto.getStockNumber());
         item.setRegdate(LocalDate.now());
+        item.setIsDisabled(0); // Default value
 
         if (item.getGubunSubCode() == null) {
             item.setGubunSubCode(generateDefaultGubunSubCode());
@@ -111,9 +113,10 @@ public class ItemServiceImpl implements ItemService {
                 item.getPrice(),
                 item.getRegdate(),
                 item.getImages() != null ? item.getImages().stream().map(this::convertImageToDto).collect(Collectors.toList()) : null,
-                item.getBrand(),  // 추가
-                item.getStockNumber(),  // 추가
-                item.getItemSellStatus().toString()  // 추가
+                item.getBrand(),
+                item.getStockNumber(),
+                item.getItemSellStatus().toString(),
+                item.getIsDisabled() // 변환
         );
     }
 
@@ -124,6 +127,7 @@ public class ItemServiceImpl implements ItemService {
     private String generateDefaultGubunSubCode() {
         return "DEFAULT_" + System.currentTimeMillis();
     }
+
     @Override
     public List<String> getAllBrands() {
         return itemRepository.findAllBrands();

@@ -25,6 +25,8 @@ public class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final CustomSocialLoginSuccessHandler customSocialLoginSuccessHandler;
 
+
+
     @Autowired
     public SecurityConfig(
             MemberService memberService,
@@ -48,20 +50,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder auth = http.getSharedObject(AuthenticationManagerBuilder.class);
-        auth.userDetailsService(memberService).passwordEncoder(passwordEncoder);
-
         http
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))  // Disable CSRF for API requests
-
-                /*.formLogin(formLogin -> formLogin
-                        .loginPage("/login")
-                        .usernameParameter("email")
-                        .passwordParameter("password")
-                        .successHandler(customSocialLoginSuccessHandler)  // Use custom success handler
-                        .failureHandler(authFailureHandler)
-                        .permitAll()
-                )*/
+                .csrf(csrf -> csrf.disable())  // Disable CSRF for API requests
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/login")
@@ -80,6 +70,7 @@ public class SecurityConfig {
                         .requestMatchers("/view/**", "/emp/**").permitAll()
                         .requestMatchers("/", "/{path:[^\\.]*}").permitAll()
                         .requestMatchers("/board/**").permitAll()
+                        .requestMatchers("/items/**", "review/**", "/api/category/**", "/api/categoryitems/**").permitAll()
                         .requestMatchers("/items/**", "/item/read/**", "review/**", "/api/category/list", "/api/categoryitems/**","/item/**").permitAll()
                         .requestMatchers("/api/mypage").authenticated()
                         .requestMatchers("/mypage/**", "/mypage/cart/**", "/mypage/reviews", "/order/**").permitAll()
@@ -104,8 +95,6 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .successHandler(customSocialLoginSuccessHandler)  // Use custom success handler
                 );
-
-        http.authenticationManager(auth.build());
         return http.build();
     }
 }

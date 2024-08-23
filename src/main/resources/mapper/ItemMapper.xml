@@ -8,7 +8,7 @@
     <!-- 모든 아이템 조회 -->
     <select id="findAll" resultMap="itemResultMap">
         SELECT i.item_id, i.category_id, i.item_name, i.item_detail, i.price, i.regdate, i.gubun_sub_code,
-        i.stock_number, i.item_sell_status, i.brand,
+        i.stock_number, i.item_sell_status, i.brand, i.is_disabled,
         c.category_name,
         im.uuid, im.file_name
         FROM item i
@@ -20,7 +20,7 @@
     <!-- id로 상품 조회 -->
     <select id="findById" parameterType="long" resultMap="itemResultMap">
         SELECT i.item_id, i.category_id, i.item_name, i.item_detail, i.price, i.regdate, i.gubun_sub_code,
-        i.stock_number, i.item_sell_status, i.brand,
+        i.stock_number, i.item_sell_status, i.brand, i.is_disabled,
         c.category_name,
         im.uuid, im.file_name
         FROM item i
@@ -74,6 +74,7 @@
         <result property="stockNumber" column="stock_number"/>
         <result property="itemSellStatus" column="item_sell_status" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
         <result property="brand" column="brand"/>
+        <result property="isDisabled" column="is_disabled"/>
         <collection property="images" ofType="com.javalab.board.vo.ItemImage">
             <result property="uuid" column="uuid"/>
             <result property="fileName" column="file_name"/>
