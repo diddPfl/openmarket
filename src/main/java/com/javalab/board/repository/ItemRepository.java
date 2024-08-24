@@ -3,6 +3,7 @@ package com.javalab.board.repository;
 import com.javalab.board.vo.Item;
 import com.javalab.board.vo.ItemImage;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 @Repository
 public interface ItemRepository {
     List<Item> findAll();
-    Item findById(long id);
+    Item findById(@Param("itemId") Long itemId);
     void insert(Item item);
     void insertItemImage(ItemImage itemImage);
     void disableItem(long itemId);

@@ -50,9 +50,16 @@ function ItemDetail() {
     }
   };
 
-  const getImageUrl = (image) => {
-    return `http://localhost:9000/view/${image.fullName}`;
-  };
+//  const getImageUrl = (image) => {
+//    return `http://localhost:9000/view/${image.fullName}`;
+//  };
+
+    const getImageUrl = (image) => {
+      if (!image || !image.fullName) {
+        return '/path/to/default/image.jpg'; // Provide a default image path
+      }
+      return `http://localhost:9000/view/${image.fullName}`;
+    };
 
   const slide = (direction) => {
     if (!item || !item.images || item.images.length <= 1) return;
@@ -94,6 +101,39 @@ function ItemDetail() {
     }
   };
 
+  const handlePurchase = async () => {
+    try {
+      const memberId = sessionStorage.getItem('memberId');
+      console.log('MemberId:', memberId); // Add this line
+      if (!memberId) {
+        alert('Please log in to add items to your cart.');
+        navigate('/login');
+        return;
+      }
+
+      // Check if the user has a cart
+      const checkCartResponse = await axios.get(`http://localhost:9000/api/cart/check/${memberId}`);
+      let cartId = checkCartResponse.data.cartId;
+
+      if (!cartId) {
+        // If the user doesn't have a cart, create one
+        const createCartResponse = await axios.post(`http://localhost:9000/api/cart/create`, { memberId: parseInt(memberId) });
+        cartId = createCartResponse.data.cartId;
+      }
+
+      // Add the item to the cart
+      await axios.post(`http://localhost:9000/api/cart/add`, {
+        cartId: cartId,
+        itemId: parseInt(id),
+        count: 1
+      });
+
+      navigate('/mypage/cart');
+    } catch (error) {
+        console.error('Error adding item to cart:', error);
+        alert('Failed to add item to cart. Please try again.');
+      }
+    };
 
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>에러: {error}</div>;
@@ -164,7 +204,7 @@ function ItemDetail() {
             </div>
             <div className="button-box">
               <div className="purchase-btn">
-                <button><p>구매</p></button>
+                <button onClick={handlePurchase}><p>구매</p></button>
               </div>
               <div className="sell-btn">
                 <button><p>판매</p></button>

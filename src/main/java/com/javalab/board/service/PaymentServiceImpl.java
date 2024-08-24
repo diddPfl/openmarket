@@ -1,6 +1,5 @@
 package com.javalab.board.service;
 
-
 import com.javalab.board.repository.PaymentRepository;
 import com.javalab.board.vo.Payment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public void insertPayment(Payment payment) {
+        // We don't need to set regdate here, as the database will handle it
         paymentRepository.insertPayment(payment);
     }
 

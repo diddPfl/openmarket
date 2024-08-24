@@ -17,10 +17,11 @@
         SELECT * FROM payment WHERE payment_id = #{paymentId}
     </select>
 
-    <insert id="insertPayment" useGeneratedKeys="true" keyProperty="paymentId">
-        INSERT INTO payment (order_id, regdate, imp_uid, pay_type)
-        VALUES (#{orderId}, #{regdate}, #{impUid}, #{payType})
+    <insert id="insertPayment" parameterType="com.javalab.board.vo.Payment">
+        INSERT INTO payment (order_id, imp_uid, pay_type)
+        VALUES (#{orderId}, #{impUid}, #{payType})
     </insert>
+
 
     <update id="updatePayment">
         UPDATE payment

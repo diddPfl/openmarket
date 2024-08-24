@@ -8,8 +8,12 @@ import com.javalab.board.service.CartService;
 import com.javalab.board.vo.CartItemVO;
 import com.javalab.board.vo.CartVO;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/cart")
 public class CartController {
@@ -18,16 +22,57 @@ public class CartController {
     private CartService cartService;
 
     @GetMapping("/{memberId}")
-    public ResponseEntity<?> viewCart(@PathVariable Long memberId) {
+    public ResponseEntity<?> viewCart(@PathVariable("memberId") Long memberId) {
         try {
             CartVO cart = cartService.getCartByMemberId(memberId);
             if (cart == null) {
                 cart = cartService.createCart(memberId);
             }
             List<CartItemVO> cartItems = cartService.getCartItems(cart.getCartId());
+            System.out.println("Cart items for member " + memberId + ":");
+            for (CartItemVO item : cartItems) {
+                System.out.println("Item: " + item.getItemName() + ", Price: " + item.getPrice() + ", Count: " + item.getCount());
+            }
             return ResponseEntity.ok().body(new CartResponse(cart, cartItems));
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching cart: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/check/{memberId}")
+    public ResponseEntity<?> checkCart(@PathVariable("memberId") String memberIdStr) {
+        try {
+            Long memberId = Long.parseLong(memberIdStr);
+            CartVO cart = cartService.getCartByMemberId(memberId);
+            if (cart != null) {
+                return ResponseEntity.ok().body(Collections.singletonMap("cartId", cart.getCartId()));
+            } else {
+                return ResponseEntity.ok().body(Collections.singletonMap("cartId", null));
+            }
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body("Invalid member ID");
+        }
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createCart(@RequestBody Map<String, String> payload) {
+        try {
+            String memberIdStr = payload.get("memberId");
+            if (memberIdStr == null) {
+                return ResponseEntity.badRequest().body("Member ID is required");
+            }
+            Long memberId = Long.parseLong(memberIdStr);
+            CartVO cart = cartService.createCart(memberId);
+            if (cart != null && cart.getCartId() != null) {
+                return ResponseEntity.ok().body(Collections.singletonMap("cartId", cart.getCartId()));
+            } else {
+                return ResponseEntity.internalServerError().body("Failed to create cart");
+            }
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body("Invalid member ID");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error creating cart: " + e.getMessage());
         }
     }
 
@@ -52,7 +97,7 @@ public class CartController {
     }
 
     @PostMapping("/remove/{cartItemId}")
-    public ResponseEntity<?> removeCartItem(@PathVariable Long cartItemId) {
+    public ResponseEntity<?> removeCartItem(@PathVariable("cartItemId") Long cartItemId) {
         try {
             cartService.removeCartItem(cartItemId);
             return ResponseEntity.ok().body("Cart item removed");
@@ -62,12 +107,32 @@ public class CartController {
     }
 
     @PostMapping("/clear/{cartId}")
-    public ResponseEntity<?> clearCart(@PathVariable Long cartId) {
+    public ResponseEntity<?> clearCart(@PathVariable("cartId") Long cartId) {
         try {
             cartService.clearCart(cartId);
             return ResponseEntity.ok().body("Cart cleared");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error clearing cart: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/item/{cartItemId}/count")
+    public ResponseEntity<?> updateCartItemCount(@PathVariable("cartItemId") Long cartItemId, @RequestBody Map<String, Integer> payload) {
+        try {
+            Integer count = payload.get("count");
+            if (count == null) {
+                return ResponseEntity.badRequest().body("Count is required");
+            }
+            cartService.updateCartItemCount(cartItemId, count);
+            CartItemVO updatedItem = cartService.getCartItem(cartItemId);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("item", updatedItem);
+            response.put("totalPrice", updatedItem.getPrice() * updatedItem.getCount());
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating cart item count: " + e.getMessage());
         }
     }
 

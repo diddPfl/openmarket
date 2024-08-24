@@ -68,7 +68,7 @@
         <result property="categoryName" column="category_name"/>
         <result property="itemName" column="item_name"/>
         <result property="itemDetail" column="item_detail"/>
-        <result property="price" column="price"/>
+        <result property="price" column="price" jdbcType="DECIMAL"/>
         <result property="regdate" column="regdate"/>
         <result property="gubunSubCode" column="gubun_sub_code"/>
         <result property="stockNumber" column="stock_number"/>

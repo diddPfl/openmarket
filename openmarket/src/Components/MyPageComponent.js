@@ -7,7 +7,7 @@ const MyPage = () => {
   const [orderStatus, setOrderStatus] = useState({});
 
   useEffect(() => {
-    fetch('/api/mypage', {
+    fetch('/mypage', {
       credentials: 'include'
     })
       .then(response => {

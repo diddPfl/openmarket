@@ -46,11 +46,12 @@ export const AuthProvider = ({ children }) => {
   // LoginComponent에서 사용할 login 함수 정의
   // login 함수: 사용자가 로그인할 때 호출되어 로그인 성공시 JWT 토큰과 사용자 이름을 세션 스토리지에 저장하고,
   // 인증 상태와 사용자 이름 상태를 업데이트합니다.
-  const login = (token, name) => {
-    sessionStorage.setItem('jwt', token);   // JWT 토큰 저장
-    sessionStorage.setItem('name', name);   // name도 저장해서 사용자명 출력시 사용
-    setIsAuthenticated(true);               // 인증 상태 업데이트
-    setName(name);                          // 사용자 이름 상태 업데이트
+  const login = (token, name, memberId) => {
+    sessionStorage.setItem('jwt', token);
+    sessionStorage.setItem('name', name);
+    sessionStorage.setItem('memberId', memberId);
+    setIsAuthenticated(true);
+    setName(name);
   };
 
   // logout 함수: 사용자가 로그아웃할 때 호출됩니다.
@@ -59,6 +60,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     sessionStorage.removeItem('jwt');   // JWT 토큰 제거
     sessionStorage.removeItem('name');  // name 제거
+    sessionStorage.removeItem('memberId');  // name 제거
     setIsAuthenticated(false);          // 인증 상태 초기화
     setName('');                        // 사용자 이름 초기화
   };

@@ -2,6 +2,7 @@ package com.javalab.board.controller;
 
 import com.javalab.board.dto.*;
 import com.javalab.board.service.ItemService;
+import com.javalab.board.service.CartService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,12 @@ public class ItemController {
 
     private static final Logger logger = LoggerFactory.getLogger(ItemController.class);
     private final ItemService itemService;
+    private final CartService cartService;
 
     @Autowired
-    public ItemController(ItemService itemService) {
+    public ItemController(ItemService itemService, CartService cartService) {
         this.itemService = itemService;
+        this.cartService = cartService;
     }
 
     @GetMapping("/list")
@@ -81,4 +84,36 @@ public class ItemController {
         }
     }
 
+    @PostMapping("/{itemId}/addToCart")
+    public ResponseEntity<?> addItemToCart(@PathVariable("itemId") long itemId, @RequestBody AddToCartRequest request) {
+        try {
+            cartService.addItemToCart(request.getMemberId(), itemId, request.getCount());
+            return ResponseEntity.ok().body("Item added to cart");
+        } catch (Exception e) {
+            logger.error("Error adding item to cart: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding item to cart: " + e.getMessage());
+        }
+    }
+
+    private static class AddToCartRequest {
+        private Long memberId;
+        private int count;
+
+        // Getters and setters
+        public Long getMemberId() {
+            return memberId;
+        }
+
+        public void setMemberId(Long memberId) {
+            this.memberId = memberId;
+        }
+
+        public int getCount() {
+            return count;
+        }
+
+        public void setCount(int count) {
+            this.count = count;
+        }
+    }
 }

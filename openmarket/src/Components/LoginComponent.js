@@ -37,7 +37,7 @@ const LoginComponent = () => {
         console.log('userData : ', userData);
 
         if (jwtToken) {
-          login(jwtToken, userData.name);    // login 함수를 통해 JWT 토큰 저장 및 사용자명 전달
+          login(jwtToken, userData.name, userData.memberId);    // login 함수를 통해 JWT 토큰 저장 및 사용자명 전달
           navigate('/'); // 로그인 성공 시 리다이렉트
         }
       } else {

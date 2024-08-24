@@ -1,15 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.javalab.board.repository.CartRepository">
-    <select id="findCartByMemberId" resultType="com.javalab.board.vo.CartVO">
+
+    <select id="findByMemberId" resultType="com.javalab.board.vo.CartVO">
         SELECT * FROM cart WHERE member_id = #{memberId}
     </select>
 
-    <insert id="insertCart" useGeneratedKeys="true" keyProperty="cartId">
+    <insert id="insertCart" parameterType="com.javalab.board.vo.CartVO" useGeneratedKeys="true" keyProperty="cartId">
         INSERT INTO cart (member_id) VALUES (#{memberId})
     </insert>
 
     <delete id="deleteCart">
         DELETE FROM cart WHERE cart_id = #{cartId}
     </delete>
+
 </mapper>

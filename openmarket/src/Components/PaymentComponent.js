@@ -1,52 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
-import './PaymentComponent.css';
 
 const PaymentComponent = () => {
-  const [orderDetails, setOrderDetails] = useState(null);
-  const [paymentMethod, setPaymentMethod] = useState('카드결제');
+  const location = useLocation();
   const navigate = useNavigate();
-  const { orderId } = useParams();
-
-  useEffect(() => {
-    const fetchOrderDetails = async () => {
-      try {
-        const response = await axios.get(`/api/orders/${orderId}`);
-        setOrderDetails(response.data);
-      } catch (error) {
-        console.error('Error fetching order details:', error);
-      }
-    };
-
-    fetchOrderDetails();
-  }, [orderId]);
-
-  const handlePaymentMethodChange = (e) => {
-    setPaymentMethod(e.target.value);
-  };
+  const { selectedItems, totalAmount, shippingFee } = location.state || {};
 
   const handlePayment = async () => {
     try {
-      const paymentData = {
-        orderId: orderDetails.orderId,
-        payType: paymentMethod,
+      const orderData = {
+        memberId: sessionStorage.getItem('memberId'),
+        orderAmount: totalAmount + shippingFee,
+        orderItems: selectedItems.map(item => ({
+          itemId: item.itemId,
+          count: item.count,
+          orderPrice: item.price
+        }))
       };
 
-      const response = await axios.post('/api/payments', paymentData);
-
-      if (response.status === 200) {
-        alert('Payment successful!');
-        navigate('/mypage');
+      const response = await axios.post('/api/orders', orderData);
+      if (response.data && response.data.orderId) {
+        alert('Order placed successfully!');
+        // Navigate to the delivery list page after successful payment
+        navigate('/mypage/deliverylist');
+      } else {
+        alert('Failed to create order. Please try again.');
       }
     } catch (error) {
-      console.error('Error processing payment:', error);
-      alert('Payment failed. Please try again.');
+      console.error('Error placing order:', error);
+      alert('Failed to place order. Please try again.');
     }
   };
 
-  if (!orderDetails) {
-    return <div>Loading...</div>;
+  if (!selectedItems || selectedItems.length === 0) {
+    return <div>No items selected for payment.</div>;
   }
 
   return (
@@ -54,17 +42,19 @@ const PaymentComponent = () => {
       <h2>Payment</h2>
       <div className="order-summary">
         <h3>Order Summary</h3>
-        <p>Total Amount: {orderDetails.totalAmount}원</p>
-        <p>Items: {orderDetails.items.join(', ')}</p>
+        <ul>
+          {selectedItems.map((item, index) => (
+            <li key={index}>
+              {item.itemName} - Quantity: {item.count} - Price: {item.price.toLocaleString()}원
+              - Total: {(item.price * item.count).toLocaleString()}원
+            </li>
+          ))}
+        </ul>
+        <p>Subtotal: {totalAmount.toLocaleString()}원</p>
+        <p>Shipping Fee: {shippingFee.toLocaleString()}원</p>
+        <p><strong>Total Amount: {(totalAmount + shippingFee).toLocaleString()}원</strong></p>
       </div>
-      <div className="payment-method">
-        <h3>Payment Method</h3>
-        <select value={paymentMethod} onChange={handlePaymentMethodChange}>
-          <option value="카드결제">Card Payment</option>
-          <option value="계좌결제">Bank Transfer</option>
-        </select>
-      </div>
-      <button className="pay-button" onClick={handlePayment}>Pay Now</button>
+      <button onClick={handlePayment}>Place Order</button>
     </div>
   );
 };

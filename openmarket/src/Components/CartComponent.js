@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import CartItem from './CartItem';
@@ -14,14 +14,25 @@ const CartComponent = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchCartItems();
+  const calculateTotals = useCallback((items) => {
+    console.log('Calculating totals for items:', items);
+    const total = items.reduce((sum, item) => {
+      const itemTotal = item.price * item.count;
+      console.log(`Item: ${item.itemName}, Price: ${item.price}, Count: ${item.count}, Total: ${itemTotal}`);
+      return sum + itemTotal;
+    }, 0);
+    console.log('Total amount:', total);
+    setTotalAmount(total);
+    setDiscountAmount(0);
+    setShippingFee(total > 50000 ? 0 : 3000);
   }, []);
 
-  const fetchCartItems = async () => {
+  const fetchCartItems = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/cart/1'); // Assuming member ID is 1
+      const memberId = sessionStorage.getItem('memberId') || '1';
+      const response = await axios.get(`/api/cart/${memberId}`);
+      console.log('Cart data:', response.data);
       const items = response.data.cartItems || [];
       setCartItems(items.map(item => ({ ...item, selected: false })));
       calculateTotals(items);
@@ -31,32 +42,34 @@ const CartComponent = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [calculateTotals]);
 
-  const calculateTotals = (items) => {
-    const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    setTotalAmount(total);
-    setDiscountAmount(0); // Implement discount logic if needed
-    setShippingFee(total > 50000 ? 0 : 3000);
-  };
+  useEffect(() => {
+    fetchCartItems();
+  }, [fetchCartItems]);
 
-  const handleQuantityChange = async (itemId, newQuantity) => {
+  const handleQuantityChange = async (cartItemId, newQuantity) => {
+    setLoading(true);
     try {
-      await axios.post('/api/cart/update', { cartItemId: itemId, count: newQuantity });
+      const response = await axios.post(`/api/cart/item/${cartItemId}/count`, { count: newQuantity });
+      const updatedItem = response.data.item;
       const updatedItems = cartItems.map(item =>
-        item.id === itemId ? { ...item, quantity: newQuantity } : item
+        item.cartItemId === cartItemId ? { ...item, count: updatedItem.count } : item
       );
       setCartItems(updatedItems);
       calculateTotals(updatedItems);
     } catch (error) {
       console.error('Error updating quantity:', error);
+      alert('Failed to update quantity. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleRemoveItem = async (itemId) => {
+  const handleRemoveItem = async (cartItemId) => {
     try {
-      await axios.post(`/api/cart/remove/${itemId}`);
-      const updatedItems = cartItems.filter(item => item.id !== itemId);
+      await axios.post(`/api/cart/remove/${cartItemId}`);
+      const updatedItems = cartItems.filter(item => item.cartItemId !== cartItemId);
       setCartItems(updatedItems);
       calculateTotals(updatedItems);
     } catch (error) {
@@ -64,18 +77,29 @@ const CartComponent = () => {
     }
   };
 
-  const handleOrder = async () => {
-    try {
-      const response = await axios.post('/api/order', { cartItems, totalAmount, discountAmount, shippingFee });
-      if (response.data.orderId) {
-        navigate(`/mypage/cart/payment/${response.data.orderId}`);
-      } else {
-        alert('Failed to create order. Please try again.');
-      }
-    } catch (error) {
-      console.error('Error placing order:', error);
-      alert('Failed to place order. Please try again.');
+  const handleOrder = () => {
+    const selectedItems = cartItems.filter(item => item.selected);
+    console.log('Selected items:', selectedItems);
+    if (selectedItems.length === 0) {
+      alert('Please select items to order.');
+      return;
     }
+
+    const totalAmount = selectedItems.reduce((total, item) => total + (item.price * item.count), 0);
+
+    console.log('Navigating to payment with state:', {
+      selectedItems,
+      totalAmount,
+      shippingFee
+    });
+
+    navigate('/mypage/cart/payment', {
+      state: {
+        selectedItems,
+        totalAmount,
+        shippingFee
+      }
+    });
   };
 
   const handleSelectAll = (event) => {
@@ -84,9 +108,9 @@ const CartComponent = () => {
     setCartItems(cartItems.map(item => ({ ...item, selected: isChecked })));
   };
 
-  const handleSelectItem = (itemId) => {
+  const handleSelectItem = (cartItemId) => {
     setCartItems(cartItems.map(item =>
-      item.id === itemId ? { ...item, selected: !item.selected } : item
+      item.cartItemId === cartItemId ? { ...item, selected: !item.selected } : item
     ));
     setSelectAll(cartItems.every(item => item.selected));
   };
@@ -114,6 +138,7 @@ const CartComponent = () => {
                 <th>상품 이름</th>
                 <th>수량</th>
                 <th>가격</th>
+                <th>총 가격</th>
                 <th>삭제</th>
               </tr>
             </thead>
@@ -121,7 +146,7 @@ const CartComponent = () => {
               {cartItems.length > 0 ? (
                 cartItems.map((item, index) => (
                   <CartItem
-                    key={item.id}
+                    key={item.cartItemId}
                     item={item}
                     onQuantityChange={handleQuantityChange}
                     onRemove={handleRemoveItem}
@@ -131,17 +156,17 @@ const CartComponent = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5">장바구니가 비어 있습니다.</td>
+                  <td colSpan="6">장바구니가 비어 있습니다.</td>
                 </tr>
               )}
             </tbody>
           </table>
 
           <div className="summary">
-            <p>상품금액: <span>{totalAmount}원</span></p>
-            <p>할인금액: <span>-{discountAmount}원</span></p>
-            <p>배송비: <span>{shippingFee}원</span></p>
-            <p><strong>총결제금액: <span>{totalAmount - discountAmount + shippingFee}원</span></strong></p>
+            <p>상품금액: <span>{totalAmount.toLocaleString()}원</span></p>
+            <p>할인금액: <span>-{discountAmount.toLocaleString()}원</span></p>
+            <p>배송비: <span>{shippingFee.toLocaleString()}원</span></p>
+            <p><strong>총결제금액: <span>{(totalAmount - discountAmount + shippingFee).toLocaleString()}원</span></strong></p>
           </div>
         </div>
 
@@ -150,10 +175,10 @@ const CartComponent = () => {
           <p>주소</p>
           <button>배송지 변경</button>
           <div className="order-summary">
-            <div><span>상품금액:</span> {totalAmount}원</div>
-            <div><span>할인금액:</span> -{discountAmount}원</div>
-            <div><span>배송비:</span> {shippingFee}원</div>
-            <div><span>총결제금액:</span> {totalAmount - discountAmount + shippingFee}원</div>
+            <div><span>상품금액:</span> {totalAmount.toLocaleString()}원</div>
+            <div><span>할인금액:</span> -{discountAmount.toLocaleString()}원</div>
+            <div><span>배송비:</span> {shippingFee.toLocaleString()}원</div>
+            <div><span>총결제금액:</span> {(totalAmount - discountAmount + shippingFee).toLocaleString()}원</div>
           </div>
           <button className="order-btn" onClick={handleOrder}>주문하기</button>
         </div>

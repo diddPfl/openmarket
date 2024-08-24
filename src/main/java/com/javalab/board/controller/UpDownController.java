@@ -26,6 +26,12 @@ public class UpDownController {
     @GetMapping("/view/{fileName}")
     public ResponseEntity<Resource> viewFileGET(@PathVariable("fileName") String fileName) {
         log.info("Requested image: {}", fileName);
+
+        if (fileName == null || fileName.equals("null_null")) {
+            log.warn("Invalid file name received: {}", fileName);
+            return ResponseEntity.badRequest().body(null);
+        }
+
         Path filePath = Paths.get(uploadPath, fileName);
         Resource resource = new FileSystemResource(filePath.toFile());
 
