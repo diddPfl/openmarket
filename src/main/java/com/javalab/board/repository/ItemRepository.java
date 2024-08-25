@@ -1,5 +1,6 @@
 package com.javalab.board.repository;
 
+import com.javalab.board.dto.ItemTagDto;
 import com.javalab.board.vo.Item;
 import com.javalab.board.vo.ItemImage;
 import org.apache.ibatis.annotations.Mapper;
@@ -21,4 +22,6 @@ public interface ItemRepository {
     String findBrandByName(String brandName);
     void deleteItemsByBrand(String brandName);
     List<Item> searchItems(@Param("term") String term);
+    List<ItemImage> findImagesByItemId(long itemId);
+    List<ItemTagDto> findRelatedItemTags(String brand, long categoryId, long excludeItemId);
 }

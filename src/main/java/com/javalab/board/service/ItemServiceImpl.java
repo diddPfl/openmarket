@@ -1,9 +1,6 @@
 package com.javalab.board.service;
 
-import com.javalab.board.dto.ItemCreateDto;
-import com.javalab.board.dto.ItemImageDto;
-import com.javalab.board.dto.ItemListDto;
-import com.javalab.board.dto.ItemResponseDto;
+import com.javalab.board.dto.*;
 import com.javalab.board.repository.ItemRepository;
 import com.javalab.board.vo.BrandDto;
 import com.javalab.board.vo.Item;
@@ -16,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,7 +55,7 @@ public class ItemServiceImpl implements ItemService {
     @Transactional
     public List<ItemImageDto> saveItemImages(long itemId, List<ItemImageDto> imageDtos) {
         List<ItemImage> images = imageDtos.stream()
-                .map(dto -> new ItemImage(dto.getUuid(), itemId, dto.getFileName()))
+                .map(dto -> new ItemImage(dto.getUuid(), itemId, dto.getFileName(), dto.getRepimg()))
                 .collect(Collectors.toList());
 
         for (ItemImage image : images) {
@@ -65,6 +63,26 @@ public class ItemServiceImpl implements ItemService {
         }
 
         return imageDtos;
+    }
+
+    @Override
+    public List<ItemTagDto> getRelatedItems(long itemId) {
+        Item item = itemRepository.findById(itemId);
+        if (item == null) {
+            return Collections.emptyList();
+        }
+        List<ItemTagDto> relatedItems = itemRepository.findRelatedItemTags(item.getBrand(), item.getCategoryId(), itemId);
+
+        // fullName 설정
+        for (ItemTagDto relatedItem : relatedItems) {
+            if (relatedItem.getImages() != null) {
+                for (ItemImageDto image : relatedItem.getImages()) {
+                    image.setFullName(image.getUuid() + "_" + image.getFileName());
+                }
+            }
+        }
+
+        return relatedItems;
     }
 
     @Override
@@ -126,7 +144,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     private ItemImageDto convertImageToDto(ItemImage image) {
-        return new ItemImageDto(image.getUuid(), image.getFileName(), image.getItemId());
+        return new ItemImageDto(image.getUuid(), image.getFileName(), image.getItemId(), image.getRepimg());
     }
 
     private String generateDefaultGubunSubCode() {

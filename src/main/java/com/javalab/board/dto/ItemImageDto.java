@@ -13,11 +13,12 @@ public class ItemImageDto {
     private int repimg;
     private String fullName;
 
-    public ItemImageDto(String uuid, String fileName, Long itemId, int repimg) {
+    public ItemImageDto(String uuid, String fileName, long itemId, int repimg) {
         this.uuid = uuid;
         this.fileName = fileName;
         this.itemId = itemId;
         this.repimg = repimg;
         this.fullName = uuid + "_" + fileName;
     }
+
 }

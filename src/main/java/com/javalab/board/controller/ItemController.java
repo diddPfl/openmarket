@@ -44,6 +44,12 @@ public class ItemController {
         }
     }
 
+    @GetMapping("/{itemId}/related")
+    public ResponseEntity<List<ItemTagDto>> getRelatedItems(@PathVariable long itemId) {
+        List<ItemTagDto> relatedItems = itemService.getRelatedItems(itemId);
+        return ResponseEntity.ok(relatedItems);
+    }
+
     @PostMapping
     public ResponseEntity<ItemResponseDto> createItem(@RequestBody ItemCreateDto itemCreateDto) {
         try {
