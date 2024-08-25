@@ -58,7 +58,7 @@ public class ItemReviewServiceImpl implements ItemReviewService {
             // 아이템의 이미지 설정
             if (itemReview.getItem().getImages() != null) {
                 List<ItemImageDto> itemImages = itemReview.getItem().getImages().stream()
-                        .map(img -> new ItemImageDto(img.getUuid(), img.getFileName(), img.getItemId()))
+                        .map(img -> new ItemImageDto(img.getUuid(), img.getFileName(), img.getItemId(), img.getRepimg()))
                         .collect(Collectors.toList());
                 itemDto.setImages(itemImages);
             }

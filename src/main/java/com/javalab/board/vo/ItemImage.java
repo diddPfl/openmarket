@@ -10,4 +10,5 @@ public class ItemImage {
     private String uuid;
     private long itemId;
     private String fileName;
+    private int repimg;
 }
