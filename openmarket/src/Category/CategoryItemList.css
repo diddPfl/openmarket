@@ -1,63 +1,110 @@
+/* 카테고리 아이템 리스트 페이지 컨테이너 */
+.category-container {
+  padding: 20px;
+}
+
+/* 필터 메뉴 바 */
+.menu-bar {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+/* 필터 버튼 (브랜드 선택, 가격 범위 선택, 검색 버튼) */
+.menu-item {
+  background-color: #f0f0f0;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.menu-item:hover {
+  background-color: #d0d0d0;
+}
+
+/* 가격 입력 필드 */
+.price-input {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.price-input input {
+  width: 100px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* 선택된 필터 정보 */
+.filter-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-info span {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
 /* 카테고리 아이템 리스트 컨테이너 */
 .category-display {
-  display: grid; /* 그리드 레이아웃 사용 */
-  grid-template-columns: repeat(5, 1fr); /* 한 줄에 5개의 아이템 */
-  gap: 20px; /* 아이템 간격 */
-  width: 100%; /* 전체 너비 사용 */
-  justify-items: center; /* 아이템을 가운데 정렬 */
-  padding: 20px 0; /* 위아래 패딩 추가 */
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  width: 100%;
+  justify-items: center;
+  padding: 20px 0;
 }
 
 /* 개별 카테고리 아이템 스타일 */
 .category-item {
   cursor: pointer;
-  text-align: center; /* 텍스트를 가운데 정렬 */
-  width: 100%; /* 그리드 셀 안에서의 너비 */
-  max-width: 240px; /* 아이템 최대 너비 */
-  margin-bottom: 20px; /* 하단 마진 추가 */
+  text-align: center;
+  width: 100%;
+  max-width: 240px;
+  margin-bottom: 20px;
 }
 
 /* 이미지 박스 스타일 */
 .img-box {
-  width: 100%; /* 이미지 박스의 너비를 100%로 설정 */
-  padding-bottom: 100%; /* 정사각형 비율 유지 */
-  position: relative; /* 자식의 절대 위치 설정을 위한 상대 위치 */
-  overflow: hidden; /* 이미지 넘침 방지 */
-  margin-bottom: 15px; /* 이미지와 텍스트 간격 */
+  width: 100%;
+  padding-bottom: 100%;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 15px;
 }
 
-/* 이미지 스타일 */
 .category-item img {
-  position: absolute; /* 이미지 절대 위치 설정 */
+  position: absolute;
   top: 0;
   left: 0;
-  width: 100%; /* 이미지가 박스를 채우도록 설정 */
+  width: 100%;
   height: 100%;
-  object-fit: cover; /* 이미지 비율을 유지하며 박스를 채우기 */
+  object-fit: cover;
 }
 
 /* 브랜드와 아이콘을 위한 컨테이너 */
 .brand-and-icons {
-  display: flex; /* 플렉스 박스를 사용하여 정렬 */
-  justify-content: space-between; /* 브랜드와 아이콘 사이에 공간 */
-  align-items: center; /* 수직 중앙 정렬 */
-  padding: 0 10px; /* 좌우 패딩 추가 */
-  margin-bottom: 10px; /* 하단 마진 추가 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  margin-bottom: 10px;
 }
 
-/* 브랜드 텍스트 스타일 */
 .item-brand {
   font-size: 0.85em;
   color: #666;
 }
 
-/* 아이콘 컨테이너 */
 .icon-container {
-  display: flex; /* 플렉스 박스 사용 */
-  gap: 8px; /* 아이콘 간격 */
+  display: flex;
+  gap: 8px;
 }
 
-/* 아이콘 스타일과 호버 효과 */
 .icon {
   font-size: 1em;
   cursor: pointer;
@@ -66,43 +113,29 @@
 }
 
 .icon:hover {
-  color: #ff4081; /* 호버 시 색상 변경 */
-  transform: scale(1.1); /* 호버 시 크기 변경 */
+  color: #ff4081;
+  transform: scale(1.1);
 }
 
-/* 아이템 이름 스타일 */
 .item-name {
   font-size: 1em;
   font-weight: normal;
   color: #333;
-  margin: 8px 0 4px; /* 위, 아래 마진 추가 */
+  margin: 8px 0 4px;
 }
 
-/* 가격 스타일 */
 .item-price {
   font-weight: bold;
   font-size: 1.1em;
   color: #000;
-  text-align: left; /* 가격 왼쪽 정렬 */
-  margin-left: 10px; /* 왼쪽 마진 추가 */
+  text-align: left;
+  margin-left: 10px;
 }
 
-/* 가격 입력 필드 스타일 */
-.price-input-container {
-  margin-top: 10px; /* 필터와의 간격 */
+/* 로딩 및 에러 메시지 */
+.category-item-list-loading,
+.category-item-list-error,
+.category-item-list-no-items {
+  text-align: center;
+  margin-top: 20px;
 }
-
-.price-input {
-  display: flex;
-  gap: 10px; /* 입력 필드 간 간격 */
-  margin-bottom: 20px; /* 필터와 아이템 리스트 사이 간격 */
-}
-
-.price-input input {
-  width: 100px;
-  padding: 8px; /* 입력 필드 패딩 */
-  border: 1px solid #ddd; /* 테두리 설정 */
-  border-radius: 4px; /* 모서리 둥글게 */
-}
-
-
