@@ -1,10 +1,11 @@
-/* Admin.css */
-
+.admin-page{
+    margin-top: 130px;
+}
 .admin-dashboard {
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
-    margin-top: 130px; /* AdminHeader의 높이만큼 여백 추가 */
+    margin-top: 130px;
 }
 
 .admin-sections {

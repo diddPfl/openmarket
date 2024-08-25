@@ -90,8 +90,8 @@ useEffect(() => {
                   <div className="brand-and-icons">
                     {item.brand && <p className="main-page-item-brand">{item.brand}</p>}
                     <div className="icon-container">
-                      <i className="fas fa-heart icon" title="좋아요"></i>
-                      <i className="fas fa-shopping-cart icon" title="장바구니"></i>
+                      <span className="icon">♡</span>
+                      <span className="icon">🛒</span>
                     </div>
                   </div>
                   <h3 className="main-page-item-name">{item.itemName}</h3>

@@ -1,21 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import './Admin.css';
 
 const Admin = () => {
-  // 하드코딩된 관리자 정보
-  const adminUser = {
-    name: "admin",
-    role: "ADMIN"
-  };
-
-  // 하드코딩된 통계 정보
-  const [stats] = useState({
-    itemCount: 100,
-    memberCount: 50,
-    brandCount: 10,
-    noticeCount: 5
+  const [stats, setStats] = useState({
+    itemCount: 0,
+    memberCount: 0,
+    brandCount: 0,
+    noticeCount: 0
   });
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      setIsLoading(true);
+      try {
+        const [itemsResponse, membersResponse, brandsResponse, noticesResponse] = await Promise.all([
+          axios.get('/api/admin/items/count'),
+          axios.get('/api/admin/members/count'),
+          axios.get('/api/admin/brands/count'),
+          axios.get('/api/admin/notices/count')
+        ]);
+
+        setStats({
+          itemCount: itemsResponse.data,
+          memberCount: membersResponse.data,
+          brandCount: brandsResponse.data,
+          noticeCount: noticesResponse.data
+        });
+      } catch (error) {
+        console.error('Error fetching stats:', error);
+        setError('Failed to load statistics. Please try again later.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  if (isLoading) return <div>Loading statistics...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div className="admin-dashboard">
@@ -24,7 +51,7 @@ const Admin = () => {
           <h2>상품 관리</h2>
           <p>총 상품 수: {stats.itemCount}</p>
           <Link to="/admin/items" className="admin-link">상품 목록 보기</Link>
-          <Link to="/admin/items/new" className="admin-link">새 상품 등록</Link>
+          <Link to="/item/insert" className="admin-link">새 상품 등록</Link>
         </section>
         <section className="admin-section">
           <h2>회원 관리</h2>

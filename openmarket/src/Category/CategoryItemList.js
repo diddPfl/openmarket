@@ -157,7 +157,7 @@ const CategoryItemList = ({ items: propItems }) => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="category-container">
+    <div className="category-item-list-container category-container">
       <div className="menu-bar">
         <div className="brand-dropdown">
           <button onClick={toggleBrandDropdown} className="menu-item">

@@ -40,6 +40,7 @@ function App() {
                 <Routes>
                   <Route index element={<Admin />} />
                   <Route path="items" element={<ItemList />} />
+                  <Route path="/item/insert" element={<ItemInsert />} />
                   <Route path="members" element={<MemberList />} />
                   <Route path="brands" element={<BrandList />} />
                   <Route path="notices" element={<AdminNoticeList />} />
