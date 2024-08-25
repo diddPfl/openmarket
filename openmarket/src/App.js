@@ -22,7 +22,8 @@ import NoticeList from './Notice/NoticeList';
 import NoticeView from './Notice/NoticeView';
 import NoticeForm from './Notice/NoticeForm';
 import Admin from './Admin/Admin';
-import DeliveryListComponent from './Components/DeliveryListComponent'; // Import the new component
+import DeliveryListComponent from './Components/DeliveryListComponent';
+import SearchResults from './Category/SearchResult';
 
 function App() {
   return (
@@ -46,7 +47,7 @@ function App() {
               <Route path="/item/insert" element={<ItemInsert />} />
               <Route path="/review/detail/:reviewId" element={<ReviewDetail />} />
               <Route path="/login" element={<LoginComponent />} />
-              <Route path="/logout" element={<LogoutComponent />} />
+              <Route path="/signup" element={<CreateMemberComponent />} />
               <Route path="/signup" element={<CreateMemberComponent />} />
               <Route path="/mypage" element={<MyPageComponent />} />
               <Route path="/mypage/cart" element={<CartComponent />} />
@@ -54,7 +55,8 @@ function App() {
               <Route path="/mypage/cart/payment" element={<PaymentComponent />} />
               <Route path="/notices" element={<NoticeList />} />
               <Route path="/notices/:noticeNo" element={<NoticeView />} />
-              <Route path="/mypage/deliverylist" element={<DeliveryListComponent />} /> {/* Add this new route */}
+              <Route path="/mypage/deliverylist" element={<DeliveryListComponent />} />
+              <Route path="/search" element={<SearchResults />} />
             </Routes>
           </main>
           <Footer />

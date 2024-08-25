@@ -33,7 +33,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100px; /* 헤더 상단 바의 높이를 설정 */
+    height: 100px;
 }
 
 .logo {
@@ -43,12 +43,38 @@ body {
     color: #333;
 }
 
+.search-form {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    flex-grow: 1;
+    max-width: 400px;
+}
+
+.search-form input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+    font-size: 14px;
+}
+
+.search-form button {
+    padding: 8px 16px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    font-size: 14px;
+}
+
 nav ul {
     list-style-type: none;
     display: flex;
     gap: 1rem;
-    margin: 0; /* 기본 margin 제거 */
-    padding: 0; /* 기본 padding 제거 */
+    margin: 0;
+    padding: 0;
 }
 
 nav ul li a {
@@ -61,7 +87,7 @@ nav ul li a {
     gap: 1rem;
 }
 
-.user-actions a {
+.user-actions a, .user-actions button {
     text-decoration: none;
     color: white;
     background-color: black;
@@ -70,6 +96,8 @@ nav ul li a {
     display: block;
     font-size: 0.9rem;
     padding: 10px 0;
+    border: none;
+    cursor: pointer;
 }
 
 .category-and-support {

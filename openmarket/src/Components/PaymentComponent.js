@@ -1,13 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './PaymentComponent.css';
 
 const PaymentComponent = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { selectedItems, totalAmount, shippingFee } = location.state || {};
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState('');
+
+  const validateOrder = () => {
+    if (!selectedItems || selectedItems.length === 0) {
+      setError('No items selected for payment.');
+      return false;
+    }
+    return true;
+  };
 
   const handlePayment = async () => {
+    if (!validateOrder()) return;
+
+    setIsProcessing(true);
+    setError('');
+
     try {
       const orderData = {
         memberId: sessionStorage.getItem('memberId'),
@@ -22,19 +38,20 @@ const PaymentComponent = () => {
       const response = await axios.post('/api/orders', orderData);
       if (response.data && response.data.orderId) {
         alert('Order placed successfully!');
-        // Navigate to the delivery list page after successful payment
         navigate('/mypage/deliverylist');
       } else {
-        alert('Failed to create order. Please try again.');
+        setError('Failed to create order. Please try again.');
       }
     } catch (error) {
       console.error('Error placing order:', error);
-      alert('Failed to place order. Please try again.');
+      setError(error.response?.data?.message || 'Failed to place order. Please try again.');
+    } finally {
+      setIsProcessing(false);
     }
   };
 
   if (!selectedItems || selectedItems.length === 0) {
-    return <div>No items selected for payment.</div>;
+    return <div className="error-message">No items selected for payment.</div>;
   }
 
   return (
@@ -54,7 +71,14 @@ const PaymentComponent = () => {
         <p>Shipping Fee: {shippingFee.toLocaleString()}원</p>
         <p><strong>Total Amount: {(totalAmount + shippingFee).toLocaleString()}원</strong></p>
       </div>
-      <button onClick={handlePayment}>Place Order</button>
+      {error && <div className="error-message">{error}</div>}
+      <button
+        onClick={handlePayment}
+        disabled={isProcessing}
+        className={isProcessing ? 'processing' : ''}
+      >
+        {isProcessing ? 'Processing...' : 'Place Order'}
+      </button>
     </div>
   );
 };

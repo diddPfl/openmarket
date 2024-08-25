@@ -23,9 +23,12 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<?> createOrder(@RequestBody Order order) {
         try {
+            logger.info("Received order creation request: {}", order);
             Order createdOrder = orderService.createOrder(order);
+            logger.info("Order created successfully: {}", createdOrder);
             return ResponseEntity.ok().body(Map.of("orderId", createdOrder.getOrderId()));
         } catch (Exception e) {
+            logger.error("Error creating order", e);
             return ResponseEntity.badRequest().body("Error creating order: " + e.getMessage());
         }
     }

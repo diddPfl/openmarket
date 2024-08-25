@@ -11,7 +11,17 @@ public class OrderItem {
     private int count;
     private BigDecimal orderPrice;
 
-    // Getters and setters
+    // Constructors
+    public OrderItem() {}
+
+    public OrderItem(Long orderId, Long itemId, int count, BigDecimal orderPrice) {
+        this.orderId = orderId;
+        this.itemId = itemId;
+        this.count = count;
+        this.orderPrice = orderPrice;
+    }
+
+    // Getters and Setters
     public Long getOrderItemId() {
         return orderItemId;
     }
@@ -58,5 +68,17 @@ public class OrderItem {
 
     public void setOrderPrice(BigDecimal orderPrice) {
         this.orderPrice = orderPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "orderItemId=" + orderItemId +
+                ", orderId=" + orderId +
+                ", itemId=" + itemId +
+                ", regdate=" + regdate +
+                ", count=" + count +
+                ", orderPrice=" + orderPrice +
+                '}';
     }
 }

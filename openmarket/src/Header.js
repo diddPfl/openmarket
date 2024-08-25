@@ -1,3 +1,4 @@
+// Header.js
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './Header.css';
@@ -8,6 +9,7 @@ function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const { isAuthenticated, name, logout } = useAuth();
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,15 +28,31 @@ function Header() {
   }, []);
 
   const handleLogout = () => {
-    logout(); // 로그아웃 실행
-    navigate('/'); // 로그아웃 후 메인 페이지로 리다이렉트
+    logout();
+    navigate('/');
   };
+
+const handleSearch = (e) => {
+  e.preventDefault();
+  if (searchTerm.trim()) {
+    navigate(`/search?term=${encodeURIComponent(searchTerm)}`);
+  }
+};
 
   return (
     <header className={`header-container ${isScrolled ? 'scrolled' : ''}`}>
       <div className="header-content">
         <div className="top-bar">
           <Link to="/" className="logo">OpenMarket</Link>
+          <form onSubmit={handleSearch} className="search-form">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button type="submit">Search</button>
+          </form>
           <nav>
             <ul style={{ display: 'flex', gap: '1rem' }}>
               <li><Link to="/shop">Shop</Link></li>
@@ -47,7 +65,7 @@ function Header() {
           <div className="user-actions">
             {isAuthenticated ? (
               <>
-                <span>{name}(님)</span> {/* 여기에 실제 username을 표시하려면 추가 구현이 필요 */}
+                <span>{name}(님)</span>
                 <button onClick={handleLogout}>로그아웃</button>
               </>
             ) : (

@@ -1,53 +1,57 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // AuthContext에서 useAuth 가져오기
-import styles from './LoginComponent.module.css';
+import { useAuth } from '../context/AuthContext';
+import axios from 'axios';
+import './LoginComponent.module.css';
 
 const LoginComponent = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth(); // useAuth를 통해 login 함수 사용, login 함수는 JWT 토큰을 저장하고 인증 상태를 업데이트하는 역할
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    console.log('Submitting login with email:', email, 'and password length:', password.length);
+    setIsLoading(true);
+    console.log('Submitting login with email:', email);
 
     try {
-      const requestBody = { email, password, rememberMe };
-      console.log('Request body:', requestBody);
-
-      const response = await fetch('/api/login', {
-        method: 'POST',
+      const response = await axios.post('/api/login', { email, password, rememberMe }, {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(requestBody),
-        credentials: 'include',
+        withCredentials: true,
       });
 
-      console.log('Response status:', response.status);
+      console.log('Login response:', response);
 
-      if (response.ok) {
+      if (response.status >= 200 && response.status < 300 && response.data) {
         const jwtToken = response.headers.get('Authorization');
-        const userData = await response.json(); // body에 저장한 사용자 데이터를 받아옴
-        console.log('userData : ', userData);
+        const { memberId, name } = response.data;
 
         if (jwtToken) {
-          login(jwtToken, userData.name, userData.memberId);    // login 함수를 통해 JWT 토큰 저장 및 사용자명 전달
-          navigate('/'); // 로그인 성공 시 리다이렉트
+          login(jwtToken, name, memberId);
+          axios.defaults.headers.common['Authorization'] = `Bearer ${jwtToken}`;
+          navigate('/');
+        } else {
+          setError('No token received from server');
         }
       } else {
-        const errorData = await response.text();
-        console.error('Login failed:', errorData);
-        setError(errorData || 'Invalid email or password');
+        setError('Invalid response from server');
       }
     } catch (error) {
       console.error('Login error:', error);
-      setError('An error occurred. Please try again.');
+      if (error.response) {
+        console.error('Error response:', error.response.data);
+        console.error('Error status:', error.response.status);
+      }
+      setError(error.response?.data?.message || 'An error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -85,17 +89,17 @@ const LoginComponent = () => {
           <label htmlFor="remember">Remember me</label>
         </div>
 
-        <input type="submit" value="Sign In" />
+        <input type="submit" value={isLoading ? "Signing In..." : "Sign In"} disabled={isLoading} />
       </form>
 
-      <div className={styles.options}>
-              <Link to="/signup">Sign Up</Link>
-              <span>|</span>
-              <Link to="/find-id">Find ID</Link>
-              <span>|</span>
-              <Link to="/find-password">Find Password</Link>
-            </div>
-          </div>
+      <div className="options">
+        <Link to="/signup">Sign Up</Link>
+        <span>|</span>
+        <Link to="/find-id">Find ID</Link>
+        <span>|</span>
+        <Link to="/find-password">Find Password</Link>
+      </div>
+    </div>
   );
 };
 

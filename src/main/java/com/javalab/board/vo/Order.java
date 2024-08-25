@@ -10,11 +10,20 @@ public class Order {
     private LocalDateTime regdate;
     private BigDecimal orderAmount;
     private LocalDateTime orderDate;
-
     private String orderStatus;
     private List<OrderItem> orderItems;
 
-    // Getters and setters
+    // Constructors
+    public Order() {}
+
+    public Order(Long memberId, BigDecimal orderAmount, LocalDateTime orderDate, String orderStatus) {
+        this.memberId = memberId;
+        this.orderAmount = orderAmount;
+        this.orderDate = orderDate;
+        this.orderStatus = orderStatus;
+    }
+
+    // Getters and Setters
     public Long getOrderId() {
         return orderId;
     }
@@ -69,5 +78,18 @@ public class Order {
 
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", memberId=" + memberId +
+                ", regdate=" + regdate +
+                ", orderAmount=" + orderAmount +
+                ", orderDate=" + orderDate +
+                ", orderStatus='" + orderStatus + '\'' +
+                ", orderItems=" + orderItems +
+                '}';
     }
 }

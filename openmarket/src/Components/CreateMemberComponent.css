@@ -1,224 +1,57 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f5f5f5;
-}
-
-.container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding-top: 300px;
-    padding-bottom: 100px;
-    min-height: 100vh;
-}
-
-.cart-wrapper {
-    width: 80%;
-    max-width: 1200px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.cart-container {
-    width: 65%;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
-
-h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-table th, table td {
-    padding: 10px;
-    text-align: left;
-    vertical-align: middle;
-}
-
-tr:last-child td {
-    border-bottom: none;
-}
-
-.item-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-
-.item-count {
-    display: inline-block;
-    width: 40px;
-    text-align: center;
+.form-container {
+    width: 320px;
+    margin: 100px auto;
+    padding: 30px 20px;
     border: 1px solid #ddd;
-    margin: 0 10px;
-    border-radius: 4px;
-    font-size: 16px;
-    background-color: #f9f9f9;
-    padding: 5px 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
 }
 
-.item-controls button {
-    background-color: #ddd;
-    border: none;
-    padding: 8px 12px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-weight: bold;
-    font-size: 16px;
-    height: 36px;
-    box-sizing: border-box;
-}
-
-.item-name {
-    vertical-align: middle;
-    padding-left: 10px;
-    display: flex;
-    align-items: center;
-}
-
-.item-image {
-    width: 50px;
-    height: 50px;
-    background-color: #eee;
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 10px;
-}
-
-.delete-btn {
-    color: red;
-    cursor: pointer;
-    font-size: 16px;
+.form-container h3 {
+    margin-bottom: 20px;
     text-align: center;
-    line-height: 36px;
 }
 
-.delete-btn:hover {
-    color: darkred;
-}
-
-.summary {
-    text-align: right;
-}
-
-.summary p {
-    margin: 10px 0;
-    font-size: 18px;
-    color: #555;
-}
-
-.summary p span {
+.form-container label {
+    display: block;
     font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 14px;
     color: #333;
 }
 
-.delivery-info {
-    width: 30%;
-    background: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.delivery-info h3 {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-
-.delivery-info p {
-    font-size: 16px;
-    color: #666;
-    margin-bottom: 10px;
-}
-
-.delivery-info button {
+.form-container input[type="text"],
+.form-container input[type="password"],
+.form-container input[type="email"] {
     width: 100%;
     padding: 10px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #333;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
     margin-bottom: 20px;
-}
-
-.delivery-info button:hover {
-    background-color: #555;
-}
-
-.order-summary {
-    margin-top: 20px;
-}
-
-.order-summary div {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
     font-size: 16px;
     color: #333;
 }
 
-.order-summary div span {
-    font-weight: bold;
-}
-
-.order-btn {
-    background: #000;
-    color: #fff;
-    text-align: center;
-    padding: 12px;
-    border-radius: 5px;
-    font-weight: bold;
-    text-decoration: none;
-    display: block;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.order-btn:hover {
-    background-color: #444;
-}
-
-.order-btn:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-.centered {
-    text-align: center;
-    margin-top: 50px;
+.form-container input[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    background-color: #333;
+    color: #ffffff;
     font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-/* Add styles for the checkbox */
-input[type="checkbox"] {
-    margin-right: 10px;
+.form-container input[type="submit"]:hover {
+    background-color: #000;
 }
 
-/* Add styles for the item status */
-.item-status {
-    font-size: 14px;
-    color: #666;
-    margin-left: 10px;
+::placeholder {
+    color: #aaa;
+    font-style: italic;
 }

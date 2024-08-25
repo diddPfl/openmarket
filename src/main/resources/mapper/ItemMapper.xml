@@ -82,4 +82,13 @@
         </collection>
     </resultMap>
 
+    <select id="searchItems" resultMap="itemResultMap">
+        SELECT i.*, c.category_name
+        FROM item i
+        LEFT JOIN category c ON i.category_id = c.category_id
+        WHERE i.item_name LIKE CONCAT('%', #{term}, '%')
+        OR i.item_detail LIKE CONCAT('%', #{term}, '%')
+        OR c.category_name LIKE CONCAT('%', #{term}, '%')
+        OR i.brand LIKE CONCAT('%', #{term}, '%')
+    </select>
 </mapper>

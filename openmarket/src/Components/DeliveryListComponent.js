@@ -3,33 +3,25 @@ import axios from 'axios';
 import './DeliveryListComponent.css';
 
 const DeliveryListComponent = () => {
-    const [activeTab, setActiveTab] = useState('section3');
     const [orders, setOrders] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [activeTab, setActiveTab] = useState('section3');
 
     useEffect(() => {
-        fetchOrders(3);
+        fetchOrders();
     }, []);
 
-    const fetchOrders = async (months) => {
-        setIsLoading(true);
-        setError(null);
+    const fetchOrders = async () => {
         try {
-            const response = await axios.get(`http://localhost:9000/api/mypage/deliverylist/${months}`);
+            const memberId = sessionStorage.getItem('memberId'); // Assuming you store memberId in sessionStorage
+            const response = await axios.get(`/api/orders/member/${memberId}`);
             setOrders(response.data);
         } catch (error) {
             console.error('Error fetching orders:', error);
-            setError('Failed to fetch orders. Please try again later.');
-        } finally {
-            setIsLoading(false);
         }
     };
 
     const activateTab = (sectionId) => {
         setActiveTab(sectionId);
-        const months = parseInt(sectionId.replace('section', ''));
-        fetchOrders(months);
     };
 
     const formatDate = (dateString) => {
@@ -38,68 +30,69 @@ const DeliveryListComponent = () => {
     };
 
     const formatPrice = (price) => {
-        return new Intl.NumberFormat('ko-KR').format(price) + '원';
+        return price ? Number(price).toLocaleString() + '원' : 'N/A';
     };
 
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
+    const getOrderItemsSummary = (orderItems) => {
+        if (!orderItems || orderItems.length === 0) return 'No items';
+        const firstItem = orderItems[0];
+        const otherItemsCount = orderItems.length - 1;
+        return `${firstItem.itemId} 외 ${otherItemsCount}건`;
+    };
 
     return (
         <div className="container">
             <h1>주문/배송조회</h1>
 
             <div className="tabs">
-                {[3, 6, 9, 12].map((month) => (
-                    <div
-                        key={`section${month}`}
-                        className={`tab ${activeTab === `section${month}` ? 'active' : ''}`}
-                        onClick={() => activateTab(`section${month}`)}
-                    >
-                        {month}개월
+                <div className={`tab ${activeTab === 'section3' ? 'active' : ''}`} onClick={() => activateTab('section3')}>3개월</div>
+                <div className={`tab ${activeTab === 'section6' ? 'active' : ''}`} onClick={() => activateTab('section6')}>6개월</div>
+                <div className={`tab ${activeTab === 'section9' ? 'active' : ''}`} onClick={() => activateTab('section9')}>9개월</div>
+                <div className={`tab ${activeTab === 'section12' ? 'active' : ''}`} onClick={() => activateTab('section12')}>12개월</div>
+            </div>
+
+            <div id="section3" className={`order-section ${activeTab === 'section3' ? 'active' : ''}`}>
+                {orders.map((order) => (
+                    <div key={order.orderId} className="order-box">
+                        <div className="order-header">{formatDate(order.orderDate)}</div>
+                        <div className="order-info">
+                            <div>
+                                <div className="label">주문번호</div>
+                                <div className="value">{order.orderId}</div>
+                            </div>
+                            <div>
+                                <div className="label">상품명</div>
+                                <div className="value">{getOrderItemsSummary(order.orderItems)}</div>
+                            </div>
+                            <div>
+                                <div className="label">결제방법</div>
+                                <div className="value">카드</div> {/* Assuming payment method is always card */}
+                            </div>
+                            <div>
+                                <div className="label">결제금액</div>
+                                <div className="value">{formatPrice(order.orderAmount)}</div>
+                            </div>
+                            <div>
+                                <div className="label">배송상태</div>
+                                <div className={`value status ${order.orderStatus === '배송완료' ? 'completed' : ''}`}>
+                                    {order.orderStatus}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 ))}
             </div>
 
-            <div className={`order-section ${activeTab}`}>
-                {orders.length > 0 ? (
-                    orders.map((order) => (
-                        <div key={order.orderId} className="order-box">
-                            <div className="order-header">{formatDate(order.orderDate)}</div>
-                            <div className="order-info">
-                                <div>
-                                    <div className="label">주문번호</div>
-                                    <div className="value">{order.orderId}</div>
-                                </div>
-                                <div>
-                                    <div className="label">상품명</div>
-                                    <div className="value">
-                                        {order.orderItems.map(item => (
-                                            <div key={item.itemId}>
-                                                {item.itemName} x {item.count}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="label">결제방법</div>
-                                    <div className="value">{order.paymentMethod}</div>
-                                </div>
-                                <div>
-                                    <div className="label">결제금액</div>
-                                    <div className="value">{formatPrice(order.orderAmount)}</div>
-                                </div>
-                                <div>
-                                    <div className="label">배송상태</div>
-                                    <div className={`value status ${order.orderStatus === '배송완료' ? 'completed' : ''}`}>
-                                        {order.orderStatus}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))
-                ) : (
-                    <p>주문 내역이 없습니다.</p>
-                )}
+            <div id="section6" className={`order-section ${activeTab === 'section6' ? 'active' : ''}`}>
+                {/* Empty section */}
+            </div>
+
+            <div id="section9" className={`order-section ${activeTab === 'section9' ? 'active' : ''}`}>
+                {/* Empty section */}
+            </div>
+
+            <div id="section12" className={`order-section ${activeTab === 'section12' ? 'active' : ''}`}>
+                {/* Empty section */}
             </div>
         </div>
     );

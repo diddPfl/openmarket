@@ -20,4 +20,5 @@ public interface ItemRepository {
     List<String> findAllBrands();
     String findBrandByName(String brandName);
     void deleteItemsByBrand(String brandName);
+    List<Item> searchItems(@Param("term") String term);
 }

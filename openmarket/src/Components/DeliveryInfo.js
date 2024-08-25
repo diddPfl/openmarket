@@ -12,7 +12,7 @@ const DeliveryInfo = ({ totalAmount, discountAmount, shippingFee, onOrder }) => 
         <div><span>배송비:</span> {shippingFee}원</div>
         <div><span>총결제금액:</span> {totalAmount - discountAmount + shippingFee}원</div>
       </div>
-      <a href="#" className="order-btn" onClick={onOrder}>주문하기</a>
+      <button className="order-btn" onClick={onOrder}>주문하기</button>
     </div>
   );
 };

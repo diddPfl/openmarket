@@ -11,6 +11,9 @@ import com.javalab.board.vo.ItemImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,6 +21,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class ItemServiceImpl implements ItemService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ItemServiceImpl.class);
 
     private final ItemRepository itemRepository;
 
@@ -149,5 +154,11 @@ public class ItemServiceImpl implements ItemService {
             return new BrandDto(brand);
         }
         return null;
+    }
+
+    @Override
+    public List<ItemListDto> searchItems(String term) {
+        List<Item> items = itemRepository.searchItems(term);
+        return items.stream().map(this::convertToListDto).collect(Collectors.toList());
     }
 }

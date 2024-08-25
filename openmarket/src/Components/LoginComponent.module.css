@@ -1,4 +1,4 @@
-.formContainer {
+.form-container {
     width: 320px;
     margin: 100px auto;
     padding: 30px 20px;
@@ -8,7 +8,7 @@
     background-color: #ffffff;
 }
 
-.formContainer label {
+.form-container label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
@@ -16,8 +16,8 @@
     color: #333;
 }
 
-.formContainer input[type="email"],
-.formContainer input[type="password"] {
+.form-container input[type="text"],
+.form-container input[type="password"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
@@ -28,7 +28,7 @@
     color: #333;
 }
 
-.formContainer input[type="submit"] {
+.form-container input[type="submit"] {
     width: 100%;
     padding: 15px;
     background-color: #333;
@@ -41,33 +41,33 @@
     transition: background-color 0.3s;
 }
 
-.formContainer input[type="submit"]:hover {
+.form-container input[type="submit"]:hover {
     background-color: #000;
 }
 
-.options {
+.form-container .options {
     margin-top: 20px;
     text-align: center;
     font-size: 14px;
     color: #555;
 }
 
-.options a {
+.form-container .options a {
     color: #333;
     text-decoration: none;
     margin: 0 10px;
     transition: color 0.3s;
 }
 
-.options a:hover {
+.form-container .options a:hover {
     color: #000;
 }
 
-.options span {
+.form-container .options span {
     color: #ccc;
 }
 
-.rememberMe {
+.form-container .remember-me {
     margin: 20px 0;
     display: flex;
     align-items: center;
@@ -75,12 +75,12 @@
     color: #555;
 }
 
-.rememberMe input[type="checkbox"] {
+.form-container .remember-me input[type="checkbox"] {
     margin-right: 5px;
     margin-top: 0;
 }
 
-.rememberMe label {
+.form-container .remember-me label {
     margin-top: 2px;
 }
 

@@ -25,14 +25,7 @@ public class CartController {
     public ResponseEntity<?> viewCart(@PathVariable("memberId") Long memberId) {
         try {
             CartVO cart = cartService.getCartByMemberId(memberId);
-            if (cart == null) {
-                cart = cartService.createCart(memberId);
-            }
             List<CartItemVO> cartItems = cartService.getCartItems(cart.getCartId());
-            System.out.println("Cart items for member " + memberId + ":");
-            for (CartItemVO item : cartItems) {
-                System.out.println("Item: " + item.getItemName() + ", Price: " + item.getPrice() + ", Count: " + item.getCount());
-            }
             return ResponseEntity.ok().body(new CartResponse(cart, cartItems));
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,11 +38,7 @@ public class CartController {
         try {
             Long memberId = Long.parseLong(memberIdStr);
             CartVO cart = cartService.getCartByMemberId(memberId);
-            if (cart != null) {
-                return ResponseEntity.ok().body(Collections.singletonMap("cartId", cart.getCartId()));
-            } else {
-                return ResponseEntity.ok().body(Collections.singletonMap("cartId", null));
-            }
+            return ResponseEntity.ok().body(Collections.singletonMap("cartId", cart.getCartId()));
         } catch (NumberFormatException e) {
             return ResponseEntity.badRequest().body("Invalid member ID");
         }
@@ -64,11 +53,7 @@ public class CartController {
             }
             Long memberId = Long.parseLong(memberIdStr);
             CartVO cart = cartService.createCart(memberId);
-            if (cart != null && cart.getCartId() != null) {
-                return ResponseEntity.ok().body(Collections.singletonMap("cartId", cart.getCartId()));
-            } else {
-                return ResponseEntity.internalServerError().body("Failed to create cart");
-            }
+            return ResponseEntity.ok().body(Collections.singletonMap("cartId", cart.getCartId()));
         } catch (NumberFormatException e) {
             return ResponseEntity.badRequest().body("Invalid member ID");
         } catch (Exception e) {
@@ -77,10 +62,15 @@ public class CartController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addCartItem(@RequestBody CartItemVO cartItem) {
+    public ResponseEntity<?> addItemToCart(@RequestBody Map<String, Object> payload) {
         try {
-            cartService.addCartItem(cartItem);
-            return ResponseEntity.ok().body("Item added to cart");
+            Long cartId = Long.parseLong(payload.get("cartId").toString());
+            Long itemId = Long.parseLong(payload.get("itemId").toString());
+            int count = Integer.parseInt(payload.get("count").toString());
+
+            cartService.addItemToCart(cartId, itemId, count);
+            List<CartItemVO> updatedItems = cartService.getCartItems(cartId);
+            return ResponseEntity.ok().body(updatedItems);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error adding item to cart: " + e.getMessage());
         }

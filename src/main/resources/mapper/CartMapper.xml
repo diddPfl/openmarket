@@ -3,7 +3,9 @@
 <mapper namespace="com.javalab.board.repository.CartRepository">
 
     <select id="findByMemberId" resultType="com.javalab.board.vo.CartVO">
-        SELECT * FROM cart WHERE member_id = #{memberId}
+        SELECT * FROM cart
+        WHERE member_id = #{memberId}
+        LIMIT 1
     </select>
 
     <insert id="insertCart" parameterType="com.javalab.board.vo.CartVO" useGeneratedKeys="true" keyProperty="cartId">

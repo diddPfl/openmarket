@@ -4,9 +4,9 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import './CategoryItemList.css';
 import Pagination from './Pagination';
 
-const CategoryItemList = () => {
-  const [items, setItems] = useState([]);
-  const [filteredItems, setFilteredItems] = useState([]);
+const CategoryItemList = ({ items: propItems }) => {
+  const [items, setItems] = useState(propItems || []);
+  const [filteredItems, setFilteredItems] = useState(propItems || []);
   const [brands, setBrands] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState('');
   const [minPrice, setMinPrice] = useState('');
@@ -30,53 +30,59 @@ const CategoryItemList = () => {
   ];
 
   useEffect(() => {
-    const fetchBrands = async () => {
-      try {
-        const response = await axios.get('/api/categoryitems/brands');
-        setBrands(response.data);
-      } catch (error) {
-        console.error('브랜드 가져오기 오류:', error);
-      }
-    };
-
-    fetchBrands();
-  }, []);
-
-  useEffect(() => {
-    const fetchItems = async () => {
-      setIsLoading(true);
-      try {
-        let response;
-        let url = '';
-        if (categoryId) {
-          url = `/api/categoryitems/byCategory/${categoryId}`;
-        } else if (gubunSubCode) {
-          url = `/api/categoryitems/byGubun/${gubunSubCode}`;
-        } else {
-          throw new Error('카테고리 ID 또는 구분 서브 코드가 필요합니다.');
+      const fetchBrands = async () => {
+        try {
+          const response = await axios.get('/api/categoryitems/brands');
+          setBrands(response.data);
+        } catch (error) {
+          console.error('브랜드 가져오기 오류:', error);
         }
+      };
 
-        response = await axios.get(url);
-        console.log('받은 아이템:', response.data);
+      fetchBrands();
+    }, []);
 
-        if (Array.isArray(response.data)) {
-          setItems(response.data);
-          setFilteredItems(response.data);
+    useEffect(() => {
+        if (propItems) {
+          setItems(propItems);
+          setFilteredItems(propItems);
+          setIsLoading(false);
         } else {
-          setItems([]);
-          setFilteredItems([]);
-          console.error('API 응답이 배열이 아닙니다:', response.data);
-        }
-      } catch (error) {
-        console.error('아이템 가져오기 오류:', error);
-        setError('아이템 가져오기 실패');
-      } finally {
-        setIsLoading(false);
-      }
-    };
+          const fetchItems = async () => {
+          setIsLoading(true);
+          try {
+            let response;
+            let url = '';
+            if (categoryId) {
+              url = `/api/categoryitems/byCategory/${categoryId}`;
+            } else if (gubunSubCode) {
+              url = `/api/categoryitems/byGubun/${gubunSubCode}`;
+            } else {
+              throw new Error('카테고리 ID 또는 구분 서브 코드가 필요합니다.');
+            }
 
-    fetchItems();
-  }, [categoryId, gubunSubCode]);
+            response = await axios.get(url);
+            console.log('받은 아이템:', response.data);
+
+            if (Array.isArray(response.data)) {
+              setItems(response.data);
+              setFilteredItems(response.data);
+            } else {
+              setItems([]);
+              setFilteredItems([]);
+              console.error('API 응답이 배열이 아닙니다:', response.data);
+            }
+          } catch (error) {
+            console.error('아이템 가져오기 오류:', error);
+            setError('아이템 가져오기 실패');
+          } finally {
+            setIsLoading(false);
+          }
+        };
+
+        fetchItems();
+      }
+    }, [categoryId, gubunSubCode, propItems]);
 
   useEffect(() => {
     setSelectedBrand('');
@@ -152,8 +158,8 @@ const CategoryItemList = () => {
   if (isLoading) return <div className="category-item-list-loading">로딩 중...</div>;
   if (error) return <div className="category-item-list-error">오류: {error}</div>;
 
-  return (
-    <div className="category-item-list-page-container">
+   return (
+     <div className="category-item-list-page-container">
       <div className="category-item-list-filters">
         <button onClick={toggleBrandDropdown} className="category-item-list-brand-button">
           브랜드 선택

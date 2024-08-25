@@ -80,6 +80,9 @@ public class SecurityConfig {
                         .requestMatchers("/cart/**", "/cartItem/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/track/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/login", "/api/members").permitAll()
+                        .requestMatchers("/api/mypage/deliverylist/**").permitAll()
+                        .requestMatchers("/api/search").permitAll()
                         .anyRequest().authenticated()
                 )
                 .rememberMe(rememberMe -> rememberMe

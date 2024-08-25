@@ -30,17 +30,26 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public Order createOrder(Order order) {
         order.setOrderDate(LocalDateTime.now());
-        order.setOrderStatus("결제확인"); // This should be one of the valid ENUM values
+        order.setOrderStatus("결제확인");
         logger.info("Inserting order: {}", order);
-        Long orderId = orderRepository.insertOrder(order);
-        order.setOrderId(orderId);
 
+        // Insert the order first
+        orderRepository.insertOrder(order);
+
+        // Check if the order ID was generated
+        if (order.getOrderId() == null) {
+            throw new RuntimeException("Failed to generate order ID");
+        }
+
+        logger.info("Order inserted with ID: {}", order.getOrderId());
+
+        // Now insert the order items
         for (OrderItem item : order.getOrderItems()) {
-            item.setOrderId(orderId);
+            item.setOrderId(order.getOrderId());
             orderItemRepository.insertOrderItem(item);
         }
 
-        logger.info("Order created successfully with ID: {}", orderId);
+        logger.info("Order created successfully with ID: {}", order.getOrderId());
         return order;
     }
 
@@ -81,4 +90,22 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Order status counts: {}", statusCounts);
         return statusCounts;
     }
+
+//    @Override
+//    public List<Order> getOrdersForLastMonths(Long memberId, int months) {
+//        LocalDateTime startDate = LocalDateTime.now().minusMonths(months);
+//        List<Order> orders = orderRepository.findOrdersForMemberAfterDate(memberId, startDate);
+//
+//        // Log the retrieved orders for debugging
+//        for (Order order : orders) {
+//            logger.info("Retrieved Order: {}", order);
+//        }
+//
+//        return orders;
+//    }
+@Override
+public List<Order> getOrdersForLastMonths(Long memberId, int months) {
+    LocalDateTime startDate = LocalDateTime.now().minusMonths(months);
+    return orderRepository.findOrdersForMemberAfterDate(memberId, startDate);
+}
 }

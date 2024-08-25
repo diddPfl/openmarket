@@ -116,4 +116,10 @@ public class ItemController {
             this.count = count;
         }
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ItemListDto>> searchItems(@RequestParam String term) {
+        List<ItemListDto> searchResults = itemService.searchItems(term);
+        return ResponseEntity.ok(searchResults);
+    }
 }

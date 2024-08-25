@@ -12,4 +12,6 @@ public interface OrderService {
 
     // Add this new method
     Map<String, Long> getOrderStatusCounts(Long memberId);
+
+    List<Order> getOrdersForLastMonths(Long memberId, int months);
 }

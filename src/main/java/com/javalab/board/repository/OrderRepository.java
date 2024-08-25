@@ -5,6 +5,7 @@ import com.javalab.board.vo.OrderItem;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -13,4 +14,5 @@ public interface OrderRepository {
     Order getOrderById(@Param("orderId") Long orderId);
     List<Order> getOrdersByMemberId(@Param("memberId") Long memberId);
     void updateOrderStatus(@Param("orderId") Long orderId, @Param("status") String status);
+    List<Order> findOrdersForMemberAfterDate(@Param("memberId") Long memberId, @Param("startDate") LocalDateTime startDate);
 }

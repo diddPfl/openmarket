@@ -107,7 +107,7 @@ public class CartServiceImpl implements CartService {
             newItem.setItemName(item.getItemName());
             newItem.setPrice(item.getPrice());
             newItem.setCount(count);
-            System.out.println("Adding new item to cart: " + newItem.getItemName() + ", Price: " + newItem.getPrice() + ", Count: " + newItem.getCount());
+            logger.info("Adding new item to cart: {}, Price: {}, Count: {}", newItem.getItemName(), newItem.getPrice(), newItem.getCount());
             addCartItem(newItem);
         }
     }
