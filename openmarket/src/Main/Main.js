@@ -18,33 +18,37 @@ const MainPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchItems = async () => {
-      setIsLoading(true);
-      try {
-        const fetchedItems = {};
-        for (const menuItem of menuItems) {
-          if (menuItem.type !== 'allCategories') {
-            try {
-              const response = await axios.get(`/api/categoryitems/byGubun/${menuItem.gubunSubCode}?limit=5`);
-              fetchedItems[menuItem.type] = Array.isArray(response.data) ? response.data : [];
-            } catch (error) {
-              console.error(`Error fetching ${menuItem.type} items:`, error);
-              fetchedItems[menuItem.type] = []; // Set to empty array on error
-            }
+useEffect(() => {
+  const fetchItems = async () => {
+    setIsLoading(true);
+    try {
+      const fetchedItems = {};
+      for (const menuItem of menuItems) {
+        if (menuItem.type !== 'allCategories') {
+          try {
+            const response = await axios.get(`/api/categoryitems/byGubun/${menuItem.gubunSubCode}?limit=5`);
+            // 받아온 데이터를 아이템 아이디 기준 내림차순으로 정렬
+            const sortedItems = Array.isArray(response.data)
+              ? response.data.sort((a, b) => b.itemId - a.itemId)
+              : [];
+            fetchedItems[menuItem.type] = sortedItems;
+          } catch (error) {
+            console.error(`Error fetching ${menuItem.type} items:`, error);
+            fetchedItems[menuItem.type] = [];
           }
         }
-        setItems(fetchedItems);
-      } catch (error) {
-        console.error('아이템 가져오기 오류:', error);
-        setError('아이템 가져오기 실패');
-      } finally {
-        setIsLoading(false);
       }
-    };
+      setItems(fetchedItems);
+    } catch (error) {
+      console.error('아이템 가져오기 오류:', error);
+      setError('아이템 가져오기 실패');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    fetchItems();
-  }, []);
+  fetchItems();
+}, []);
 
   const handleItemClick = (itemId) => {
     navigate(`/item/${itemId}`);
@@ -76,7 +80,7 @@ const MainPage = () => {
               </button>
             </div>
             <div className="main-page-items">
-              {Array.isArray(items[menuItem.type]) && items[menuItem.type].slice(0, 5).map((item) => (
+              {Array.isArray(items[menuItem.type]) && items[menuItem.type].slice(0, 10).map((item) => ( // 10개 아이템만 표시
                 <div key={item.itemId} className="main-page-item" onClick={() => handleItemClick(item.itemId)}>
                   <div className="img-box">
                     {item.images && item.images.length > 0 && (

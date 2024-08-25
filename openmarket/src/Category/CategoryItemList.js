@@ -17,6 +17,7 @@ const CategoryItemList = ({ items: propItems }) => {
   const [showPriceDropdown, setShowPriceDropdown] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+
   const navigate = useNavigate();
   const location = useLocation();
   const { categoryId, gubunSubCode } = useParams();
@@ -30,59 +31,56 @@ const CategoryItemList = ({ items: propItems }) => {
   ];
 
   useEffect(() => {
-      const fetchBrands = async () => {
-        try {
-          const response = await axios.get('/api/categoryitems/brands');
-          setBrands(response.data);
-        } catch (error) {
-          console.error('브랜드 가져오기 오류:', error);
-        }
-      };
-
-      fetchBrands();
-    }, []);
-
-    useEffect(() => {
-        if (propItems) {
-          setItems(propItems);
-          setFilteredItems(propItems);
-          setIsLoading(false);
-        } else {
-          const fetchItems = async () => {
-          setIsLoading(true);
-          try {
-            let response;
-            let url = '';
-            if (categoryId) {
-              url = `/api/categoryitems/byCategory/${categoryId}`;
-            } else if (gubunSubCode) {
-              url = `/api/categoryitems/byGubun/${gubunSubCode}`;
-            } else {
-              throw new Error('카테고리 ID 또는 구분 서브 코드가 필요합니다.');
-            }
-
-            response = await axios.get(url);
-            console.log('받은 아이템:', response.data);
-
-            if (Array.isArray(response.data)) {
-              setItems(response.data);
-              setFilteredItems(response.data);
-            } else {
-              setItems([]);
-              setFilteredItems([]);
-              console.error('API 응답이 배열이 아닙니다:', response.data);
-            }
-          } catch (error) {
-            console.error('아이템 가져오기 오류:', error);
-            setError('아이템 가져오기 실패');
-          } finally {
-            setIsLoading(false);
-          }
-        };
-
-        fetchItems();
+    const fetchBrands = async () => {
+      try {
+        const response = await axios.get('/api/categoryitems/brands');
+        setBrands(response.data);
+      } catch (error) {
+        console.error('브랜드 가져오기 오류:', error);
       }
-    }, [categoryId, gubunSubCode, propItems]);
+    };
+    fetchBrands();
+  }, []);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      if (propItems) {
+        setItems(propItems);
+        setFilteredItems(propItems);
+        setIsLoading(false);
+      } else {
+        setIsLoading(true);
+        try {
+          let response;
+          let url = '';
+          if (categoryId) {
+            url = `/api/categoryitems/byCategory/${categoryId}`;
+          } else if (gubunSubCode) {
+            url = `/api/categoryitems/byGubun/${gubunSubCode}`;
+          } else {
+            throw new Error('카테고리 ID 또는 구분 서브 코드가 필요합니다.');
+          }
+          response = await axios.get(url);
+          console.log('받은 아이템:', response.data);
+          if (Array.isArray(response.data)) {
+            const sortedItems = response.data.sort((a, b) => b.itemId - a.itemId);
+            setItems(sortedItems);
+            setFilteredItems(sortedItems);
+          } else {
+            setItems([]);
+            setFilteredItems([]);
+            console.error('API 응답이 배열이 아닙니다:', response.data);
+          }
+        } catch (error) {
+          console.error('아이템 가져오기 오류:', error);
+          setError('아이템 가져오기 실패');
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+    fetchItems();
+  }, [categoryId, gubunSubCode, propItems]);
 
   useEffect(() => {
     setSelectedBrand('');
@@ -101,11 +99,11 @@ const CategoryItemList = ({ items: propItems }) => {
       const price = item.price;
       const min = minPrice ? parseFloat(minPrice) : 0;
       const max = maxPrice ? parseFloat(maxPrice) : Infinity;
-
       return price >= min && price <= max && (selectedBrand ? item.brand === selectedBrand : true);
     });
-    setFilteredItems(filtered);
-    setCurrentPage(1); // 검색 결과 적용 시 첫 페이지로 이동
+    const sortedFilteredItems = filtered.sort((a, b) => b.itemId - a.itemId);
+    setFilteredItems(sortedFilteredItems);
+    setCurrentPage(1);
   };
 
   const handleItemClick = (itemId) => {
@@ -144,113 +142,110 @@ const CategoryItemList = ({ items: propItems }) => {
     }
   };
 
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo(0, 0);
+  };
+
   const isFilterSelected = selectedBrand || minPrice || maxPrice;
 
-  // 페이징 관련 계산
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  if (isLoading) return <div>로딩 중...</div>;
+  if (error) return <div>{error}</div>;
 
-  if (isLoading) return <div className="category-item-list-loading">로딩 중...</div>;
-  if (error) return <div className="category-item-list-error">오류: {error}</div>;
-
-   return (
-     <div className="category-item-list-page-container">
-      <div className="category-item-list-filters">
-        <button onClick={toggleBrandDropdown} className="category-item-list-brand-button">
-          브랜드 선택
+  return (
+    <div className="category-container">
+      <div className="menu-bar">
+        <div className="brand-dropdown">
+          <button onClick={toggleBrandDropdown} className="menu-item">
+            브랜드 선택
+          </button>
+          {showBrandDropdown && (
+            <ul className="dropdown-menu">
+              <li onClick={() => handleBrandSelect('')}>모든 브랜드</li>
+              {brands.map((brand) => (
+                <li key={brand} onClick={() => handleBrandSelect(brand)}>
+                  {brand}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div className="price-dropdown">
+          <button onClick={togglePriceDropdown} className="menu-item">
+            가격 범위 선택
+          </button>
+          {showPriceDropdown && (
+            <ul className="dropdown-menu">
+              {priceRanges.map((range, index) => (
+                <li
+                  key={index}
+                  onClick={() => handlePriceRangeSelect(range.min, range.max)}
+                >
+                  {range.label}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div className="price-input">
+          <input
+            type="number"
+            placeholder="최소 가격"
+            value={minPrice}
+            onChange={(e) => handlePriceInputChange(e, 'min')}
+          />
+          <input
+            type="number"
+            placeholder="최대 가격"
+            value={maxPrice}
+            onChange={(e) => handlePriceInputChange(e, 'max')}
+          />
+        </div>
+        <button onClick={searchFilteredItems} className="menu-item">
+          검색
         </button>
-        {showBrandDropdown && (
-          <div className="category-item-list-brand-dropdown">
-            {brands.map((brand) => (
-              <div key={brand} onClick={() => handleBrandSelect(brand)} className="category-item-list-brand-option">
-                {brand}
-              </div>
-            ))}
-          </div>
-        )}
-        <button onClick={togglePriceDropdown} className="category-item-list-brand-button">
-          가격 선택
-        </button>
-        {showPriceDropdown && (
-          <div className="category-item-list-price-dropdown">
-            {priceRanges.map((range) => (
-              <div
-                key={range.label}
-                onClick={() => handlePriceRangeSelect(range.min, range.max)}
-                className="category-item-list-price-option"
-              >
-                {range.label}
-              </div>
-            ))}
-            <div className="category-item-list-price-inputs">
-              <input
-                type="number"
-                placeholder="최소 가격"
-                value={minPrice}
-                onChange={(e) => handlePriceInputChange(e, 'min')}
-                className="category-item-list-price-input"
-              />
-              <input
-                type="number"
-                placeholder="최대 가격"
-                value={maxPrice}
-                onChange={(e) => handlePriceInputChange(e, 'max')}
-                className="category-item-list-price-input"
-              />
-            </div>
-          </div>
-        )}
-        {isFilterSelected && (
-          <button onClick={searchFilteredItems} className="category-item-list-search-button">검색</button>
-        )}
       </div>
-      <div className="category-item-list-selected-filters">
-        {selectedBrand && <p>{selectedBrand}</p>}
-        {(minPrice || maxPrice) && <p>{minPrice}원 - {maxPrice === Infinity ? '무제한' : `${maxPrice}원`}</p>}
-      </div>
-      <div className="category-item-list-items">
-        {currentItems.length === 0 ? (
-          <div className="category-item-list-no-items">해당 카테고리의 상품이 없습니다.</div>
-        ) : (
-          currentItems.map((item) => (
-            <div
-              key={item.itemId}
-              className="category-item-list-item"
-              onClick={() => handleItemClick(item.itemId)}
-              role="button"
-              tabIndex={0}
-            >
-              <div className="img-box">
-                {item.images && item.images.map((image) => (
-                  <img
-                    key={image.uuid}
-                    src={getImageUrl(image)}
-                    alt={`아이템 이미지 - ${item.itemName}`}
-                  />
-                ))}
-              </div>
-              <div className="brand-and-icons">
-                {item.brand && <p className="category-item-list-item-brand">{item.brand}</p>}
-                <div className="icon-container">
-                  <i className="fas fa-heart icon" title="좋아요"></i>
-                  <i className="fas fa-shopping-cart icon" title="장바구니"></i>
-                </div>
-              </div>
-              <h3 className="category-item-list-item-name">{item.itemName}</h3>
-              <p className="category-item-list-item-price">{item.price.toLocaleString()}원</p>
+      {isFilterSelected && (
+        <div className="filter-info">
+          <span>선택된 필터:</span>
+          {selectedBrand && <span>브랜드: {selectedBrand}</span>}
+          {minPrice && <span>최소 가격: {minPrice}원</span>}
+          {maxPrice && <span>최대 가격: {maxPrice}원</span>}
+        </div>
+      )}
+      <div className="category-display">
+        {currentItems.map((item) => (
+          <div
+            key={item.itemId}
+            className="category-item"
+            onClick={() => handleItemClick(item.itemId)}
+          >
+            <div className="img-box">
+              {item.images && item.images.length > 0 && (
+                <img src={getImageUrl(item.images[0])} alt={item.itemName} />
+              )}
             </div>
-          ))
-        )}
+            <div className="brand-and-icons">
+              <span className="item-brand">{item.brand}</span>
+              <div className="icon-container">
+                <span className="icon">♡</span>
+                <span className="icon">🛒</span>
+              </div>
+            </div>
+            <h3 className="item-name">{item.itemName}</h3>
+            <p className="item-price">{item.price.toLocaleString()}원</p>
+          </div>
+        ))}
       </div>
       <Pagination
+        itemsPerPage={itemsPerPage}
+        totalItems={filteredItems.length}
+        paginate={handlePageChange}
         currentPage={currentPage}
-        totalPages={Math.ceil(filteredItems.length / itemsPerPage)}
-        onPageChange={handlePageChange}
       />
     </div>
   );
