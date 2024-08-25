@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getAllNotices, deleteNotice } from '../Notice/NoticeService';
-
+import './AdminCommon.css';
 
 const AdminNoticeList = () => {
   const [notices, setNotices] = useState([]);
@@ -42,13 +42,13 @@ const AdminNoticeList = () => {
   if (error) return <div className="error">{error}</div>;
 
   return (
-    <div className="admin-notice-list">
+    <div className="admin-page">
       <h1>공지사항 관리</h1>
-      <Link to="/admin/notices/new" className="create-button">새 공지사항 작성</Link>
+      <Link to="/admin/notices/new" className="admin-button">새 공지사항 작성</Link>
       {notices.length === 0 ? (
-        <p className="no-notices">공지사항이 없습니다.</p>
+        <p>공지사항이 없습니다.</p>
       ) : (
-        <table className="notice-table">
+        <table className="admin-table">
           <thead>
             <tr>
               <th>제목</th>
@@ -62,8 +62,8 @@ const AdminNoticeList = () => {
                 <td>{notice.title}</td>
                 <td>{notice.regdate ? new Date(notice.regdate).toLocaleDateString() : 'N/A'}</td>
                 <td>
-                  <Link to={`/admin/notices/${notice.noticeNo}/edit`} className="edit-button">수정</Link>
-                  <button onClick={() => handleDelete(notice.noticeNo)} className="delete-button">삭제</button>
+                  <Link to={`/admin/notices/${notice.noticeNo}/edit`} className="admin-button">수정</Link>
+                  <button onClick={() => handleDelete(notice.noticeNo)} className="admin-button">삭제</button>
                 </td>
               </tr>
             ))}

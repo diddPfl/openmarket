@@ -1,0 +1,75 @@
+.admin-header-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #000000;  /* 검은색 배경 */
+    color: white;
+    z-index: 1000;
+    transition: box-shadow 0.3s ease;
+    height: 120px;  /* 높이를 120px로 변경 */
+}
+
+.admin-header-container.scrolled {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.admin-header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 120px;  /* 높이를 120px로 변경 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.admin-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+}
+
+.admin-header-container nav ul {
+    list-style-type: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.admin-header-container nav ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.admin-header-container nav ul li a:hover {
+    color: #3498db;
+}
+
+.admin-user-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.admin-home-button,
+.admin-logout-button {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: white;  /* 텍스트 색상 */
+    background-color: transparent;  /* 투명 배경 */
+    border: 1px solid white;  /* 흰색 테두리 */
+    border-radius: 0;  /* 둥글기 제거 */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.admin-home-button:hover,
+.admin-logout-button:hover {
+    background-color: white;  /* 호버 시 배경색 */
+    color: black;  /* 호버 시 텍스트 색상 */
+}
