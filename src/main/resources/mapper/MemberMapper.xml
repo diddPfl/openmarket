@@ -60,4 +60,8 @@
         SELECT * FROM member
     </select>
 
+    <select id="getMemberCount" resultType="long">
+        SELECT COUNT(*) FROM member
+    </select>
+
 </mapper>

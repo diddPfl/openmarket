@@ -59,4 +59,9 @@ public class NoticeServiceImpl implements NoticeService {
 	public void deleteNotice(Long noticeNo) {
 		noticeMapper.deleteNotice(noticeNo);
 	}
+
+	@Override
+	public long getNoticeCount() {
+		return noticeMapper.getNoticeCount();
+	}
 }

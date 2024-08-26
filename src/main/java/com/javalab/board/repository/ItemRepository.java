@@ -24,4 +24,6 @@ public interface ItemRepository {
     List<Item> searchItems(@Param("term") String term);
     List<ItemImage> findImagesByItemId(long itemId);
     List<ItemTagDto> findRelatedItemTags(String brand, long categoryId, long excludeItemId);
+    long getItemCount();
+    long getBrandCount();
 }

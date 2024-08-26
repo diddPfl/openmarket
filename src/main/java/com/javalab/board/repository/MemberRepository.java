@@ -14,4 +14,5 @@ public interface MemberRepository {
     int update(Member member);
     int updatePasswordAndSocial(@Param("email") String email, @Param("password") String password);
     List<Member> findAll();
+    long getMemberCount();
 }

@@ -179,4 +179,14 @@ public class ItemServiceImpl implements ItemService {
         List<Item> items = itemRepository.searchItems(term);
         return items.stream().map(this::convertToListDto).collect(Collectors.toList());
     }
+
+    @Override
+    public long getItemCount() {
+        return itemRepository.getItemCount();
+    }
+
+    @Override
+    public long getBrandCount() {
+        return itemRepository.getBrandCount();
+    }
 }

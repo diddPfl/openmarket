@@ -10,4 +10,5 @@ public interface NoticeService {
 	Notice createNotice(Notice notice);
 	Notice updateNotice(Notice notice);
 	void deleteNotice(Long noticeNo);
+	long getNoticeCount();
 }

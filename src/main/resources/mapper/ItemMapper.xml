@@ -93,6 +93,14 @@
         DELETE FROM category WHERE category_id = #{categoryId}
     </delete>
 
+    <select id="getItemCount" resultType="long">
+        SELECT COUNT(*) FROM item
+    </select>
+
+    <select id="getBrandCount" resultType="long">
+        SELECT COUNT(DISTINCT brand) FROM item
+    </select>
+
     <select id="findRelatedItemTags" resultMap="itemTagResultMap">
         SELECT i.item_id, i.item_name, i.price,
         im.uuid, im.file_name, im.repimg
