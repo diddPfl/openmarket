@@ -53,6 +53,7 @@
         WHERE item_id = #{itemId}
     </update>
 
+    <!-- 이미지 업데이트 쿼리 수정 -->
     <update id="updateItemImages" parameterType="map">
         <foreach collection="images" item="image" separator=";">
             UPDATE item_image

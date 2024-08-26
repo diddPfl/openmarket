@@ -48,23 +48,23 @@ public class ItemReviewServiceImpl implements ItemReviewService {
                 .map(img -> new ReviewImageDto(img.getImageId(), img.getFileName()))
                 .collect(Collectors.toList()));
 
-//        // 아이템 DTO 설정
-//        if (itemReview.getItem() != null) {
-//            ItemTagDto itemDto = new ItemTagDto();
-//            itemDto.setItemId(itemReview.getItem().getItemId());
-//            itemDto.setItemName(itemReview.getItem().getItemName());
-//            itemDto.setPrice(itemReview.getItem().getPrice());
-//
-//            // 아이템의 이미지 설정
-//            if (itemReview.getItem().getImages() != null) {
-//                List<ItemImageDto> itemImages = itemReview.getItem().getImages().stream()
-//                        .map(img -> new ItemImageDto(img.getUuid(), img.getFileName(), img.getItemId(), img.getRepimg()))
-//                        .collect(Collectors.toList());
-//                itemDto.setImages(itemImages);
-//            }
-//
-//            dto.setItem(itemDto);
-//        }
+        // 아이템 DTO 설정
+        if (itemReview.getItem() != null) {
+            ItemTagDto itemDto = new ItemTagDto();
+            itemDto.setItemId(itemReview.getItem().getItemId());
+            itemDto.setItemName(itemReview.getItem().getItemName());
+            itemDto.setPrice(itemReview.getItem().getPrice());
+
+            // 아이템의 이미지 설정
+            if (itemReview.getItem().getImages() != null) {
+                List<ItemImageDto> itemImages = itemReview.getItem().getImages().stream()
+                        .map(img -> new ItemImageDto(img.getUuid(), img.getFileName(), img.getItemId(), img.getRepimg()))
+                        .collect(Collectors.toList());
+                itemDto.setImages(itemImages);
+            }
+
+            dto.setItem(itemDto);
+        }
 
         return dto;
     }
