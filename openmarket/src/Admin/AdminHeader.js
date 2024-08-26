@@ -20,6 +20,7 @@ function AdminHeader() {
             <li><Link to="/admin/members">Members</Link></li>
             <li><Link to="/admin/brands">Brands</Link></li>
             <li><Link to="/admin/notices">Notices</Link></li>
+            <li><Link to="/admin/order-statistics">Statistics</Link></li>
           </ul>
         </nav>
         <div className="admin-user-actions">
