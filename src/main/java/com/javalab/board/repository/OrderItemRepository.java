@@ -8,7 +8,6 @@ import java.util.List;
 
 @Mapper
 public interface OrderItemRepository {
-    void insertOrderItem(OrderItem orderItem);
     List<OrderItem> getOrderItemsByOrderId(@Param("orderId") Long orderId);
 
 }
