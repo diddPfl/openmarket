@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -48,6 +47,7 @@ public class ItemServiceImpl implements ItemService {
         String categoryName = itemRepository.findCategoryNameById(itemCreateDto.getCategoryId());
         item.setCategoryName(categoryName);
         itemRepository.insert(item);
+        logger.info("Item saved: {}", item);
         return convertToResponseDto(item);
     }
 
@@ -62,7 +62,39 @@ public class ItemServiceImpl implements ItemService {
             itemRepository.insertItemImage(image);
         }
 
+        logger.info("Images saved for itemId: {}", itemId);
         return imageDtos;
+    }
+
+    @Override
+    @Transactional
+    public ItemResponseDto updateItem(long itemId, ItemUpdateDto itemUpdateDto) {
+        Item item = itemRepository.findById(itemId);
+        if (item == null) {
+            logger.error("Item not found for ID: {}", itemId);
+            return null; // Or throw an exception
+        }
+
+        // Update properties from itemUpdateDto to item
+        item.setCategoryId(itemUpdateDto.getCategoryId());
+        item.setGubunSubCode(itemUpdateDto.getGubunSubCode());
+        item.setItemName(itemUpdateDto.getItemName());
+        item.setItemDetail(itemUpdateDto.getItemDetail());
+        item.setPrice(itemUpdateDto.getPrice());
+        item.setStockNumber(itemUpdateDto.getStockNumber());
+        item.setItemSellStatus(itemUpdateDto.getItemSellStatus());
+        item.setBrand(itemUpdateDto.getBrand());
+
+        // Update item
+        itemRepository.updateItem(item);
+        logger.info("Item updated: {}", item);
+
+        // Update images
+        if (itemUpdateDto.getImages() != null) {
+            saveItemImages(itemId, itemUpdateDto.getImages());
+        }
+
+        return convertToResponseDto(item);
     }
 
     @Override
@@ -73,7 +105,7 @@ public class ItemServiceImpl implements ItemService {
         }
         List<ItemTagDto> relatedItems = itemRepository.findRelatedItemTags(item.getBrand(), item.getCategoryId(), itemId);
 
-        // fullName 설정
+        // Set fullName for images
         for (ItemTagDto relatedItem : relatedItems) {
             if (relatedItem.getImages() != null) {
                 for (ItemImageDto image : relatedItem.getImages()) {
@@ -89,6 +121,7 @@ public class ItemServiceImpl implements ItemService {
     @Transactional
     public void disableItem(long itemId) {
         itemRepository.disableItem(itemId);
+        logger.info("Item disabled: {}", itemId);
     }
 
     private ItemListDto convertToListDto(Item item) {
@@ -100,7 +133,7 @@ public class ItemServiceImpl implements ItemService {
                 item.getPrice(),
                 item.getRegdate(),
                 item.getItemSellStatus(),
-                item.getIsDisabled(), // 변환
+                item.getIsDisabled(),
                 item.getImages() != null ? item.getImages().stream().map(this::convertImageToDto).collect(Collectors.toList()) : null
         );
     }
@@ -139,7 +172,7 @@ public class ItemServiceImpl implements ItemService {
                 item.getBrand(),
                 item.getStockNumber(),
                 item.getItemSellStatus().toString(),
-                item.getIsDisabled() // 변환
+                item.getIsDisabled()
         );
     }
 
@@ -161,10 +194,13 @@ public class ItemServiceImpl implements ItemService {
     public boolean deleteBrandAndRelatedItems(String brandName) {
         if (itemRepository.findBrandByName(brandName) != null) {
             itemRepository.deleteItemsByBrand(brandName);
+            logger.info("Deleted brand and related items for brand: {}", brandName);
             return true;
         }
+        logger.warn("Brand not found: {}", brandName);
         return false;
     }
+
     @Override
     public BrandDto getBrandByName(String brandName) {
         String brand = itemRepository.findBrandByName(brandName);

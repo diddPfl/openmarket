@@ -99,3 +99,35 @@
 .notice-title-link:hover {
   text-decoration: underline;
 }
+/* OrderStatistics 컴포넌트를 위한 추가 스타일 */
+.admin-section ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.admin-section li {
+  margin-bottom: 10px;
+}
+
+.admin-section p {
+  margin-bottom: 10px;
+}
+
+/* 로딩 및 에러 메시지 스타일 */
+.admin-section:only-child {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 50px;
+  font-size: 18px;
+  color: #666;
+}
+
+.item-name-link {
+  cursor: pointer;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.item-name-link:hover {
+  text-decoration: underline;
+}

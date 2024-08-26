@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './Admin.css';
 import OrderStatistics from './OrderStatistics';
-import './OrderStatistics.css'
 
 const Admin = () => {
   const [stats, setStats] = useState({
@@ -73,7 +72,7 @@ const Admin = () => {
           <Link to="/admin/notices/new" className="admin-link">새 공지사항 작성</Link>
         </section>
        <section className="admin-section">
-        <h2>주문 관리</h2>
+        <h2>통계</h2>
         <Link to="/admin/order-statistics" className="admin-link">주문 통계 보기</Link>
       </section>
       </div>

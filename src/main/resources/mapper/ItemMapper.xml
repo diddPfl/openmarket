@@ -40,6 +40,27 @@
         VALUES (#{uuid}, #{itemId}, #{fileName}, #{repimg})
     </insert>
 
+    <update id="updateItem" parameterType="com.javalab.board.dto.ItemUpdateDto">
+        UPDATE item
+        SET category_id = #{categoryId},
+        gubun_sub_code = #{gubunSubCode},
+        item_name = #{itemName},
+        item_detail = #{itemDetail},
+        price = #{price},
+        stock_number = #{stockNumber},
+        item_sell_status = #{itemSellStatus},
+        brand = #{brand}
+        WHERE item_id = #{itemId}
+    </update>
+
+    <update id="updateItemImages" parameterType="map">
+        <foreach collection="images" item="image" separator=";">
+            UPDATE item_image
+            SET file_name = #{image.fileName}, repimg = #{image.repimg}
+            WHERE uuid = #{image.uuid} AND item_id = #{itemId}
+        </foreach>
+    </update>
+
     <select id="findCategoryNameById" parameterType="long" resultType="string">
         SELECT category_name FROM category WHERE category_id = #{categoryId}
     </select>
@@ -113,6 +134,7 @@
         ORDER BY i.item_id
         LIMIT 5
     </select>
+
 
     <resultMap id="itemTagResultMap" type="com.javalab.board.dto.ItemTagDto">
         <id property="itemId" column="item_id"/>

@@ -11,21 +11,20 @@
 }
 
 .pagination li {
-  margin: 0 5px;
+  margin: 0 2px; /* 간격을 5px에서 2px로 줄임 */
 }
 
 .pagination button {
   padding: 5px 10px;
-  border: 1px solid #ddd;
-  background-color: #f8f8f8;
+  background-color: #000; /* 배경색을 검은색으로 변경 */
+  color: #fff; /* 글자색을 흰색으로 변경 */
   cursor: pointer;
 }
 
 .pagination li.active button {
-  background-color: #007bff;
-  color: white;
+  background-color: #333; /* 활성 버튼의 배경색을 약간 밝은 검은색으로 변경 */
 }
 
 .pagination button:hover {
-  background-color: #e9ecef;
+  background-color: #444; /* 호버 시 배경색을 약간 밝은 검은색으로 변경 */
 }
