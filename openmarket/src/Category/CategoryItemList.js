@@ -3,6 +3,26 @@ import axios from 'axios';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import './CategoryItemList.css';
 import Pagination from './Pagination';
+import Filter from './Filter'; // 필터 컴포넌트 import
+
+const SelectedFilters = ({ selectedBrand, minPrice, maxPrice, onRemove }) => {
+  return (
+    <div className="selected-filters">
+      {selectedBrand && (
+        <span className="filter-tag">
+          브랜드: {selectedBrand}
+          <button onClick={() => onRemove('brand')}>X</button>
+        </span>
+      )}
+      {(minPrice || maxPrice) && (
+        <span className="filter-tag">
+          가격: {minPrice || '0'}원 - {maxPrice || '무제한'}원
+          <button onClick={() => onRemove('price')}>X</button>
+        </span>
+      )}
+    </div>
+  );
+};
 
 const CategoryItemList = ({ items: propItems }) => {
   const [items, setItems] = useState(propItems || []);
@@ -13,22 +33,12 @@ const CategoryItemList = ({ items: propItems }) => {
   const [maxPrice, setMaxPrice] = useState('');
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [showBrandDropdown, setShowBrandDropdown] = useState(false);
-  const [showPriceDropdown, setShowPriceDropdown] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
 
   const navigate = useNavigate();
   const location = useLocation();
   const { categoryId, gubunSubCode } = useParams();
-
-  const priceRanges = [
-    { min: 1000, max: 2000, label: '1000원 - 2000원' },
-    { min: 2000, max: 3000, label: '2000원 - 3000원' },
-    { min: 3000, max: 4000, label: '3000원 - 4000원' },
-    { min: 4000, max: 5000, label: '4000원 - 5000원' },
-    { min: 0, max: Infinity, label: '모든 가격' },
-  ];
 
   useEffect(() => {
     const fetchBrands = async () => {
@@ -83,18 +93,23 @@ const CategoryItemList = ({ items: propItems }) => {
   }, [categoryId, gubunSubCode, propItems]);
 
   useEffect(() => {
-    setSelectedBrand('');
-    setMinPrice('');
-    setMaxPrice('');
     setCurrentPage(1);
   }, [categoryId, gubunSubCode]);
 
-  useEffect(() => {
-    setShowBrandDropdown(false);
-    setShowPriceDropdown(false);
-  }, [location]);
+  const handleItemClick = (itemId) => {
+    navigate(`/item/${itemId}`);
+  };
 
-  const searchFilteredItems = () => {
+  const getImageUrl = (image) => {
+    return `http://localhost:9000/view/${image.fileName}`;
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo(0, 0);
+  };
+
+  const handleFilter = ({ selectedBrand, minPrice, maxPrice }) => {
     const filtered = items.filter(item => {
       const price = item.price;
       const min = minPrice ? parseFloat(minPrice) : 0;
@@ -106,128 +121,38 @@ const CategoryItemList = ({ items: propItems }) => {
     setCurrentPage(1);
   };
 
-  const handleItemClick = (itemId) => {
-    navigate(`/item/${itemId}`);
-  };
-
-  const getImageUrl = (image) => {
-    return `http://localhost:9000/view/${image.fileName}`;
-  };
-
-  const toggleBrandDropdown = () => {
-    setShowBrandDropdown(!showBrandDropdown);
-  };
-
-  const togglePriceDropdown = () => {
-    setShowPriceDropdown(!showPriceDropdown);
-  };
-
-  const handleBrandSelect = (brand) => {
-    setSelectedBrand(brand);
-    setShowBrandDropdown(false);
-  };
-
-  const handlePriceRangeSelect = (min, max) => {
-    setMinPrice(min);
-    setMaxPrice(max);
-    setShowPriceDropdown(false);
-  };
-
-  const handlePriceInputChange = (e, type) => {
-    const value = e.target.value;
-    if (type === 'min') {
-      setMinPrice(value);
-    } else {
-      setMaxPrice(value);
+  const handleRemoveFilter = (filterType) => {
+    if (filterType === 'brand') {
+      setSelectedBrand('');
+    } else if (filterType === 'price') {
+      setMinPrice('');
+      setMaxPrice('');
     }
+    handleFilter({ selectedBrand: '', minPrice: '', maxPrice: '' });
   };
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    window.scrollTo(0, 0);
-  };
-
-  const isFilterSelected = selectedBrand || minPrice || maxPrice;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
-  if (isLoading) return <div>로딩 중...</div>;
-  if (error) return <div>{error}</div>;
+  if (isLoading) return <div className="category-item-list-loading">로딩 중...</div>;
+  if (error) return <div className="category-item-list-error">{error}</div>;
+  if (filteredItems.length === 0) return <div className="category-item-list-no-items">아이템이 없습니다.</div>;
 
   return (
-    <div className="category-item-list-container category-container">
-      <div className="menu-bar">
-        <div className="brand-dropdown">
-          <button onClick={toggleBrandDropdown} className="menu-item">
-            브랜드 선택
-          </button>
-          {showBrandDropdown && (
-            <ul className="dropdown-menu">
-              <li onClick={() => handleBrandSelect('')}>모든 브랜드</li>
-              {brands.map((brand) => (
-                <li key={brand} onClick={() => handleBrandSelect(brand)}>
-                  {brand}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-        <div className="price-dropdown">
-          <button onClick={togglePriceDropdown} className="menu-item">
-            가격 범위 선택
-          </button>
-          {showPriceDropdown && (
-            <ul className="dropdown-menu">
-              {priceRanges.map((range, index) => (
-                <li
-                  key={index}
-                  onClick={() => handlePriceRangeSelect(range.min, range.max)}
-                >
-                  {range.label}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-        <div className="price-input">
-          <input
-            type="number"
-            placeholder="최소 가격"
-            value={minPrice}
-            onChange={(e) => handlePriceInputChange(e, 'min')}
-          />
-          <input
-            type="number"
-            placeholder="최대 가격"
-            value={maxPrice}
-            onChange={(e) => handlePriceInputChange(e, 'max')}
-          />
-        </div>
-        <button onClick={searchFilteredItems} className="menu-item">
-          검색
-        </button>
-      </div>
-      {isFilterSelected && (
-        <div className="filter-info">
-          <span>선택된 필터:</span>
-          {selectedBrand && <span>브랜드: {selectedBrand}</span>}
-          {minPrice && <span>최소 가격: {minPrice}원</span>}
-          {maxPrice && <span>최대 가격: {maxPrice}원</span>}
-        </div>
-      )}
+    <div className="category-container">
+      <Filter brands={brands} onFilter={handleFilter} />
+      <SelectedFilters
+        selectedBrand={selectedBrand}
+        minPrice={minPrice}
+        maxPrice={maxPrice}
+        onRemove={handleRemoveFilter}
+      />
       <div className="category-display">
         {currentItems.map((item) => (
-          <div
-            key={item.itemId}
-            className="category-item"
-            onClick={() => handleItemClick(item.itemId)}
-          >
+          <div key={item.itemId} className="category-item" onClick={() => handleItemClick(item.itemId)}>
             <div className="img-box">
-              {item.images && item.images.length > 0 && (
-                <img src={getImageUrl(item.images[0])} alt={item.itemName} />
-              )}
+              <img src={getImageUrl(item.images[0])} alt={item.name} />
             </div>
             <div className="brand-and-icons">
               <span className="item-brand">{item.brand}</span>

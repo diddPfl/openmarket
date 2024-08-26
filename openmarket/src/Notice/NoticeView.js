@@ -34,7 +34,8 @@ const NoticeView = () => {
   return (
     <div className="notice-view">
       <h1>{notice.title}</h1>
-      <p>등록일: {new Date(notice.regdate).toLocaleDateString()}</p>
+      <hr className="view-underline" />
+      <p className="notice-meta">{new Date(notice.regdate).toLocaleDateString()}</p>
       <div className="notice-content">{notice.content}</div>
       <div className="notice-actions">
         <Link to="/notices" className="back-link">목록으로 돌아가기</Link>
