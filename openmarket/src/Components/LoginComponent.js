@@ -89,7 +89,11 @@ const LoginComponent = () => {
           <label htmlFor="remember">Remember me</label>
         </div>
 
-        <input type="submit" value={isLoading ? "Signing In..." : "Sign In"} disabled={isLoading} />
+        <input
+          type="submit"
+          value={isLoading ? "Signing In..." : "Sign In"}
+          disabled={isLoading}
+        />
       </form>
 
       <div className="options">

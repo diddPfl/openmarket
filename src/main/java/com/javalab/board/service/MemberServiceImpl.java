@@ -4,9 +4,14 @@ import com.javalab.board.repository.MemberRepository;
 import com.javalab.board.vo.Member;
 import com.javalab.board.vo.MemberDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,7 +26,8 @@ public class MemberServiceImpl implements MemberService {
         this.memberRepository = memberRepository;
     }
 
-    /*@Override
+    /*
+    @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Member member = memberRepository.findByEmail(email);
         if (member == null) {
@@ -29,7 +35,8 @@ public class MemberServiceImpl implements MemberService {
         }
         return new User(member.getEmail(), member.getPassword(),
                 Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + member.getRole().name())));
-    }*/
+    }
+    */
 
     @Override
     @Transactional
@@ -55,6 +62,7 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.update(member);
         return member;
     }
+
     @Override
     public List<MemberDto> getAllMembers() {
         List<Member> members = memberRepository.findAll();

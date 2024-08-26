@@ -6,6 +6,6 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface LoginMapperInterface {
-   @Select("SELECT * FROM member WHERE email = #{email}")
+
    Member findByEmail(String email);
 }

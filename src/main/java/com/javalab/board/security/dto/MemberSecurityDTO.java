@@ -17,13 +17,18 @@ public class MemberSecurityDTO extends User implements OAuth2User {
     private String role;
     private Map<String, Object> props;
 
-    public MemberSecurityDTO(Long memberId, String username, String password, String role,
+    public MemberSecurityDTO(Long memberId,
+                             String username,
+                             String password,
+                             String role,
                              Collection<? extends GrantedAuthority> authorities,
-                             boolean del, boolean social) {
+                             boolean del,
+                             boolean social,
+                             String name) {
         super(username, password, authorities);
         this.memberId = memberId;
         this.email = username;
-        this.name = username;
+        this.name = name;
         this.role = role;
         this.del = del;
         this.social = social;

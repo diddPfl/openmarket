@@ -30,9 +30,33 @@ public class MemberService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        System.out.println("MemberService loadUserByUsername user: " + username);
+//        Member member = memberRepository.findByEmail(username);
+//        if (member == null) {
+//            System.out.println("No member found with email: " + username);
+//            throw new UsernameNotFoundException("No member found with email: " + username);
+//        }
+//        System.out.println("Member found: " + member);
+//
+//        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+//        authorities.add(new SimpleGrantedAuthority("ROLE_" + member.getRole().name()));
+//
+//        return new MemberSecurityDTO(
+//                member.getMemberId(),
+//                member.getEmail(),
+//                member.getPassword(),
+//                member.getRole().name(),
+//                authorities,
+//                member.getDel(),
+//                member.getSocial()
+//        );
+//    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("Attempting to load user: " + username);
+        System.out.println("MemberService loadUserByUsername user: " + username);
         Member member = memberRepository.findByEmail(username);
         if (member == null) {
             System.out.println("No member found with email: " + username);
@@ -43,6 +67,7 @@ public class MemberService implements UserDetailsService {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_" + member.getRole().name()));
 
+        // 사용자 이름을 추가하여 MemberSecurityDTO 생성
         return new MemberSecurityDTO(
                 member.getMemberId(),
                 member.getEmail(),
@@ -50,9 +75,11 @@ public class MemberService implements UserDetailsService {
                 member.getRole().name(),
                 authorities,
                 member.getDel(),
-                member.getSocial()
+                member.getSocial(),
+                member.getName()  // 이름 필드 추가
         );
     }
+
 
     public Member saveMember(Member member) {
         validateDuplicateMember(member);

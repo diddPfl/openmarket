@@ -1,15 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AuthProvider } from './context/AuthContext';
-import Header from './Header';
-import AdminHeader from './Admin/AdminHeader';
+
+// Components
+import Header from "./Header";
 import Footer from './Footer';
-import ItemList from './Admin/ItemList';
-import MemberList from './Admin/MemberList';
-import BrandList from './Admin/BrandList';
-import AdminNoticeList from './Admin/AdminNoticeList';
 import ItemDetail from "./ItemDetail";
-import ReviewDetail from "./ReviewDetail";
 import ItemInsert from "./ItemInsert";
 import CategoryItemList from './Category/CategoryItemList';
 import MainPage from './Main/Main';
@@ -20,13 +16,25 @@ import CreateMemberComponent from './Components/CreateMemberComponent';
 import MyPageComponent from './Components/MyPageComponent';
 import CartComponent from './Components/CartComponent';
 import PaymentComponent from './Components/PaymentComponent';
+import DeliveryListComponent from './Components/DeliveryListComponent';
+import SearchResults from './Category/SearchResult';
+
+// Admin Components
+import AdminHeader from './Admin/AdminHeader';
+import Admin from './Admin/Admin';
+import ItemList from './Admin/ItemList';
+import MemberList from './Admin/MemberList';
+import BrandList from './Admin/BrandList';
+import AdminNoticeList from './Admin/AdminNoticeList';
+import OrderStatistics from './Admin/OrderStatistics';
+
+// Notice Components
 import NoticeList from './Notice/NoticeList';
 import NoticeView from './Notice/NoticeView';
 import NoticeForm from './Notice/NoticeForm';
-import Admin from './Admin/Admin';
-import DeliveryListComponent from './Components/DeliveryListComponent';
-import SearchResults from './Category/SearchResult';
-import OrderStatistics from './Admin/OrderStatistics'
+
+// Other Components
+import ReviewDetail from "./ReviewDetail";
 
 function App() {
   return (
@@ -41,7 +49,7 @@ function App() {
                 <Routes>
                   <Route index element={<Admin />} />
                   <Route path="items" element={<ItemList />} />
-                  <Route path="/item/insert" element={<ItemInsert />} />
+                  <Route path="item/insert" element={<ItemInsert />} />
                   <Route path="members" element={<MemberList />} />
                   <Route path="brands" element={<BrandList />} />
                   <Route path="notices" element={<AdminNoticeList />} />

@@ -68,7 +68,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 member.getRole().name(), // Convert Role enum to string
                 authorities,
                 member.getDel(),
-                member.getSocial()
+                member.getSocial(),
+                member.getName() // 사용자명을 생성자에 추가
         );
         memberSecurityDTO.setProps(attributes);
 
