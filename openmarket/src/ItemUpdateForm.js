@@ -157,8 +157,8 @@ const ItemUpdateForm = () => {
           className="border p-2 w-full"
           required
         >
-          <option value="AVAILABLE">Available</option>
-          <option value="UNAVAILABLE">Unavailable</option>
+          <option value="SELL">Sell</option>
+          <option value="SOLD_OUT">Sold Out</option>
         </select>
       </div>
       <button type="submit" className="bg-blue-500 text-white p-2">Update Item</button>

@@ -16,5 +16,4 @@ public class ItemTagDto {
     private String itemName;     // 상품 이름
     private int price;           // 가격
     private List<ItemImageDto> images = new ArrayList<>(); // 이미지DTO 리스트
-
 }
