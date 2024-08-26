@@ -27,50 +27,14 @@ import NoticeForm from './Notice/NoticeForm';
 import Admin from './Admin/Admin';
 import DeliveryListComponent from './Components/DeliveryListComponent';
 import SearchResults from './Category/SearchResult';
-<<<<<<< HEAD
 import ItemUpdateForm from './ItemUpdateForm';
-=======
-import OrderStatistics from './Admin/OrderStatistics'
->>>>>>> category2
+import OrderStatistics from './Admin/OrderStatistics';
 
 function App() {
   return (
     <AuthProvider>
       <Router>
         <div className="App">
-<<<<<<< HEAD
-          <Header />
-          <main>
-            <Routes>
-              <Route path="/" element={<MainPage />} />
-              <Route path="/admin" element={<Admin />} />
-              <Route path="/admin/items" element={<ItemList />} />
-              <Route path="/admin/members" element={<MemberList />} />
-              <Route path="/admin/notices" element={<AdminNoticeList />} />
-              <Route path="/admin/notices/new" element={<NoticeForm />} />
-              <Route path="/admin/notices/:noticeNo/edit" element={<NoticeForm />} />
-              <Route path="/categories" element={<CategoryList />} />
-              <Route path="/categoryitems/category/:categoryId" element={<CategoryItemList />} />
-              <Route path="/categoryitems/gubun/:gubunSubCode" element={<CategoryItemList />} />
-              <Route path="/item/:id" element={<ItemDetail />} />
-              <Route path="/item/insert" element={<ItemInsert />} />
-              <Route path="/item/:id/edit" element={<ItemUpdateForm />} />
-              <Route path="/review/detail/:reviewId" element={<ReviewDetail />} />
-              <Route path="/login" element={<LoginComponent />} />
-              <Route path="/signup" element={<CreateMemberComponent />} />
-              <Route path="/signup" element={<CreateMemberComponent />} />
-              <Route path="/mypage" element={<MyPageComponent />} />
-              <Route path="/mypage/cart" element={<CartComponent />} />
-              <Route path="/mypage/cart/payment/:orderId" element={<PaymentComponent />} />
-              <Route path="/mypage/cart/payment" element={<PaymentComponent />} />
-              <Route path="/notices" element={<NoticeList />} />
-              <Route path="/notices/:noticeNo" element={<NoticeView />} />
-              <Route path="/mypage/deliverylist" element={<DeliveryListComponent />} />
-              <Route path="/search" element={<SearchResults />} />
-            </Routes>
-          </main>
-          <Footer />
-=======
           <Routes>
             {/* Admin routes */}
             <Route path="/admin/*" element={
@@ -79,7 +43,6 @@ function App() {
                 <Routes>
                   <Route index element={<Admin />} />
                   <Route path="items" element={<ItemList />} />
-                  <Route path="/item/insert" element={<ItemInsert />} />
                   <Route path="items/:itemId" element={<AdminItemDetail />} />
                   <Route path="members" element={<MemberList />} />
                   <Route path="brands" element={<BrandList />} />
@@ -103,6 +66,7 @@ function App() {
                     <Route path="/categoryitems/gubun/:gubunSubCode" element={<CategoryItemList />} />
                     <Route path="/item/:id" element={<ItemDetail />} />
                     <Route path="/item/insert" element={<ItemInsert />} />
+                    <Route path="/item/:id/edit" element={<ItemUpdateForm />} />
                     <Route path="/review/detail/:reviewId" element={<ReviewDetail />} />
                     <Route path="/login" element={<LoginComponent />} />
                     <Route path="/logout" element={<LogoutComponent />} />
@@ -121,7 +85,6 @@ function App() {
               </>
             } />
           </Routes>
->>>>>>> category2
         </div>
       </Router>
     </AuthProvider>
