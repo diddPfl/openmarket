@@ -14,6 +14,7 @@
         FROM item i
         LEFT JOIN category c ON i.category_id = c.category_id
         LEFT JOIN item_image im ON i.item_id = im.item_id
+        WHERE i.is_disabled = 0
         ORDER BY i.item_id
     </select>
 
@@ -62,6 +63,69 @@
         WHERE item_id = #{itemId}
     </update>
 
+    <select id="findImagesByItemId" parameterType="long" resultType="com.javalab.board.vo.ItemImage">
+        SELECT uuid, item_id as itemId, file_name as fileName, repimg
+        FROM item_image
+        WHERE item_id = #{itemId}
+    </select>
+
+    <!-- 카테고리 관련 쿼리 -->
+    <select id="findAllCategories" resultMap="categoryResultMap">
+        SELECT * FROM category
+    </select>
+
+    <select id="findCategoryById" parameterType="long" resultMap="categoryResultMap">
+        SELECT * FROM category WHERE category_id = #{categoryId}
+    </select>
+
+    <insert id="insertCategory" parameterType="com.javalab.board.vo.Category" useGeneratedKeys="true" keyProperty="categoryId">
+        INSERT INTO category (category_name, parent_id)
+        VALUES (#{categoryName}, #{parentId})
+    </insert>
+
+    <update id="updateCategory" parameterType="com.javalab.board.vo.Category">
+        UPDATE category
+        SET category_name = #{categoryName}, parent_id = #{parentId}
+        WHERE category_id = #{categoryId}
+    </update>
+
+    <delete id="deleteCategory" parameterType="long">
+        DELETE FROM category WHERE category_id = #{categoryId}
+    </delete>
+
+    <select id="getItemCount" resultType="long">
+        SELECT COUNT(*) FROM item
+    </select>
+
+    <select id="getBrandCount" resultType="long">
+        SELECT COUNT(DISTINCT brand) FROM item
+    </select>
+
+    <select id="findRelatedItemTags" resultMap="itemTagResultMap">
+        SELECT i.item_id, i.item_name, i.price,
+        im.uuid, im.file_name, im.repimg
+        FROM item i
+        LEFT JOIN item_image im ON i.item_id = im.item_id
+        WHERE i.brand = #{brand}
+        AND i.category_id = #{categoryId}
+        AND i.item_id != #{excludeItemId}
+        AND i.is_disabled = 0
+        ORDER BY i.item_id
+        LIMIT 5
+    </select>
+
+    <resultMap id="itemTagResultMap" type="com.javalab.board.dto.ItemTagDto">
+        <id property="itemId" column="item_id"/>
+        <result property="itemName" column="item_name"/>
+        <result property="price" column="price"/>
+        <collection property="images" ofType="com.javalab.board.dto.ItemImageDto">
+            <result property="uuid" column="uuid"/>
+            <result property="fileName" column="file_name"/>
+            <result property="repimg" column="repimg"/>
+            <result property="fullName" column="uuid"/>
+        </collection>
+    </resultMap>
+
     <!-- 아이템에 대한 결과 매핑 -->
     <resultMap id="itemResultMap" type="com.javalab.board.vo.Item">
         <id property="itemId" column="item_id"/>
@@ -93,4 +157,11 @@
         OR c.category_name LIKE CONCAT('%', #{term}, '%')
         OR i.brand LIKE CONCAT('%', #{term}, '%')
     </select>
+    <!-- 카테고리에 대한 결과 매핑 -->
+    <resultMap id="categoryResultMap" type="com.javalab.board.vo.Category">
+        <id property="categoryId" column="category_id"/>
+        <result property="categoryName" column="category_name"/>
+        <result property="parentId" column="parent_id"/>
+    </resultMap>
+
 </mapper>

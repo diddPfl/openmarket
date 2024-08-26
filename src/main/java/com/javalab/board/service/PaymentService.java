@@ -10,4 +10,5 @@ public interface PaymentService {
     void updatePayment(Payment payment);
 
     void deletePayment(Long paymentId);
+
 }

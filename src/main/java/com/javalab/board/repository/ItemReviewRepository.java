@@ -1,6 +1,7 @@
 package com.javalab.board.repository;
 
 import com.javalab.board.vo.ItemReview;
+import com.javalab.board.vo.ReviewImage;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +15,5 @@ public interface ItemReviewRepository {
 
     // 리뷰 번호로 단일 리뷰 조회
     ItemReview findByReviewNo(long reviewNo);
+
 }

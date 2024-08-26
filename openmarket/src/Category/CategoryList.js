@@ -78,49 +78,49 @@ const CategoryList = () => {
   if (isLoading) return <div>로딩 중...</div>;
   if (error) return <div>오류: {error}</div>;
 
-  return (
-    <div className="category-container">
-      <div className="menu-bar">
-        {menuItems.map((item) => (
-          <div
-            key={item.type}
-            className="menu-item"
-            onClick={() => handleMenuClick(item.gubunSubCode)}
-          >
-            {item.name}
-          </div>
-        ))}
-      </div>
-      {isCategoryListVisible && (
-        <div className="category-display">
-          <div className="main-categories">
-            {Array.isArray(categories) && categories.map((category) => (
+return (
+  <div className="category-list-container">
+    <div className="category-list-menu-bar">
+      {menuItems.map((item) => (
+        <div
+          key={item.type}
+          className="category-list-menu-item"
+          onClick={() => handleMenuClick(item.gubunSubCode)}
+        >
+          {item.name}
+        </div>
+      ))}
+    </div>
+    {isCategoryListVisible && (
+      <div className="category-list-display">
+        <div className="category-list-main-categories">
+          {Array.isArray(categories) && categories.map((category) => (
+            <div
+              key={category.categoryId}
+              className={`category-list-item ${activeCategory === category.categoryId ? 'category-list-active-category' : ''}`}
+              onClick={() => handleCategoryClick(category.categoryId)}
+            >
+              {category.categoryName}
+            </div>
+          ))}
+        </div>
+        {activeCategory && (
+          <div className="category-list-sub-categories">
+            {subCategories.map((subCategory) => (
               <div
-                key={category.categoryId}
-                className={`category-item ${activeCategory === category.categoryId ? 'active-category' : ''}`}
-                onClick={() => handleCategoryClick(category.categoryId)}
+                key={subCategory.categoryId}
+                className="category-list-sub-category-item"
+                onClick={() => handleSubCategoryClick(subCategory.categoryId)}
               >
-                {category.categoryName}
+                {subCategory.categoryName}
               </div>
             ))}
           </div>
-          {activeCategory && (
-            <div className="sub-categories">
-              {subCategories.map((subCategory) => (
-                <div
-                  key={subCategory.categoryId}
-                  className="sub-category-item"
-                  onClick={() => handleSubCategoryClick(subCategory.categoryId)}
-                >
-                  {subCategory.categoryName}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
+        )}
+      </div>
+    )}
+  </div>
+);
 };
 
 export default CategoryList;

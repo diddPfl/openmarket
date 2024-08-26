@@ -55,9 +55,6 @@ const handleSearch = (e) => {
           </form>
           <nav>
             <ul style={{ display: 'flex', gap: '1rem' }}>
-              <li><Link to="/shop">Shop</Link></li>
-              <li><Link to="/sell">Sell</Link></li>
-              <li><Link to="/about">About</Link></li>
               <li><Link to="/item/insert">상품등록</Link></li>
               <li><Link to="/admin">관리자페이지</Link></li>
             </ul>

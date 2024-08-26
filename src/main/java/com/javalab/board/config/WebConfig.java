@@ -18,21 +18,13 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
     }
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:3000")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true);
     }
-    /**
-     * 스프링부트3.x 버전
-     * 호출하는 쪽 : /api/track
-     * 호출받는 쪽 : /api/track/
-     *  - 스프링부트2 에서는 호출되었지만 스프링부트3에서는 안됨. 똑같이 맞춰야 함.
-     *    아래 설정하면 스프링부트2처럼 호출되지만 deprecated 됨.
-     */
-//    @Override
-//    public void configurePathMatch(PathMatchConfigurer configurer) {
-//        configurer.setUseTrailingSlashMatch(true);
-//    }
 }

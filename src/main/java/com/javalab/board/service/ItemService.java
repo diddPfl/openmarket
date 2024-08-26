@@ -1,11 +1,7 @@
 package com.javalab.board.service;
 
-import com.javalab.board.dto.ItemCreateDto;
-import com.javalab.board.dto.ItemImageDto;
-import com.javalab.board.dto.ItemListDto;
-import com.javalab.board.dto.ItemResponseDto;
+import com.javalab.board.dto.*;
 import com.javalab.board.vo.BrandDto;
-import com.javalab.board.vo.Item;
 
 import java.util.List;
 
@@ -19,5 +15,7 @@ public interface ItemService {
     boolean deleteBrandAndRelatedItems(String brandName);
     BrandDto getBrandByName(String brandName);
     List<ItemListDto> searchItems(String term);
-
+    List<ItemTagDto> getRelatedItems(long itemId);
+    long getItemCount();
+    long getBrandCount();
 }
