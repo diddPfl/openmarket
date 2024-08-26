@@ -2,13 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import './MainImageSlider.css';
 
 const mainImages = [
-  { url: '/image/main1.jpg', text: '첫 번째 슬라이드 텍스트' },
-  { url: '/image/main2.jpg', text: '두 번째 슬라이드 텍스트' },
-  { url: '/image/main3.jpg', text: '세 번째 슬라이드 텍스트' },
-  { url: '/image/main4.jpg', text: '네 번째 슬라이드 텍스트' },
-  { url: '/image/main5.jpg', text: '다섯 번째 슬라이드 텍스트' },
-  { url: '/image/main6.jpg', text: '여섯 번째 슬라이드 텍스트' },
-  { url: '/image/main7.jpg', text: '일곱 번째 슬라이드 텍스트' },
+  { url: '/image/main1.jpg', text: '가을을 위한 니트 컬렉션' },
+  { url: '/image/main2.jpg', text: 'Accessory' },
+  { url: '/image/main3.jpg', text: '가방과 부츠' },
+  { url: '/image/main4.jpg', text: 'MEN Fashion Category' },
+  { url: '/image/main5.jpg', text: 'POINT RED COLOR' },
+  { url: '/image/main6.jpg', text: '의류 편집샵 OPENMARKET' },
+  { url: '/image/main7.jpg', text: '미리 가을' },
 ];
 
 const MainImageSlider = () => {
