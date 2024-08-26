@@ -24,6 +24,7 @@ import NoticeForm from './Notice/NoticeForm';
 import Admin from './Admin/Admin';
 import DeliveryListComponent from './Components/DeliveryListComponent';
 import SearchResults from './Category/SearchResult';
+import ItemUpdateForm from './ItemUpdateForm';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
               <Route path="/categoryitems/gubun/:gubunSubCode" element={<CategoryItemList />} />
               <Route path="/item/:id" element={<ItemDetail />} />
               <Route path="/item/insert" element={<ItemInsert />} />
+              <Route path="/item/:id/edit" element={<ItemUpdateForm />} />
               <Route path="/review/detail/:reviewId" element={<ReviewDetail />} />
               <Route path="/login" element={<LoginComponent />} />
               <Route path="/signup" element={<CreateMemberComponent />} />

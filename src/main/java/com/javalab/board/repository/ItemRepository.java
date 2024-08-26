@@ -16,6 +16,8 @@ public interface ItemRepository {
     Item findById(@Param("itemId") Long itemId);
     void insert(Item item);
     void insertItemImage(ItemImage itemImage);
+    void updateItem(Item item); // New method for updating item
+    void updateItemImages(long itemId, List<ItemImage> images); // New method for updating images
     void disableItem(long itemId);
     String findCategoryNameById(long categoryId);
     List<String> findAllBrands();

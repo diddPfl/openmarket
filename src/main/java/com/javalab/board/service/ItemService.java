@@ -13,6 +13,7 @@ public interface ItemService {
     List<ItemImageDto> saveItemImages(long itemId, List<ItemImageDto> images);
     void disableItem(long itemId);
     List<String> getAllBrands();
+    ItemResponseDto updateItem(long itemId, ItemUpdateDto itemUpdateDto);
     boolean deleteBrandAndRelatedItems(String brandName);
     BrandDto getBrandByName(String brandName);
     List<ItemListDto> searchItems(String term);

@@ -9,6 +9,8 @@ import java.util.List;
 @Getter
 @Setter
 public class ItemUpdateDto {
+    private long categoryId;
+    private String gubunSubCode;
     private long itemId;
     private String itemName;
     private String itemDetail;

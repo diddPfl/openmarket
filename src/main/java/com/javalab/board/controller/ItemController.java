@@ -62,6 +62,20 @@ public class ItemController {
         }
     }
 
+    @PutMapping("/{itemId}/edit")
+    public ResponseEntity<ItemResponseDto> updateItem(
+            @PathVariable("itemId") long itemId,
+            @RequestBody ItemUpdateDto itemUpdateDto) {
+        try {
+            ItemResponseDto updatedItem = itemService.updateItem(itemId, itemUpdateDto);
+            logger.info("Item updated: {}", updatedItem);
+            return ResponseEntity.ok(updatedItem);
+        } catch (Exception e) {
+            logger.error("Error updating item: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
     @PostMapping("/{itemId}/images")
     public ResponseEntity<List<ItemImageDto>> addItemImages(
             @PathVariable("itemId") long itemId,
