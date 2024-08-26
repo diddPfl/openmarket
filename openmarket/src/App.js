@@ -26,6 +26,7 @@ import NoticeForm from './Notice/NoticeForm';
 import Admin from './Admin/Admin';
 import DeliveryListComponent from './Components/DeliveryListComponent';
 import SearchResults from './Category/SearchResult';
+import OrderStatistics from './Admin/OrderStatistics'
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
                   <Route path="notices" element={<AdminNoticeList />} />
                   <Route path="notices/new" element={<NoticeForm />} />
                   <Route path="notices/:noticeNo/edit" element={<NoticeForm />} />
+                  <Route path="order-statistics" element={<OrderStatistics />} />
                 </Routes>
               </>
             } />
