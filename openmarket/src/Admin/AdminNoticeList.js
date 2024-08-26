@@ -59,11 +59,15 @@ const AdminNoticeList = () => {
           <tbody>
             {notices.map((notice) => (
               <tr key={notice.noticeNo}>
-                <td>{notice.title}</td>
+                <td>
+                  <Link to={`/notices/${notice.noticeNo}`} className="notice-title-link">
+                    {notice.title}
+                  </Link>
+                </td>
                 <td>{notice.regdate ? new Date(notice.regdate).toLocaleDateString() : 'N/A'}</td>
                 <td>
                   <Link to={`/admin/notices/${notice.noticeNo}/edit`} className="admin-button">수정</Link>
-                  <button onClick={() => handleDelete(notice.noticeNo)} className="admin-button">삭제</button>
+                  <button onClick={() => handleDelete(notice.noticeNo)} className="admin-button delete-button">삭제</button>
                 </td>
               </tr>
             ))}

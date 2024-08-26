@@ -43,7 +43,6 @@ const BrandList = () => {
   return (
     <div className="admin-page">
       <h2>브랜드 관리</h2>
-      <button onClick={fetchBrands} className="admin-button">브랜드 새로고침</button>
       {brands.length === 0 ? (
         <p>브랜드가 없습니다.</p>
       ) : (
@@ -59,7 +58,7 @@ const BrandList = () => {
               <tr key={brand}>
                 <td>{brand}</td>
                 <td>
-                  <button onClick={() => handleDelete(brand)} className="admin-button">삭제</button>
+                  <button onClick={() => handleDelete(brand)} className="admin-button delete-button">삭제</button>
                 </td>
               </tr>
             ))}
