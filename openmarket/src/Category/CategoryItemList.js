@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import './CategoryItemList.css';
 import Pagination from './Pagination';
-import Filter from './Filter'; // 필터 컴포넌트 import
+import Filter from './Filter';
 
 const SelectedFilters = ({ selectedBrand, minPrice, maxPrice, onRemove }) => {
   return (
@@ -167,10 +167,9 @@ const CategoryItemList = ({ items: propItems }) => {
         ))}
       </div>
       <Pagination
-        itemsPerPage={itemsPerPage}
-        totalItems={filteredItems.length}
-        paginate={handlePageChange}
         currentPage={currentPage}
+        totalPages={Math.ceil(filteredItems.length / itemsPerPage)}
+        onPageChange={handlePageChange}
       />
     </div>
   );

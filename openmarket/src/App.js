@@ -5,6 +5,7 @@ import Header from './Header';
 import AdminHeader from './Admin/AdminHeader';
 import Footer from './Footer';
 import ItemList from './Admin/ItemList';
+import AdminItemDetail from './Admin/AdminItemDetail';
 import MemberList from './Admin/MemberList';
 import BrandList from './Admin/BrandList';
 import AdminNoticeList from './Admin/AdminNoticeList';
@@ -42,6 +43,7 @@ function App() {
                   <Route index element={<Admin />} />
                   <Route path="items" element={<ItemList />} />
                   <Route path="/item/insert" element={<ItemInsert />} />
+                  <Route path="items/:itemId" element={<AdminItemDetail />} />
                   <Route path="members" element={<MemberList />} />
                   <Route path="brands" element={<BrandList />} />
                   <Route path="notices" element={<AdminNoticeList />} />

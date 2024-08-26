@@ -121,3 +121,13 @@
   font-size: 18px;
   color: #666;
 }
+
+.item-name-link {
+  cursor: pointer;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.item-name-link:hover {
+  text-decoration: underline;
+}
