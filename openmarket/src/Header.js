@@ -6,7 +6,7 @@ import { useAuth } from './context/AuthContext';
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const { isAuthenticated, name, role, logout } = useAuth();
+  const { isAuthenticated, member, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
@@ -14,11 +14,7 @@ function Header() {
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.pageYOffset;
-      if (scrollTop > 0) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(scrollTop > 0);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -29,7 +25,6 @@ function Header() {
   }, []);
 
   useEffect(() => {
-    // 페이지 변경 시 스크롤 위치 유지
     window.scrollTo(0, 0);
   }, [location.pathname]);
 
@@ -44,6 +39,8 @@ function Header() {
       navigate(`/search?term=${encodeURIComponent(searchTerm)}`);
     }
   };
+
+  const isAdmin = member?.roles?.includes('ROLE_ADMIN');
 
   return (
     <header className={`header-container ${isScrolled ? 'scrolled' : ''}`}>
@@ -62,17 +59,12 @@ function Header() {
           <div className="user-actions">
             {isAuthenticated ? (
               <>
-                {role === 'admin' ? (
-                  <>
-                    <Link to="/admin">관리자페이지</Link>
-                    <button onClick={handleLogout}>로그아웃</button>
-                  </>
-                ) : (
-                  <>
-                    <span>{name}(님)</span>
-                    <button onClick={handleLogout}>로그아웃</button>
-                  </>
+                <Link to="/mypage">MYPAGE</Link>
+                {isAdmin && (
+                  <Link to="/admin" className="admin-button">상품관리자</Link>
                 )}
+                <span className="user-name">{member?.name}님</span>
+                <button onClick={handleLogout}>로그아웃</button>
               </>
             ) : (
               <>

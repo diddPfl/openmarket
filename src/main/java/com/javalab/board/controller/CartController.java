@@ -21,17 +21,36 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
+//    @GetMapping("/{memberId}")
+//    public ResponseEntity<?> viewCart(@PathVariable("memberId") Long memberId) {
+//        try {
+//            CartVO cart = cartService.getCartByMemberId(memberId);
+//            List<CartItemVO> cartItems = cartService.getCartItems(cart.getCartId());
+//            return ResponseEntity.ok().body(new CartResponse(cart, cartItems));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching cart: " + e.getMessage());
+//        }
+//    }
+
     @GetMapping("/{memberId}")
-    public ResponseEntity<?> viewCart(@PathVariable("memberId") Long memberId) {
+    public ResponseEntity<?> viewCart(@PathVariable("memberId") String memberIdStr) {
         try {
+            if (memberIdStr == null || memberIdStr.equals("null")) {
+                return ResponseEntity.badRequest().body("Invalid member ID");
+            }
+            Long memberId = Long.parseLong(memberIdStr);
             CartVO cart = cartService.getCartByMemberId(memberId);
             List<CartItemVO> cartItems = cartService.getCartItems(cart.getCartId());
             return ResponseEntity.ok().body(new CartResponse(cart, cartItems));
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body("Invalid member ID format");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching cart: " + e.getMessage());
         }
     }
+
 
     @GetMapping("/check/{memberId}")
     public ResponseEntity<?> checkCart(@PathVariable("memberId") String memberIdStr) {

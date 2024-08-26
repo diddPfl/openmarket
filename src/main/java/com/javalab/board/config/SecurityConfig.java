@@ -93,6 +93,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/items/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/items/**").hasRole("ADMIN")
                         .requestMatchers("/api/mypage").authenticated()
+                        .requestMatchers("/api/cart/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/mypage/deliverylist/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
                 )
                 .rememberMe(rememberMe -> rememberMe

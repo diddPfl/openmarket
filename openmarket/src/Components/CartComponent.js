@@ -18,7 +18,7 @@ function Cart() {
 
     const fetchCartItems = async () => {
         try {
-            const memberId = sessionStorage.getItem('memberId');
+            const memberId = sessionStorage.setItem('memberId', response.data.memberId);
             if (!memberId) {
                 navigate('/login');
                 return;

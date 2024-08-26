@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService {
     private OrderItemRepository orderItemRepository;
 
     private boolean isValidOrderStatus(String status) {
-        return Arrays.asList("결제확인", "상품준비중", "배송중", "취소").contains(status);
+        return Arrays.asList("결제확인", "상품준비중", "배송중", "배송완료").contains(status);
     }
 
     @Override
@@ -38,22 +38,18 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderStatus("결제확인");
         logger.info("Inserting order: {}", order);
 
-        // Insert the order first
         orderRepository.insertOrder(order);
 
-        // Check if the order ID was generated
         if (order.getOrderId() == null) {
             throw new RuntimeException("Failed to generate order ID");
         }
 
         logger.info("Order inserted with ID: {}", order.getOrderId());
 
-        // Set the orderId for all order items
         for (OrderItem item : order.getOrderItems()) {
             item.setOrderId(order.getOrderId());
         }
 
-        // Insert all order items at once
         orderRepository.insertOrderItems(order.getOrderItems());
 
         logger.info("Order created successfully with ID: {}", order.getOrderId());
@@ -73,6 +69,7 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
+    @Override
     public List<Order> getOrdersByMemberId(Long memberId) {
         List<Order> orders = orderRepository.getOrdersByMemberId(memberId);
         for (Order order : orders) {
@@ -83,6 +80,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updateOrderStatus(Long orderId, String status) {
+        if (!isValidOrderStatus(status)) {
+            throw new IllegalArgumentException("Invalid order status: " + status);
+        }
         logger.info("Updating order status for order ID: {} to status: {}", orderId, status);
         orderRepository.updateOrderStatus(orderId, status);
         logger.info("Order status updated successfully");
@@ -97,18 +97,5 @@ public class OrderServiceImpl implements OrderService {
         logger.info("Order status counts: {}", statusCounts);
         return statusCounts;
     }
-
-    //    @Override
-//    public List<Order> getOrdersForLastMonths(Long memberId, int months) {
-//        LocalDateTime startDate = LocalDateTime.now().minusMonths(months);
-//        List<Order> orders = orderRepository.findOrdersForMemberAfterDate(memberId, startDate);
-//
-//        // Log the retrieved orders for debugging
-//        for (Order order : orders) {
-//            logger.info("Retrieved Order: {}", order);
-//        }
-//
-//        return orders;
-//    }
 
 }
