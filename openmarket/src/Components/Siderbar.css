@@ -1,0 +1,42 @@
+/* src/Components/Sidebar.css */
+.sidebar {
+  width: 300px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-right: 1px solid #000;
+  box-sizing: border-box;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.text-logo {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #000;
+}
+
+.nav-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  margin-bottom: 20px;
+}
+
+.nav-item a {
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+}
+
+.hr {
+  margin: 20px 0;
+  border: 1px solid #000;
+}

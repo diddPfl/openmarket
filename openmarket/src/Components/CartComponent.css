@@ -1,3 +1,4 @@
+/* CartComponent.css */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -7,29 +8,78 @@ body {
 .container {
     width: 100%;
     display: flex;
-    justify-content: center;
-    padding-top: 50px; /* Adjusted padding-top for better centering */
+    justify-content: flex-start;
+    padding-top: 50px;
     padding-bottom: 100px;
     min-height: 100vh;
 }
 
+.sidebar {
+    width: 300px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-right: 1px solid #000;
+    box-sizing: border-box;
+    height: calc(100vh - 100px);
+    position: fixed;
+    left: 0;
+    top: 100px;
+    overflow-y: auto;
+}
+
+.text-logo {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #000;
+    text-decoration: none;
+    display: block;
+}
+
+.text-logo:hover {
+    text-decoration: underline;
+}
+
+.nav-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-item {
+    margin-bottom: 20px;
+}
+
+.nav-item a {
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+}
+
+.hr {
+    margin: 20px 0;
+    border: 1px solid #000;
+}
+
 .cart-wrapper {
-    width: 80%;
+    width: calc(100% - 300px);
     max-width: 1200px;
     display: flex;
     justify-content: space-between;
-    margin-top: 150px; /* Increased margin-top to push content more towards the center */
+    margin-top: 150px;
+    margin-left: 300px;
 }
 
 .cart-container {
-    width: 1100px; /* Increased from 1000px to 1100px for a longer cart container */
+    width: 1100px;
     background-color: #fff;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    margin: 0 auto; /* Center the container */
+    margin: 0 auto;
 }
-
 
 h2 {
     margin-bottom: 20px;
@@ -137,8 +187,8 @@ tr.brand-row td {
 }
 
 .delivery-info {
-    width: 90%; /* Use percentage for responsiveness */
-    max-width: 600px; /* Set a max width */
+    width: 90%;
+    max-width: 600px;
     background: #fff;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -215,4 +265,29 @@ tr.brand-row td {
     text-align: center;
     margin-top: 50px;
     font-size: 18px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid #000;
+    }
+
+    .cart-wrapper {
+        width: 100%;
+        margin-left: 0;
+        flex-direction: column;
+    }
+
+    .cart-container,
+    .delivery-info {
+        width: 100%;
+    }
 }

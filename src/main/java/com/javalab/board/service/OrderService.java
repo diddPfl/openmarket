@@ -9,9 +9,5 @@ public interface OrderService {
     Order getOrderById(Long orderId);
     List<Order> getOrdersByMemberId(Long memberId);
     void updateOrderStatus(Long orderId, String status);
-
-    // Add this new method
     Map<String, Long> getOrderStatusCounts(Long memberId);
-
-    List<Order> getOrdersForLastMonths(Long memberId, int months);
 }

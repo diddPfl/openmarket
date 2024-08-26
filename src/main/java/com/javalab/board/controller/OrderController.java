@@ -63,6 +63,4 @@ public class OrderController {
         logger.info("Order status updated successfully");
         return ResponseEntity.ok().build();
     }
-
-
 }

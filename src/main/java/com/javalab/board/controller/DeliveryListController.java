@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/mypage")
@@ -24,19 +24,22 @@ public class DeliveryListController {
     @GetMapping("/deliverylist/{months}")
     public ResponseEntity<List<Order>> getDeliveryList(@PathVariable("months") int months) {
         logger.info("Fetching delivery list for the last {} months", months);
-
-        // Assuming you have a way to get the current user's memberId
-        Long memberId = getCurrentUserId(); // Implement this method to get the current user's ID
-
-        List<Order> filteredOrders = orderService.getOrdersForLastMonths(memberId, months);
-
+        Long memberId = getCurrentUserId();
+        List<Order> filteredOrders = orderService.getOrdersByMemberId(memberId);
         if (filteredOrders.isEmpty()) {
-            logger.info("No orders found for member ID: {} in the last {} months", memberId, months);
+            logger.info("No orders found for member ID: {}", memberId);
             return ResponseEntity.noContent().build();
         }
-
-        logger.info("Found {} orders for member ID: {} in the last {} months", filteredOrders.size(), memberId, months);
+        logger.info("Found {} orders for member ID: {}", filteredOrders.size(), memberId);
         return ResponseEntity.ok(filteredOrders);
+    }
+
+    @GetMapping("/order-status-counts")
+    public ResponseEntity<Map<String, Long>> getOrderStatusCounts() {
+        logger.info("Fetching order status counts");
+        Long memberId = getCurrentUserId();
+        Map<String, Long> statusCounts = orderService.getOrderStatusCounts(memberId);
+        return ResponseEntity.ok(statusCounts);
     }
 
     // Implement this method to get the current user's ID

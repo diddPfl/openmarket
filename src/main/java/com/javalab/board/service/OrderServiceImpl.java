@@ -98,7 +98,7 @@ public class OrderServiceImpl implements OrderService {
         return statusCounts;
     }
 
-//    @Override
+    //    @Override
 //    public List<Order> getOrdersForLastMonths(Long memberId, int months) {
 //        LocalDateTime startDate = LocalDateTime.now().minusMonths(months);
 //        List<Order> orders = orderRepository.findOrdersForMemberAfterDate(memberId, startDate);
@@ -110,9 +110,5 @@ public class OrderServiceImpl implements OrderService {
 //
 //        return orders;
 //    }
-@Override
-public List<Order> getOrdersForLastMonths(Long memberId, int months) {
-    LocalDateTime startDate = LocalDateTime.now().minusMonths(months);
-    return orderRepository.findOrdersForMemberAfterDate(memberId, startDate);
-}
+
 }

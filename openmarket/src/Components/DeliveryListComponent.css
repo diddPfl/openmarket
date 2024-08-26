@@ -1,26 +1,101 @@
+/* DeliveryListComponent.css */
 body {
     font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #ffffff;
 }
-.container {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
-h1 {
+
+.container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    margin: 100px auto 0;
+    padding: 0;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.sidebar {
+    width: 300px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-right: 1px solid #000;
+    box-sizing: border-box;
+    height: calc(100vh - 100px);
+    position: fixed;
+    left: 0;
+    top: 100px;
+    overflow-y: auto;
+}
+
+.text-logo {
     font-size: 24px;
     font-weight: bold;
-    margin-bottom: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #000;
+    text-decoration: none;
+    display: block;
 }
+
+.text-logo:hover {
+    text-decoration: underline;
+}
+
+.nav-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-item {
+    margin-bottom: 20px;
+}
+
+.nav-item a {
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+}
+
+.hr {
+    margin: 20px 0;
+    border: 1px solid #000;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-left: 320px;
+    width: calc(100% - 340px);
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
 .tabs {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
     font-size: 16px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    width: 100%;
 }
+
 .tab {
     flex: 1;
     text-align: center;
@@ -28,55 +103,115 @@ h1 {
     cursor: pointer;
     color: #333;
     font-weight: 500;
-    border: 1px solid #ddd;
-    background-color: #fff;
-    margin-right: -1px;
+    border-right: 1px solid #ddd;
 }
+
 .tab:last-child {
-    margin-right: 0;
+    border-right: none;
 }
+
 .tab.active {
-    border: 1px solid black;
     font-weight: bold;
     background-color: #f0f0f0;
+    border-bottom: 2px solid black;
 }
+
 .order-box {
     border: 1px solid #ddd;
     background-color: #fff;
     margin-bottom: 20px;
     padding: 20px;
 }
+
 .order-header {
     font-size: 14px;
     color: #999;
     text-align: right;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     font-weight: 500;
 }
+
 .order-info {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
-    line-height: 1.5;
+    line-height: 1.4;
 }
+
 .order-info .label {
     font-weight: bold;
     color: #333;
     margin-bottom: 5px;
+    font-size: 14px;
 }
+
 .order-info .value {
     color: #333;
+    font-size: 14px;
 }
+
 .order-info .status {
     color: orange;
     font-weight: bold;
 }
+
 .order-info .status.completed {
     color: #666;
 }
+
 .order-section {
     display: none;
+    width: 100%;
 }
+
 .order-section.active {
     display: block;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    cursor: pointer;
+    color: #888; /* Updated to grey */
+}
+
+.pagination button.active {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    color: #333; /* Darker color for active button */
+}
+
+.pagination button:hover {
+    background-color: #f0f0f0;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid #000;
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .order-info {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
