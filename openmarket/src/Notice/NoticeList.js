@@ -39,17 +39,19 @@ const NoticeList = () => {
         <table className="table">
           <thead>
             <tr>
-              <th className="table-header">제목</th>
-              <th className="table-header">등록일자</th>
+              <th className="table-header table-title">제목</th>
+              <th className="table-header registration-date">등록일자</th>
             </tr>
           </thead>
           <tbody>
             {notices.map((notice) => (
               <tr key={notice.noticeNo}>
                 <td className="table-cell">
-                  <Link to={`/notices/${notice.noticeNo}`}>{notice.title}</Link>
+                  <Link to={`/notices/${notice.noticeNo}`} className="notice-title">
+                    {notice.title}
+                  </Link>
                 </td>
-                <td className="table-cell">
+                <td className="table-cell registration-date">
                   {notice.regdate ? new Date(notice.regdate).toLocaleDateString() : 'N/A'}
                 </td>
               </tr>

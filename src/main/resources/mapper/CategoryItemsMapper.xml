@@ -27,6 +27,7 @@
 		FROM item i
 		LEFT JOIN item_image img ON i.item_id = img.item_id
 		WHERE i.gubun_sub_code = #{gubunSubCode}
+		ORDER BY i.item_id DESC
 	</select>
 
 	<select id="selectItemsByCategoryId" parameterType="Long" resultMap="itemResultMap">
@@ -34,6 +35,7 @@
 		FROM item i
 		LEFT JOIN item_image img ON i.item_id = img.item_id
 		WHERE i.category_id = #{categoryId}
+		ORDER BY i.item_id DESC
 	</select>
 
 	<select id="selectItemById" parameterType="Long" resultMap="itemResultMap">
@@ -41,6 +43,7 @@
 		FROM item i
 		LEFT JOIN item_image img ON i.item_id = img.item_id
 		WHERE i.item_id = #{itemId}
+		ORDER BY i.item_id DESC
 	</select>
 
 	<!-- 모든 브랜드명 가져오기 -->

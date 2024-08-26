@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.javalab.board.repository.OrderStatisticsMapper">
+    <select id="getDailyOrderStatistics" resultType="com.javalab.board.vo.OrderStatisticsDTO">
+        SELECT
+        DATE(order_date) as date,
+        SUM(order_amount) as totalAmount,
+        COUNT(*) as orderCount
+        FROM
+        orders
+        WHERE
+        order_date = CURDATE()
+        GROUP BY
+        DATE(order_date)
+        ORDER BY
+        date DESC
+    </select>
+
+    <select id="getOrderStatisticsByStatus" resultType="com.javalab.board.vo.OrderStatisticsDTO">
+        SELECT
+        order_status as orderStatus,
+        COUNT(*) as orderCount,
+        SUM(order_amount) as totalAmount
+        FROM
+        orders
+        GROUP BY
+        order_status
+    </select>
+
+    <select id="getTotalOrderAmount" resultType="java.math.BigDecimal">
+        SELECT SUM(order_amount) FROM orders
+    </select>
+
+    <select id="getTotalOrderCount" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM orders
+    </select>
+
+</mapper>

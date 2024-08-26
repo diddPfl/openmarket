@@ -25,5 +25,6 @@ public interface NoticeMapper {
 
     List<Notice> getNoticesWithPaging(@Param("offset") int offset, @Param("limit") int limit);
 
-    int getTotalNoticeCount();
+    long getNoticeCount();
+
 }

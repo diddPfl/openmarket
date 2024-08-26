@@ -2,10 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import './MainImageSlider.css';
 
 const mainImages = [
-  '/image/main1.jpg',
-  '/image/main2.jpg',
-  '/image/main3.jpg',
-  '/image/main4.jpg',
+  { url: '/image/main1.jpg', text: '첫 번째 슬라이드 텍스트' },
+  { url: '/image/main2.jpg', text: '두 번째 슬라이드 텍스트' },
+  { url: '/image/main3.jpg', text: '세 번째 슬라이드 텍스트' },
+  { url: '/image/main4.jpg', text: '네 번째 슬라이드 텍스트' },
+  { url: '/image/main5.jpg', text: '다섯 번째 슬라이드 텍스트' },
+  { url: '/image/main6.jpg', text: '여섯 번째 슬라이드 텍스트' },
+  { url: '/image/main7.jpg', text: '일곱 번째 슬라이드 텍스트' },
 ];
 
 const MainImageSlider = () => {
@@ -51,7 +54,8 @@ const MainImageSlider = () => {
         >
           {cloneImages.map((image, index) => (
             <div key={index} className="image-wrapper">
-              <img src={image} alt={`슬라이드 ${index}`} className="slider-image" />
+              <img src={image.url} alt={`슬라이드 ${index}`} className="slider-image" />
+              <div className="slider-text">{image.text}</div>
             </div>
           ))}
         </div>

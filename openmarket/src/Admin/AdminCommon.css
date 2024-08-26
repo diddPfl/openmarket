@@ -1,0 +1,133 @@
+.admin-page {
+    margin-top: 130px;
+    padding: 20px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.admin-dashboard {
+    width: 100%;
+}
+
+.admin-title {
+    font-size: 28px;
+    margin-bottom: 10px;
+    margin-left: 50px;
+}
+
+.admin-underline {
+    border: none;
+    height: 1.5px;
+    background-color: #333;
+    margin: 0 -80px 20px;
+    width: calc(100% + 160px);
+    position: relative;
+    left: -80px;
+}
+
+.admin-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.admin-section {
+    background-color: white;
+    border: none;
+    padding: 20px;
+}
+
+.admin-section h2 {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+}
+
+.admin-section p {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+/* 공통 버튼 스타일 */
+.admin-link,
+.admin-button,
+.delete-button {
+    display: inline-block;
+    padding: 8px 12px; /* 동일한 패딩 */
+    margin-right: 10px;
+    margin-bottom: 10px;
+    color: white;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px; /* 동일한 글자 크기 */
+    line-height: normal; /* 기본 라인 높이 */
+}
+
+/* 어드민 링크와 버튼 스타일 */
+.admin-link,
+.admin-button {
+    background-color: black;
+}
+
+.admin-link:hover,
+.admin-button:hover {
+    background-color: #333;
+}
+
+/* 삭제 버튼 스타일 */
+.delete-button {
+    background-color: #f44336;
+    border-radius: 0;
+}
+
+.delete-button:hover {
+    background-color: #d32f2f;
+}
+
+.notice-title-link {
+  color: #333;
+  text-decoration: none;
+}
+
+.notice-title-link:hover {
+  text-decoration: underline;
+}
+/* OrderStatistics 컴포넌트를 위한 추가 스타일 */
+.admin-section ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.admin-section li {
+  margin-bottom: 10px;
+}
+
+.admin-section p {
+  margin-bottom: 10px;
+}
+
+/* 로딩 및 에러 메시지 스타일 */
+.admin-section:only-child {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 50px;
+  font-size: 18px;
+  color: #666;
+}
+
+.item-name-link {
+  cursor: pointer;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.item-name-link:hover {
+  text-decoration: underline;
+}

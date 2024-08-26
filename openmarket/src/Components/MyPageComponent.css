@@ -1,25 +1,41 @@
+/* Header styling */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px; /* Adjust this to your header's actual height */
+  z-index: 1000;
+  background-color: #fff;
+  border-bottom: 1px solid #000;
+}
+
+/* Container styling */
 .container {
   display: flex;
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 100px auto 0; /* Increased top margin to account for header */
   padding: 0;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start; /* Changed to flex-start for better alignment */
 }
 
+/* Sidebar styling */
 .sidebar {
   width: 300px;
   padding: 20px;
   background-color: #ffffff;
   border-right: 1px solid #000;
   box-sizing: border-box;
-  height: 100vh;
+  height: calc(100vh - 100px); /* Viewport height minus header height and additional margin */
   position: fixed;
   left: 0;
-  top: 0;
+  top: 100px; /* Increased this value to position the sidebar lower */
+  overflow-y: auto;
 }
 
+/* Logo styling */
 .text-logo {
   font-size: 24px;
   font-weight: bold;
@@ -28,6 +44,7 @@
   color: #000;
 }
 
+/* Navigation list styling */
 .nav-list {
   list-style-type: none;
   padding: 0;
@@ -45,25 +62,30 @@
   color: #000;
 }
 
+/* Horizontal rule styling */
 .hr {
   margin: 20px 0;
   border: 1px solid #000;
 }
 
+/* Main content styling */
 .main-content {
   flex: 1;
   padding: 20px;
   box-sizing: border-box;
-  margin-left: 320px;
-  width: calc(100% - 340px);
+  margin-left: 320px; /* Adjust based on your sidebar width */
+  width: calc(100% - 340px); /* Adjust based on your sidebar width */
+  margin-top: 100px; /* Align with the top of the sidebar */
 }
 
+/* Heading styling */
 .h1 {
   font-size: 24px;
   margin-bottom: 20px;
   color: #000;
 }
 
+/* Status box styling */
 .status-box {
   display: flex;
   justify-content: space-between;
@@ -74,6 +96,7 @@
   background-color: #ffffff;
 }
 
+/* Status item styling */
 .status-item {
   flex: 1;
   text-align: center;
@@ -99,4 +122,38 @@
   margin-top: 5px;
   font-weight: bold;
   color: #000;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: static; /* Change to static for mobile view */
+    border-right: none;
+    border-bottom: 1px solid #000;
+  }
+
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 0; /* Remove top margin on mobile */
+  }
+
+  .status-box {
+    flex-wrap: wrap;
+  }
+
+  .status-item {
+    flex-basis: 50%;
+    margin-bottom: 10px;
+  }
+
+  .status-item:not(:last-child)::after {
+    display: none;
+  }
 }

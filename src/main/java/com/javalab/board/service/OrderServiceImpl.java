@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -25,6 +26,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderItemRepository orderItemRepository;
+
+    private boolean isValidOrderStatus(String status) {
+        return Arrays.asList("결제확인", "상품준비중", "배송중", "취소").contains(status);
+    }
 
     @Override
     @Transactional
@@ -43,11 +48,13 @@ public class OrderServiceImpl implements OrderService {
 
         logger.info("Order inserted with ID: {}", order.getOrderId());
 
-        // Now insert the order items
+        // Set the orderId for all order items
         for (OrderItem item : order.getOrderItems()) {
             item.setOrderId(order.getOrderId());
-            orderItemRepository.insertOrderItem(item);
         }
+
+        // Insert all order items at once
+        orderRepository.insertOrderItems(order.getOrderItems());
 
         logger.info("Order created successfully with ID: {}", order.getOrderId());
         return order;
@@ -66,11 +73,11 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
-    @Override
     public List<Order> getOrdersByMemberId(Long memberId) {
-        logger.info("Fetching orders for member ID: {}", memberId);
         List<Order> orders = orderRepository.getOrdersByMemberId(memberId);
-        logger.info("Found {} orders for member ID: {}", orders.size(), memberId);
+        for (Order order : orders) {
+            logger.info("Retrieved order: {}", order);
+        }
         return orders;
     }
 
@@ -91,7 +98,7 @@ public class OrderServiceImpl implements OrderService {
         return statusCounts;
     }
 
-//    @Override
+    //    @Override
 //    public List<Order> getOrdersForLastMonths(Long memberId, int months) {
 //        LocalDateTime startDate = LocalDateTime.now().minusMonths(months);
 //        List<Order> orders = orderRepository.findOrdersForMemberAfterDate(memberId, startDate);
@@ -103,9 +110,5 @@ public class OrderServiceImpl implements OrderService {
 //
 //        return orders;
 //    }
-@Override
-public List<Order> getOrdersForLastMonths(Long memberId, int months) {
-    LocalDateTime startDate = LocalDateTime.now().minusMonths(months);
-    return orderRepository.findOrdersForMemberAfterDate(memberId, startDate);
-}
+
 }

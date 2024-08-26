@@ -137,4 +137,24 @@ public class AdminController {
 		noticeService.deleteNotice(noticeNo);
 		return ResponseEntity.noContent().build();
 	}
+
+	@GetMapping("/items/count")
+	public ResponseEntity<Long> getItemCount() {
+		return ResponseEntity.ok(itemService.getItemCount());
+	}
+
+	@GetMapping("/members/count")
+	public ResponseEntity<Long> getMemberCount() {
+		return ResponseEntity.ok(memberService.getMemberCount());
+	}
+
+	@GetMapping("/brands/count")
+	public ResponseEntity<Long> getBrandCount() {
+		return ResponseEntity.ok(itemService.getBrandCount());
+	}
+
+	@GetMapping("/notices/count")
+	public ResponseEntity<Long> getNoticeCount() {
+		return ResponseEntity.ok(noticeService.getNoticeCount());
+	}
 }

@@ -15,4 +15,8 @@ public interface OrderRepository {
     List<Order> getOrdersByMemberId(@Param("memberId") Long memberId);
     void updateOrderStatus(@Param("orderId") Long orderId, @Param("status") String status);
     List<Order> findOrdersForMemberAfterDate(@Param("memberId") Long memberId, @Param("startDate") LocalDateTime startDate);
+    // Insert multiple order items (for batch insert)
+    void insertOrderItems(List<OrderItem> orderItems);
+    // Insert a single order item
+    void insertOrderItem(OrderItem orderItem);
 }

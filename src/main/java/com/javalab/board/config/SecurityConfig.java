@@ -25,8 +25,6 @@ public class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final CustomSocialLoginSuccessHandler customSocialLoginSuccessHandler;
 
-
-
     @Autowired
     public SecurityConfig(
             MemberService memberService,
@@ -52,6 +50,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())  // Disable CSRF for API requests
+                .formLogin(form -> form
+                        .loginProcessingUrl("/api/login")
+                        .usernameParameter("email")
+                        .passwordParameter("password")
+                        .successHandler((request, response, authentication) -> {
+                            response.setStatus(200);
+                            response.getWriter().write("{\"success\":true}");
+                        })
+                        .failureHandler(authFailureHandler)
+                        .permitAll()
+                )
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/login")

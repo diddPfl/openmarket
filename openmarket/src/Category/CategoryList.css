@@ -1,81 +1,76 @@
-.category-container {
+.category-list-container {
   display: flex;
   flex-direction: column;
-  align-items: stretch; /* 아이템을 동일한 높이로 설정 */
+  align-items: stretch;
+  background-color: white;
+  padding: 10px;
 }
 
-.menu-bar {
+.category-list-menu-bar {
   display: flex;
   margin-bottom: 10px;
+  padding: 5px;
 }
 
-.menu-item {
+.category-list-menu-item {
   cursor: pointer;
   margin-right: 10px;
   font-size: 16px;
-  color: #333; /* 기본 텍스트 색상 */
-  transition: color 0.3s;
-  padding: 0;
+  padding: 5px 10px;
   border: none;
 }
 
-.menu-item:hover {
-  color: #007BFF; /* 호버 시 텍스트 색상 변경 */
-}
-
-.active-menu {
-  font-weight: bold;
+.category-list-menu-item:hover {
   color: #007BFF;
-  background-color: transparent;
+  font-weight :bold;
 }
 
-.category-display {
+.category-list-active-menu {
+  font-weight: bold;
+}
+
+.category-list-display {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  background-color: white;
 }
 
-.main-categories {
+.category-list-main-categories,
+.category-list-sub-categories {
   display: flex;
   flex-direction: column;
+  background-color: white;
+  padding: 5px;
+}
+
+.category-list-main-categories {
   margin-right: 20px;
 }
 
-.category-item {
+.category-list-item,
+.category-list-sub-category-item {
   cursor: pointer;
   margin-bottom: 5px;
   font-size: 16px;
   color: #333;
-  transition: color 0.3s;
-  padding: 0;
+  transition: all 0.3s;
+  padding: 5px 10px;
   border: none;
+  background-color: white;
 }
 
-.category-item:hover {
+.category-list-item:hover,
+.category-list-sub-category-item:hover {
   color: #007BFF;
 }
 
-.active-category {
+.category-list-active-category {
   font-weight: bold;
   color: #007BFF;
-  background-color: transparent;
 }
 
-.sub-categories {
-  display: flex;
-  flex-direction: column;
-}
-
-.sub-category-item {
-  margin-bottom: 5px;
+.category-list-sub-category-item {
   font-size: 14px;
   color: #666;
-  cursor: pointer;
-  transition: color 0.3s;
-  padding: 0;
-  border: none;
-}
-
-.sub-category-item:hover {
-  color: #007BFF;
 }

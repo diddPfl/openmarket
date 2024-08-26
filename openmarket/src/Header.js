@@ -1,19 +1,20 @@
-// Header.js
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import './Header.css';
 import CategoryList from './Category/CategoryList';
 import { useAuth } from './context/AuthContext';
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const { isAuthenticated, name, logout } = useAuth();
+  const { isAuthenticated, name, role, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 0) {
+      const scrollTop = window.pageYOffset;
+      if (scrollTop > 0) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -27,17 +28,22 @@ function Header() {
     };
   }, []);
 
+  useEffect(() => {
+    // 페이지 변경 시 스크롤 위치 유지
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   const handleLogout = () => {
     logout();
     navigate('/');
   };
 
-const handleSearch = (e) => {
-  e.preventDefault();
-  if (searchTerm.trim()) {
-    navigate(`/search?term=${encodeURIComponent(searchTerm)}`);
-  }
-};
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      navigate(`/search?term=${encodeURIComponent(searchTerm)}`);
+    }
+  };
 
   return (
     <header className={`header-container ${isScrolled ? 'scrolled' : ''}`}>
@@ -53,20 +59,20 @@ const handleSearch = (e) => {
             />
             <button type="submit">Search</button>
           </form>
-          <nav>
-            <ul style={{ display: 'flex', gap: '1rem' }}>
-              <li><Link to="/shop">Shop</Link></li>
-              <li><Link to="/sell">Sell</Link></li>
-              <li><Link to="/about">About</Link></li>
-              <li><Link to="/item/insert">상품등록</Link></li>
-              <li><Link to="/admin">관리자페이지</Link></li>
-            </ul>
-          </nav>
           <div className="user-actions">
             {isAuthenticated ? (
               <>
-                <span>{name}(님)</span>
-                <button onClick={handleLogout}>로그아웃</button>
+                {role === 'admin' ? (
+                  <>
+                    <Link to="/admin">관리자페이지</Link>
+                    <button onClick={handleLogout}>로그아웃</button>
+                  </>
+                ) : (
+                  <>
+                    <span>{name}(님)</span>
+                    <button onClick={handleLogout}>로그아웃</button>
+                  </>
+                )}
               </>
             ) : (
               <>

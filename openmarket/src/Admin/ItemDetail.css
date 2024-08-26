@@ -1,0 +1,94 @@
+.item-detail {
+  max-width: 800px;
+  margin: 120px auto 40px; /* 하단 여백 추가 */
+  padding: 30px; /* 패딩 증가 */
+  background-color: #fff; /* 배경색 추가 */
+  box-shadow: 0 0 15px rgba(0,0,0,0.1); /* 그림자 효과 추가 */
+  border-radius: 8px; /* 모서리 둥글게 */
+}
+
+.item-detail h2 {
+  font-size: 28px; /* 글자 크기 증가 */
+  color: #333;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 15px;
+}
+
+.item-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px; /* 간격 증가 */
+  margin-bottom: 30px;
+  justify-content: center; /* 이미지 중앙 정렬 */
+}
+
+.item-images img {
+  max-width: 30%;
+  height: auto;
+  border-radius: 4px; /* 이미지 모서리 둥글게 */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* 이미지에 그림자 효과 */
+  transition: transform 0.3s ease; /* 호버 효과를 위한 전환 */
+}
+
+.item-images img:hover {
+  transform: scale(1.05); /* 호버 시 이미지 확대 */
+}
+
+.item-info {
+  margin-top: 30px;
+  background-color: #f9f9f9; /* 배경색 추가 */
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.item-info p {
+  margin-bottom: 15px;
+  line-height: 1.8;
+  font-size: 16px; /* 글자 크기 지정 */
+}
+
+.item-info strong {
+  font-weight: 600;
+  color: #444;
+  margin-right: 8px;
+}
+
+.loading, .error, .not-found {
+  text-align: center;
+  margin-top: 100px; /* 상단 여백 증가 */
+  font-size: 20px;
+  color: #666;
+}
+
+.loading {
+  color: #007bff;
+}
+
+.error {
+  color: #dc3545;
+}
+
+.not-found {
+  color: #ffc107;
+}
+
+.back-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 20px; /* 패딩 증가 */
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 30px;
+  font-size: 16px; /* 글자 크기 증가 */
+  transition: background-color 0.3s ease; /* 부드러운 색상 전환 */
+  display: block; /* 버튼을 블록 레벨 요소로 변경 */
+  width: fit-content; /* 내용에 맞는 너비 */
+  margin-left: auto; /* 오른쪽 정렬 */
+  margin-right: 0;
+}
+
+.back-button:hover {
+  background-color: #0056b3;
+}
