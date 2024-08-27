@@ -49,9 +49,21 @@ const ItemInsert = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = sessionStorage.getItem('jwt');
+
     try {
-      const response = await axios.post('http://localhost:9000/items', item);
-      const savedItemId = response.data.itemId;
+       const authToken = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
+             console.log('authToken : ' + authToken);
+
+
+        const response = await axios.post('/api/items', item, {
+                  headers: {
+                      'Authorization': authToken,
+                      'Content-Type': 'application/json'
+                  }
+              });
+
+              const savedItemId = response.data.itemId;
 
       if (images.length > 0) {
         const formData = new FormData();

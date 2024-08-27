@@ -41,6 +41,7 @@ public class TokenCheckFilter extends OncePerRequestFilter {
             // JWT 토큰에서 사용자 정보 추출
             String username = jwtService.getAuthUser(request);
 
+
             if (username != null) {
                 UserDetails userDetails = memberService.loadUserByUsername(username);
 

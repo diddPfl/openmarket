@@ -12,43 +12,42 @@ export const AuthProvider = ({ children }) => {
     const storedRoles = sessionStorage.getItem('roles');
 
     if (token) {
-      setIsAuthenticated(true);
-      setMember({
-        name: storedName || '',
-        roles: parseRoles(storedRoles)
-      });
-    }
-  }, []);
+          setIsAuthenticated(true);
+          setMember({ name: storedName, roles: JSON.parse(storedRoles) || [] }); // roles를 JSON.parse로 복원
+        }
+      }, []);
 
-  const parseRoles = (rolesString) => {
-    if (!rolesString) return [];
-    try {
-      const parsed = JSON.parse(rolesString);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (error) {
-      console.error('Error parsing roles:', error);
-      return [];
-    }
-  };
+//  const parseRoles = (rolesString) => {
+//    if (!rolesString) return [];
+//    try {
+//      const parsed = JSON.parse(rolesString);
+//      return Array.isArray(parsed) ? parsed : [];
+//    } catch (error) {
+//      console.error('Error parsing roles:', error);
+//      return [];
+//    }
+//  };
 
   const login = (token, name, roles) => {
     sessionStorage.setItem('jwt', token);
     sessionStorage.setItem('name', name);
-    sessionStorage.setItem('roles', JSON.stringify(roles || []));
+    sessionStorage.setItem('roles', JSON.stringify(roles));
+//    sessionStorage.setItem('memberId', memberId);
     setIsAuthenticated(true);
-    setMember({ name, roles: roles || [] });
+    setMember({ name, roles });
   };
 
   const logout = () => {
     sessionStorage.removeItem('jwt');
     sessionStorage.removeItem('name');
     sessionStorage.removeItem('roles');
+//    sessionStorage.removeItem('memberId');
     setIsAuthenticated(false);
     setMember({ name: '', roles: [] });
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, member, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, member, login, logout}}>
       {children}
     </AuthContext.Provider>
   );

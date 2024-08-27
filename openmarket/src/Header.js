@@ -4,6 +4,7 @@ import './Header.css';
 import CategoryList from './Category/CategoryList';
 import { useAuth } from './context/AuthContext';
 
+
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const { isAuthenticated, member, logout } = useAuth();
@@ -60,6 +61,7 @@ function Header() {
             {isAuthenticated ? (
               <>
                 <Link to="/mypage">MYPAGE</Link>
+                <Link to="/item/insert">상품등록</Link>
                 {isAdmin && (
                   <Link to="/admin" className="admin-button">상품관리자</Link>
                 )}

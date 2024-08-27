@@ -94,6 +94,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/items/**").hasRole("ADMIN")
                         .requestMatchers("/api/mypage").authenticated()
                         .requestMatchers("/api/cart/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(
+                                "/", "/css/**", "/js/**", "/images/**", "/fonts/**", "/ckeditor2/**", "/vendor/**",
+                                "/**/*.ico", "/**/*.html", "/**/*.png", "/**/*.jpg", "/**/*.gif", "/**/*.svg", "/**/*.json",
+                                "/path/to/**" // Add this line to cover your fallback image path
+                        ).permitAll()
                         .requestMatchers("/api/mypage/deliverylist/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
                 )

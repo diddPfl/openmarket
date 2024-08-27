@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
 import './LoginComponent.module.css';
 
 const LoginComponent = () => {
@@ -10,6 +9,7 @@ const LoginComponent = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -17,39 +17,43 @@ const LoginComponent = () => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
-    console.log('Submitting login with email:', email);
+    console.log('Submitting login with email:', email, 'and password length:', password.length);
 
     try {
-      const response = await axios.post('/api/login', { email, password, rememberMe }, {
+      const requestBody = { email, password };
+      console.log('Request body:', requestBody);
+
+      const response = await fetch('/api/login', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        withCredentials: true,
+        body: JSON.stringify(requestBody),
+        credentials: 'include',
       });
 
-      console.log('Login response:', response);
+      console.log('Response status:', response.status);
 
-      if (response.status >= 200 && response.status < 300 && response.data) {
+      if (response.ok) {
         const jwtToken = response.headers.get('Authorization');
-        const { memberId, name } = response.data;
+        const userData = await response.json();
+
+        console.log('userData:', userData);
 
         if (jwtToken) {
-          login(jwtToken, name, memberId);
-          axios.defaults.headers.common['Authorization'] = `Bearer ${jwtToken}`;
+          login(jwtToken, userData.name, userData.roles);
           navigate('/');
-        } else {
-          setError('No token received from server');
         }
       } else {
-        setError('Invalid response from server');
+        const errorData = await response.text();
+        console.error('Login failed:', errorData);
+        setError(errorData || 'Invalid email or password');
+        setOpen(true);
       }
     } catch (error) {
       console.error('Login error:', error);
-      if (error.response) {
-        console.error('Error response:', error.response.data);
-        console.error('Error status:', error.response.status);
-      }
-      setError(error.response?.data?.message || 'An error occurred. Please try again.');
+      setError('An error occurred. Please try again.');
+      setOpen(true);
     } finally {
       setIsLoading(false);
     }
