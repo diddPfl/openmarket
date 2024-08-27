@@ -35,7 +35,7 @@ function ItemDetail() {
     try {
       setLoading(true);
       setError(null);
-      const response = await axios.get(`http://localhost:9000/api/items/${itemId}`);
+      const response = await axios.get(`http://localhost:9000/items/${itemId}`);
       const fetchedItem = response.data;
 
       // Sort images to put repimg=1 first
@@ -53,7 +53,7 @@ function ItemDetail() {
 
   const fetchReviewsById = async (itemId) => {
     try {
-      const response = await axios.get(`http://localhost:9000/api/review/${itemId}`);
+      const response = await axios.get(`http://localhost:9000/review/${itemId}`);
       setReviews(response.data);
     } catch (error) {
       console.error('Error fetching reviews:', error);
@@ -62,7 +62,7 @@ function ItemDetail() {
 
   const fetchRelatedItems = async (itemId) => {
     try {
-      const response = await axios.get(`http://localhost:9000/api/items/${itemId}/related`);
+      const response = await axios.get(`http://localhost:9000/items/${itemId}/related`);
       setRelatedItems(response.data);
     } catch (error) {
       console.error('Error fetching related items:', error);
