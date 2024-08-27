@@ -18,6 +18,8 @@ import CartComponent from './Components/CartComponent';
 import PaymentComponent from './Components/PaymentComponent';
 import DeliveryListComponent from './Components/DeliveryListComponent';
 import SearchResults from './Category/SearchResult';
+import ItemDisable from './ItemDisable';
+import ItemUpdateForm from './ItemUpdateForm';
 
 // Admin Components
 import AdminHeader from './Admin/AdminHeader';
@@ -52,6 +54,7 @@ function App() {
                   <Route path="item/insert" element={<ItemInsert />} />
                   <Route path="members" element={<MemberList />} />
                   <Route path="brands" element={<BrandList />} />
+                  <Route path="item/:{ItemId}/disable" element={<ItemDisable/>} />
                   <Route path="notices" element={<AdminNoticeList />} />
                   <Route path="notices/new" element={<NoticeForm />} />
                   <Route path="notices/:noticeNo/edit" element={<NoticeForm />} />
@@ -72,6 +75,8 @@ function App() {
                     <Route path="/categoryitems/gubun/:gubunSubCode" element={<CategoryItemList />} />
                     <Route path="/item/:id" element={<ItemDetail />} />
                     <Route path="/item/insert" element={<ItemInsert />} />
+                    <Route path="/item/:id/edit" element={<ItemUpdateForm />} />
+                    <Route path="/item/:itemId/disable" element={<ItemDisable />} />
                     <Route path="/review/detail/:reviewId" element={<ReviewDetail />} />
                     <Route path="/login" element={<LoginComponent />} />
                     <Route path="/logout" element={<LogoutComponent />} />
