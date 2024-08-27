@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/items")
+@RequestMapping("/items")
 public class ItemController {
 
     private static final Logger logger = LoggerFactory.getLogger(ItemController.class);

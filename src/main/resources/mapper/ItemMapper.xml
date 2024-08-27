@@ -10,7 +10,7 @@
         SELECT i.item_id, i.category_id, i.item_name, i.item_detail, i.price, i.regdate, i.gubun_sub_code,
         i.stock_number, i.item_sell_status, i.brand, i.is_disabled,
         c.category_name,
-        im.uuid, im.file_name
+        im.uuid, im.file_name, im.repimg
         FROM item i
         LEFT JOIN category c ON i.category_id = c.category_id
         LEFT JOIN item_image im ON i.item_id = im.item_id
@@ -23,7 +23,7 @@
         SELECT i.item_id, i.category_id, i.item_name, i.item_detail, i.price, i.regdate, i.gubun_sub_code,
         i.stock_number, i.item_sell_status, i.brand, i.is_disabled,
         c.category_name,
-        im.uuid, im.file_name
+        im.uuid, im.file_name, im.repimg
         FROM item i
         LEFT JOIN category c ON i.category_id = c.category_id
         LEFT JOIN item_image im ON i.item_id = im.item_id
@@ -47,8 +47,8 @@
     </insert>
 
     <insert id="insertItemImage" parameterType="com.javalab.board.vo.ItemImage">
-        INSERT INTO item_image (uuid, item_id, file_name)
-        VALUES (#{uuid}, #{itemId}, #{fileName})
+        INSERT INTO item_image (uuid, item_id, file_name, repimg)
+        VALUES (#{uuid}, #{itemId}, #{fileName}, #{repimg})
     </insert>
 
     <update id="updateItem" parameterType="com.javalab.board.dto.ItemUpdateDto">
@@ -68,7 +68,7 @@
     <update id="updateItemImages" parameterType="map">
         <foreach collection="images" item="image" separator=";">
             UPDATE item_image
-            SET file_name = #{image.fileName}
+            SET file_name = #{image.fileName}, repimg = #{image.repimg}
             WHERE uuid = #{image.uuid} AND item_id = #{itemId}
         </foreach>
     </update>
@@ -97,7 +97,7 @@
     </update>
 
     <select id="findImagesByItemId" parameterType="long" resultType="com.javalab.board.vo.ItemImage">
-        SELECT uuid, item_id as itemId, file_name as fileName
+        SELECT uuid, item_id as itemId, file_name as fileName, repimg
         FROM item_image
         WHERE item_id = #{itemId}
     </select>
@@ -136,7 +136,7 @@
 
     <select id="findRelatedItemTags" resultMap="itemTagResultMap">
         SELECT i.item_id, i.item_name, i.price,
-        im.uuid, im.file_name
+        im.uuid, im.file_name, im.repimg
         FROM item i
         LEFT JOIN item_image im ON i.item_id = im.item_id
         WHERE i.brand = #{brand}
@@ -147,6 +147,7 @@
         LIMIT 5
     </select>
 
+
     <resultMap id="itemTagResultMap" type="com.javalab.board.dto.ItemTagDto">
         <id property="itemId" column="item_id"/>
         <result property="itemName" column="item_name"/>
@@ -154,6 +155,7 @@
         <collection property="images" ofType="com.javalab.board.dto.ItemImageDto">
             <result property="uuid" column="uuid"/>
             <result property="fileName" column="file_name"/>
+            <result property="repimg" column="repimg"/>
             <result property="fullName" column="uuid"/>
         </collection>
     </resultMap>
@@ -176,6 +178,7 @@
             <result property="uuid" column="uuid"/>
             <result property="fileName" column="file_name"/>
             <result property="itemId" column="item_id"/>
+            <result property="repimg" column="repimg"/>
         </collection>
     </resultMap>
 
@@ -188,7 +191,6 @@
         OR c.category_name LIKE CONCAT('%', #{term}, '%')
         OR i.brand LIKE CONCAT('%', #{term}, '%')
     </select>
-
     <!-- 카테고리에 대한 결과 매핑 -->
     <resultMap id="categoryResultMap" type="com.javalab.board.vo.Category">
         <id property="categoryId" column="category_id"/>

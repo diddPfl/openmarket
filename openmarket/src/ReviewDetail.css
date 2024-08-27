@@ -88,11 +88,11 @@
 
 .review-content {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 80px;
   padding: 0;
-  background-color: #f8f8f8;
   border-radius: 8px;
   box-sizing: border-box;
+  font-size: 20px;
 }
 
 .back-btn {
@@ -156,7 +156,7 @@ back-btn i {
 }
 
 .item-tag p {
-    font-size: 13px;
+    font-size: 16px;
 }
 
 .review-regdate {
@@ -171,4 +171,8 @@ back-btn i {
 
 .user-info {
     float: left;
+}
+
+.item-tag-price {
+    font-weight: bold;
 }
