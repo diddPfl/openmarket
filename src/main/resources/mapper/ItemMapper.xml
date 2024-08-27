@@ -31,8 +31,19 @@
     </select>
 
     <insert id="insert" parameterType="com.javalab.board.vo.Item" useGeneratedKeys="true" keyProperty="itemId">
-        INSERT INTO item (category_id, gubun_sub_code, item_name, item_detail, price, regdate, stock_number, item_sell_status, brand)
-        VALUES (#{categoryId}, #{gubunSubCode}, #{itemName}, #{itemDetail}, #{price}, #{regdate}, #{stockNumber}, #{itemSellStatus}, #{brand})
+        INSERT INTO item
+        (
+        category_id,
+        gubun_sub_code,
+        item_name,
+        item_detail,
+        price,
+        regdate,
+        stock_number,
+        item_sell_status, brand
+        )
+        VALUES (#{categoryId}, #{gubunSubCode}, #{itemName}, #{itemDetail},
+        #{price}, #{regdate}, #{stockNumber}, #{itemSellStatus}, #{brand})
     </insert>
 
     <insert id="insertItemImage" parameterType="com.javalab.board.vo.ItemImage">

@@ -110,7 +110,13 @@ body {
 
 /* Item details */
 .item-detail-name {
+    font-weight: bold;
+    font-size: 30px;
     margin-bottom: 5px;
+}
+
+.item-detail-price {
+    font-size: 30px;
 }
 
 .item-detail-description {
@@ -145,7 +151,7 @@ hr {
 .back-button {
     position: fixed;
     left: 2%;
-    top: 2%;
+    top: 45%;
     width: 50px;
     height: 50px;
     background-color: transparent;

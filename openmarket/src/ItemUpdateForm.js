@@ -96,7 +96,6 @@ const ItemUpdateForm = () => {
   return (
     <div className="item-update-container">
       <h2 className="form-title">상품 수정</h2>
-      {errors.fetch && <p className="error-message">{errors.fetch}</p>}
       <form onSubmit={handleSubmit} className="item-update-form">
         <div className="form-group">
           <label htmlFor="itemName">상품명</label>
