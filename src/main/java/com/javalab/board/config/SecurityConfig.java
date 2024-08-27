@@ -60,7 +60,7 @@ public class SecurityConfig {
                 .httpBasic(b -> b.disable())
                 .formLogin(f -> f.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-               // .addFilterBefore(new TokenCheckFilter(jwtService, memberService), UsernamePasswordAuthenticationFilter.class)
+                // .addFilterBefore(new TokenCheckFilter(jwtService, memberService), UsernamePasswordAuthenticationFilter.class)
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/login")
@@ -74,13 +74,13 @@ public class SecurityConfig {
                         .requestMatchers("/view/**", "/emp/**", "/board/**").permitAll()
                         .requestMatchers("/", "/{path:[^\\.]*}").permitAll()
                         .requestMatchers("/items/**", "/item/read/**", "/review/**").permitAll()
-                        .requestMatchers("/api/category/**", "/api/categoryitems/**", "/api/notices/**", "/api/search","/api/admin/**").permitAll()
+                        .requestMatchers("/api/category/**", "/api/categoryitems/**", "/api/notices/**", "/api/search","/api/admin/**","/api/order-statistics/**").permitAll()
                         .requestMatchers("/mypage/**", "/mypage/cart/**", "/mypage/reviews", "/order/**").permitAll()
                         .requestMatchers("/mypage/cart/payment/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/member/modify").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/item/register/**", "/item/modify/**", "/item/remove/**").hasRole("ADMIN")
                         .requestMatchers("/cart/**", "/cartItem/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/admin/**", "/admin/item/insert").hasRole("ADMIN")
+                        .requestMatchers( "/admin/item/insert").hasRole("ADMIN")
                         .requestMatchers("/api/track/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/items/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/items/**").permitAll()
@@ -125,3 +125,5 @@ public class SecurityConfig {
 //        return source;
 //    }
 }
+
+
