@@ -3,9 +3,7 @@ package com.javalab.board.config;
 import com.javalab.board.handler.AuthFailureHandler;
 import com.javalab.board.security.JwtService;
 import com.javalab.board.security.MemberService;
-import com.javalab.board.security.filter.TokenCheckFilter;
 import com.javalab.board.security.handler.CustomSocialLoginSuccessHandler;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,13 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -64,11 +56,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                //.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .httpBasic(b -> b.disable())
                 .formLogin(f -> f.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(new TokenCheckFilter(jwtService, memberService), UsernamePasswordAuthenticationFilter.class)
+               // .addFilterBefore(new TokenCheckFilter(jwtService, memberService), UsernamePasswordAuthenticationFilter.class)
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/login")
@@ -82,7 +74,7 @@ public class SecurityConfig {
                         .requestMatchers("/view/**", "/emp/**", "/board/**").permitAll()
                         .requestMatchers("/", "/{path:[^\\.]*}").permitAll()
                         .requestMatchers("/items/**", "/item/read/**", "/review/**").permitAll()
-                        .requestMatchers("/api/category/**", "/api/categoryitems/**", "/api/notices/**", "/api/search").permitAll()
+                        .requestMatchers("/api/category/**", "/api/categoryitems/**", "/api/notices/**", "/api/search","/api/admin/**").permitAll()
                         .requestMatchers("/mypage/**", "/mypage/cart/**", "/mypage/reviews", "/order/**").permitAll()
                         .requestMatchers("/mypage/cart/payment/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/member/modify").hasAnyRole("USER", "ADMIN")
@@ -91,7 +83,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**", "/admin/item/insert").hasRole("ADMIN")
                         .requestMatchers("/api/track/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/items/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/items/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/items/**").permitAll()
                         .requestMatchers("/api/mypage").authenticated()
                         .requestMatchers("/api/cart/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(
@@ -108,29 +100,28 @@ public class SecurityConfig {
                         .tokenValiditySeconds(43200)
                         .rememberMeParameter("remember-me")
                 )
-                .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint((request, response, authException) -> {
-                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
-                        })
-                        .accessDeniedHandler(accessDeniedHandler)
-                )
+//                .exceptionHandling(exception -> exception
+//                        .authenticationEntryPoint((request, response, authException) -> {
+//                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+//                        })
+//                        .accessDeniedHandler(accessDeniedHandler)
+//                )
                 .oauth2Login(oauth2Login -> oauth2Login
                         .loginPage("/login")
                         .successHandler(customSocialLoginSuccessHandler)
                 );
         return http.build();
     }
-
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
-        configuration.setAllowCredentials(true);
-        configuration.setExposedHeaders(Arrays.asList("Authorization"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+//        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+//        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+//        configuration.setAllowCredentials(true);
+//        configuration.setExposedHeaders(Arrays.asList("Authorization"));
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
 }

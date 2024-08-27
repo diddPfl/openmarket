@@ -56,12 +56,13 @@ public class ItemController {
     @PostMapping
     public ResponseEntity<?> createItem(@RequestBody ItemCreateDto itemCreateDto,
                                         HttpServletRequest request) {
-        String userEmail = jwtService.getAuthUser(request);
-        if (userEmail == null) {
-            logger.warn("No authenticated user found.");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        logger.info("Authenticated user: {}", userEmail);
+//        String userEmail = jwtService.getAuthUser(request);
+//        if (userEmail == null) {
+//            logger.warn("No authenticated user found.");
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//        }
+//        logger.info("Authenticated user: {}", userEmail);
+
         try {
             ItemResponseDto savedItem = itemService.save(itemCreateDto);
             logger.info("Item created: {}", savedItem);
