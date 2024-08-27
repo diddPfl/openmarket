@@ -49,16 +49,16 @@ const ItemInsert = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = sessionStorage.getItem('jwt');
+   // const token = sessionStorage.getItem('jwt');
 
     try {
-       const authToken = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
-             console.log('authToken : ' + authToken);
+//       const authToken = token.startsWith('Bearer ') ? token : `Bearer ${token}`;
+//             console.log('authToken : ' + authToken);
 
 
         const response = await axios.post('/api/items', item, {
                   headers: {
-                      'Authorization': authToken,
+//                      'Authorization': authToken,
                       'Content-Type': 'application/json'
                   }
               });
@@ -82,7 +82,7 @@ const ItemInsert = () => {
           repimg: index === 0 ? 1 : 0
         }));
 
-        await axios.post(`http://localhost:9000/items/${savedItemId}/images`, imageData);
+        await axios.post(`http://localhost:9000/api/items/${savedItemId}/images`, imageData);
       }
 
       alert('아이템이 성공적으로 등록되었습니다.');
