@@ -117,6 +117,10 @@ function ItemDetail() {
     }
   };
 
+  const handleItemClick = (itemId) => {
+        navigate(`/item/${itemId}`);
+      };
+
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>에러: {error}</div>;
   if (!item) return <div>아이템을 찾을 수 없습니다.</div>;
@@ -154,7 +158,7 @@ function ItemDetail() {
           </div>
           <div className="item-info">
             <div className="item-detail-name">
-              <h1 className="detail-item-name">{item.itemName}</h1>
+              <p className="detail-item-name">{item.itemName}</p>
             </div>
             <div className="item-detail-description">
               <p>{item.itemDetail}</p>
@@ -182,7 +186,7 @@ function ItemDetail() {
               </dl>
             </div>
             <div className="item-price">
-              <h1>{item.price.toLocaleString()}원</h1>
+              <p className="item-detail-price">{item.price.toLocaleString()}원</p>
             </div>
             {item.isDisabled !== 1 ? (
               <div className="button-box">
@@ -225,7 +229,10 @@ function ItemDetail() {
                 <div className="related-items-grid">
                   {relatedItems.map(relatedItem => (
                     <div key={relatedItem.itemId} className="related-item">
-                      <img src={getRepimgImage(relatedItem.images)} alt={relatedItem.itemName} />
+                      <img src={getRepimgImage(relatedItem.images)} alt={relatedItem.itemName}
+                      onClick={() => handleItemClick(relatedItem.itemId)}
+                      style={{ cursor: 'pointer' }}
+                      />
                       <div>
                       <p>{relatedItem.itemName}</p>
                       <p className="relatedItem-price">{relatedItem.price ? `${relatedItem.price.toLocaleString()}원` : '가격 정보 없음'}</p>
